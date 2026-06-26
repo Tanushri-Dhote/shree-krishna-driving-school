@@ -1,0 +1,113 @@
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  ArrowRight,
+  ShieldCheck,
+  Car,
+  ThumbsUp,
+
+  Users, BadgeCheck, Award
+} from "lucide-react";
+
+export function HeroSection() {
+  return (
+    <section className="bg-[#f8f4ee]">
+      {/* Hero */}
+      <div className="mx-auto max-w-7xl">
+        <div className="grid lg:grid-cols-2 items-start">
+          {/* Left Content */}
+          <div className="px-2 sm:px-3 md:px-4 lg:px-4 py-2 lg:py-6">
+
+            <div className="inline-flex items-center gap-2 rounded-full border bg-white px-2 py-2 text-[13px] shadow-sm">
+              ⭐ 4.9 Rating • 5000+ Happy Students
+            </div>
+
+            <h1 className="mt-2 text-2xl font-black uppercase leading-none md:text-2xl lg:text-3xl">
+              Drive Today
+            </h1>
+
+            <h2 className="mt-2 text-2xl font-black uppercase leading-none text-[#f59e0b] md:text-2xl lg:text-3xl">
+              Lead Tomorrow
+            </h2>
+
+            <p className="mt-2 text-sm font-bold uppercase md:text-lg">
+              Learn Safe. Drive Safe. Stay Safe.
+            </p>
+
+            <div className="mt-2 h-1 w-20 bg-[#f59e0b]" />
+
+            <p className="mt-5 max-w-xl text-gray-700 md:text-lg">
+              Shree Krishna Driving School is committed to providing
+              professional driving training with safety, confidence and
+              responsibility since 2008.
+            </p>
+
+            <div className="mt-6 flex flex-wrap gap-3">
+              <Button className="bg-[#f59e0b] text-white hover:bg-[#e89100]">
+                Enroll Now
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+
+              <Button
+                variant="outline"
+                className="border-2 border-black"
+              >
+                Our Courses
+              </Button>
+            </div>
+
+            {/* Stats */}
+            <div className="mt-2 grid grid-cols-3 gap-2 md:max-w-md">
+              <div>
+                <div className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-[#f59e0b]" />
+                  <h3 className="text-2xl font-bold text-[#f59e0b]">
+                    5000+
+                  </h3>
+                </div>
+                <p className="text-sm text-gray-600">
+                  Students
+                </p>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <ShieldCheck className="h-5 w-5 text-[#f59e0b]" />
+                  <h3 className="text-2xl font-bold text-[#f59e0b]">
+                    98%
+                  </h3>
+                </div>
+                <p className="text-sm text-gray-600">
+                  Pass Rate
+                </p>
+              </div>
+
+              <div>
+                <div className="flex items-center gap-2">
+                  <Car className="h-5 w-5 text-[#f59e0b]" />
+                  <h3 className="text-2xl font-bold text-[#f59e0b]">
+                    15+
+                  </h3>
+                </div>
+                <p className="text-sm text-gray-600">
+                  Years
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Right Image */}
+          <div className="relative h-[280px] md:h-[450px] lg:h-[580px]">
+            <Image
+              src="/car.webp"
+              alt="Driving School Car"
+              fill
+              priority
+              className="object-contain object-center"
+            />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
