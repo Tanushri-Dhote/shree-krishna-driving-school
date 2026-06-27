@@ -11,6 +11,7 @@ import {
   ArrowRight,
   GraduationCap,
 } from "lucide-react";
+import { X } from "lucide-react";
 import { FaFacebookF, FaInstagram } from "react-icons/fa";
 
 import { Button } from "@/components/ui/button";
@@ -146,17 +147,13 @@ export function DrivingNavbar() {
           </div>
 
           {/* Mobile Right Section */}
-          <div className="ml-auto flex items-center gap-2 xl:hidden">
+          <div className="ml-auto flex items-center gap-3 xl:hidden">
             <Link
               href="/driving-Addmission"
-              className="flex items-center gap-1 rounded-full bg-[#f59e0b] px-4 py-2 text-xs font-semibold text-black shadow-md"
+              className="flex h-10 items-center gap-2 rounded-full bg-[#f59e0b] px-4 text-sm font-semibold text-white shadow-md transition hover:bg-[#e58f09]"
             >
               <GraduationCap className="h-4 w-4" />
-              <span className="text-[14px] font-bold text-black whitespace-nowrap">
-                Admission Open
-              </span>
-              <ArrowRight className="h-4 w-4 text-black transition-transform group-hover:translate-x-1" />
-
+              <span className="xs:inline">Admission</span>
             </Link>
 
             <Sheet open={open} onOpenChange={setOpen}>
@@ -164,32 +161,46 @@ export function DrivingNavbar() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="h-11 w-11 rounded-full bg-[#f59e0b]/10 text-[#f59e0b] hover:bg-[#f59e0b] hover:text-white"
+                  className="h-10 w-10 rounded-full border border-orange-200 bg-white text-[#f59e0b] shadow-md hover:bg-[#f59e0b] hover:text-white"
                 >
-                  <Menu className="h-6 w-6" />
+                  <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
 
-              <SheetContent side="right" className="w-[88vw] sm:w-[360px]">
-                <div className="mt-8">
-                  <Image
-                    src="/logo-11.png"
-                    alt="Driving School Logo"
-                    width={120}
-                    height={120}
-                    className="mx-auto h-20 w-auto object-contain"
-                  />
-                </div>
+              <SheetContent
+                side="right"
+                className="w-[85vw] max-w-[340px] p-0 overflow-y-auto"
+              >
+                <div className="sticky top-0 z-20 border-b bg-white px-6 py-5">
+  <div className="flex items-start justify-between">
+    <Image
+      src="/logo-11.png"
+      alt="Driving School Logo"
+      width={110}
+      height={110}
+      className="mx-auto h-20 w-auto"
+    />
 
-                <div className="mt-8 flex flex-col gap-1">
+    <SheetClose asChild>
+      <button
+        className="rounded-full p-2 text-neutral-500 transition hover:bg-orange-50 hover:text-[#f59e0b]"
+      >
+        <X className="h-5 w-5" />
+      </button>
+    </SheetClose>
+  </div>
+</div>
+
+                <div className="px-5 py-6 space-y-2">
                   {navItems.map((item, index) => (
                     <SheetClose key={item.label} asChild>
                       <Link
                         href={item.href}
                         onClick={() => setOpen(false)}
-                        className={`rounded-lg px-4 py-3 text-sm font-semibold transition ${index === 0
-                          ? "bg-[#f59e0b] text-white"
-                          : "text-neutral-800 hover:bg-[#fff7e6] hover:text-[#f59e0b]"
+                        className={`flex items-center rounded-xl px-5 py-3 text-[15px] font-semibold transition
+${index === 0
+                            ? "bg-[#f59e0b] text-white shadow"
+                            : "hover:bg-orange-50 text-neutral-700"
                           }`}
                       >
                         {item.label}
@@ -198,7 +209,7 @@ export function DrivingNavbar() {
                   ))}
                 </div>
 
-                <div className="mt-8 border-t pt-6">
+                <div className="border-t px-5 py-6 space-y-5 bg-neutral-50">
                   <div className="flex items-center gap-3 text-sm text-neutral-700">
                     <MapPin className="h-4 w-4 text-[#f59e0b]" />
                     <span>Nagpur, Maharashtra, India</span>
@@ -210,11 +221,11 @@ export function DrivingNavbar() {
                   </div>
                 </div>
 
-                <div className="mt-8">
+                <div className="px-5">
                   <SheetClose asChild>
                     <Link
                       href="/driving-Addmission"
-                      className="flex items-center justify-center gap-2 rounded-full bg-[#f59e0b] px-5 py-3 font-semibold text-white shadow-lg"
+                      className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#f59e0b] text-white font-semibold shadow-lg hover:bg-[#e58f09]"
                     >
                       <GraduationCap className="h-5 w-5" />
                       Admission Open
@@ -222,17 +233,17 @@ export function DrivingNavbar() {
                   </SheetClose>
                 </div>
 
-                <div className="mt-6 flex justify-center gap-5">
+                <div className="py-8 flex justify-center gap-6 border-t mt-8"> 
+                <Link href="#" className="text-neutral-600 hover:text-[#f59e0b]">
+                  <FaFacebookF className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-[#f59e0b] transition hover:bg-[#f59e0b] hover:text-white"/>
+                </Link>
+
                   <Link href="#" className="text-neutral-600 hover:text-[#f59e0b]">
-                    <FaFacebookF className="h-5 w-5" />
+                    <FaInstagram className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-[#f59e0b] transition hover:bg-[#f59e0b] hover:text-white" />
                   </Link>
 
                   <Link href="#" className="text-neutral-600 hover:text-[#f59e0b]">
-                    <FaInstagram className="h-5 w-5" />
-                  </Link>
-
-                  <Link href="#" className="text-neutral-600 hover:text-[#f59e0b]">
-                    <MessageCircle className="h-5 w-5" />
+                    <MessageCircle className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-[#f59e0b] transition hover:bg-[#f59e0b] hover:text-white" />
                   </Link>
                 </div>
               </SheetContent>

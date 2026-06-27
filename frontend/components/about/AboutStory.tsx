@@ -50,7 +50,7 @@ export default function AboutStory({
               </span>
             </h2>
 
-            <p className="mt-5 text-lg leading-8 text-gray-600">
+            <p className="mt-2 text-lg leading-8 text-gray-600">
               Founded with a vision to create skilled and responsible drivers,
               Shree Krishna Driving School has become a trusted name in driving
               education. Our mission is to provide expert driving training,
@@ -60,7 +60,7 @@ export default function AboutStory({
               needed for lifelong safe driving.
             </p>
 
-            <div className="mt-5">
+            <div className="mt-2">
               <h3 className="text-3xl text-[#f59e0b] font-signature">
                 Omnath Bhoyar
               </h3>
@@ -71,7 +71,7 @@ export default function AboutStory({
             </div>
 
             {/* Stats */}
-            <div className="mt-6 grid grid-cols-3 gap-3 sm:grid-cols-3">
+            <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-3">
               <div className="flex items-center rounded-2xl border border-[#f59e0b]/20 bg-[#fff7e6] px-4 py-3">
                 <GraduationCap className="h-9 w-9 text-[#f59e0b]" />
 

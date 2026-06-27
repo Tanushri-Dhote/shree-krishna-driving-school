@@ -36,7 +36,7 @@ const features = [
 
 export default function FeaturesSection() {
     return (
-        <section className="relative -mt-25 z-20 px-2 sm:px-4 lg:px-6">
+        <section className="relative z-20 px-2 sm:px-4 lg:-mt-24 lg:px-6">
             <div className="mx-auto max-w-7xl overflow-hidden rounded-3xl bg-[#0B0B0F] shadow-2xl border border-[#1c1c1c]">
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4">
@@ -47,23 +47,20 @@ export default function FeaturesSection() {
                         return (
                             <div
                                 key={index}
-                                className={`flex items-start gap-5 p-4 lg:p-8 transition-all duration-300 hover:bg-[#111111]
+                                className={`flex items-start gap-4 p-5 sm:p-6 lg:p-8 transition-all duration-300 hover:bg-[#111111]
                                 ${index !== features.length - 1
-                                        ? "border-b sm:border-b-0 sm:border-r border-[#222]"
+                                        ? "border-b xl:border-b-0 xl:border-r border-[#222]"
                                         : ""
                                     }`}
                             >
                                 {/* Icon */}
-                                <div className="flex h-16 w-16 shrink-0 items-center justify-center rounded-full border border-[#f59e0b]/30 bg-[#f59e0b]/10">
-                                    <Icon className="h-8 w-8 text-[#f59e0b]" />
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#f59e0b]/30 bg-[#f59e0b]/10 sm:h-16 sm:w-16">
+                                    <Icon className="h-6 w-6 text-[#f59e0b] sm:h-8 sm:w-8" />
                                 </div>
                                 {/* Content */}
-
                                 <div>
-                                    <p className="mt-0 text-sm font-bold uppercase md:text-lg text-white"> {item.title}</p>
-
-
-                                    <p className="mt-1 text-sm leading-6 text-gray-400">
+                                    <p className="mt-0 text-sm font-bold uppercase text-white md:text-base lg:text-lg">{item.title}</p>
+                                    <p className="mt-1 text-xs leading-6 text-gray-400 sm:text-sm">
                                         {item.description}
                                     </p>
                                 </div>
