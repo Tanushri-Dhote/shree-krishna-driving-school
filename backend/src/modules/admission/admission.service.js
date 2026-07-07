@@ -156,7 +156,7 @@ async function getAdmissionById(id) {
 async function patchAdmissionStatus(id, status) {
   const admission = await prisma.admission.findUnique({
     where: { id: Number(id) },
-    select: { id: true },
+    select: { id: true, email: true, fullName: true, admissionNo: true, status: true },
   });
 
   if (!admission) {
@@ -165,10 +165,27 @@ async function patchAdmissionStatus(id, status) {
     throw e;
   }
 
-  return prisma.admission.update({
+  const updated = await prisma.admission.update({
     where: { id: Number(id) },
     data: { status },
   });
+
+  // Only send the email if the status transitioned from anything else to "approved"
+  if (status === "approved" && admission.status !== "approved") {
+    (async () => {
+      try {
+        await sendMail({
+          to: admission.email,
+          subject: "Admission Approved - Shree Krishna Driving School",
+          text: `Dear ${admission.fullName},\n\nYour Admission status (Admission No: ${admission.admissionNo}) has been approved.\n\nThank you for choosing Shree Krishna Driving School.`,
+        });
+      } catch (mailErr) {
+        console.error("Failed to send admission approval confirmation email:", mailErr);
+      }
+    })();
+  }
+
+  return updated;
 }
 
 module.exports = {

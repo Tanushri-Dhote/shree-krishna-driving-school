@@ -3,67 +3,78 @@
 import { useEffect, useMemo, useState } from "react";
 
 import Sidebar from "../../components/dashbaord/Sidebar";
-import DashboardHeader from "../../components/dashbaord/DashboardHeader";
-import KPICards from "../../components/dashbaord/KPICards";
-import StatusCards from "../../components/dashbaord/StatusCards";
-import ServiceManagement from "../../components/dashbaord/ServiceManagement";
-import RecentApplicationsTable from "../../components/dashbaord/RecentApplicationsTable";
+import DashboardView from "../../components/dashbaord/DashboardView";
+import AdmissionView from "../../components/dashbaord/AdmissionView";
+import PucView from "../../components/dashbaord/PucView";
+import LicenceView from "../../components/dashbaord/LicenceView";
+import InsuranceView from "../../components/dashbaord/InsuranceView";
+import MaintenanceView from "../../components/dashbaord/MaintenanceView";
 import AdmissionDetailsModal from "../../components/dashbaord/AdmissionDetailsModal";
 
 export default function SuperAdminDashboardPage() {
   const backendBaseUrl = useMemo(() => {
     return (
       process.env.NEXT_PUBLIC_BACKEND_URL ||
-      "http://localhost:3001"
+      "http://localhost:5000"
     );
   }, []);
 
-  const [activeModule, setActiveModule] =
-    useState("dashboard");
+  const [activeModule, setActiveModule] = useState("dashboard");
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const [admissions, setAdmissions] = useState([]);
+  const [licences, setLicences] = useState([]);
+  const [insurances, setInsurances] = useState([]);
+  const [pucs, setPucs] = useState([]);
 
   const [query, setQuery] = useState("");
-  const [statusFilter, setStatusFilter] =
-    useState("all");
+  const [statusFilter, setStatusFilter] = useState("all");
 
   const [selected, setSelected] = useState(null);
-  const [detailsOpen, setDetailsOpen] =
-    useState(false);
+  const [detailsOpen, setDetailsOpen] = useState(false);
 
-  const [updateStatus, setUpdateStatus] =
-    useState("pending");
+  const [updateStatus, setUpdateStatus] = useState("pending");
 
   const [updating, setUpdating] = useState(false);
-  const [updateError, setUpdateError] =
-    useState("");
+  const [updateError, setUpdateError] = useState("");
 
-  async function fetchAdmissions() {
+  async function fetchAllData() {
     try {
       setLoading(true);
+      setError("");
 
-      const res = await fetch(
-        `${backendBaseUrl}/api/admissions`
-      );
+      const [admRes, licRes, insRes, pucRes] = await Promise.all([
+        fetch(`${backendBaseUrl}/api/admissions`).catch(() => null),
+        fetch(`${backendBaseUrl}/api/licences`).catch(() => null),
+        fetch(`${backendBaseUrl}/api/insurances`).catch(() => null),
+        fetch(`${backendBaseUrl}/api/pucs`).catch(() => null),
+      ]);
 
-      const payload = await res.json();
+      const [admPayload, licPayload, insPayload, pucPayload] = await Promise.all([
+        admRes?.json().catch(() => null),
+        licRes?.json().catch(() => null),
+        insRes?.json().catch(() => null),
+        pucRes?.json().catch(() => null),
+      ]);
 
-      setAdmissions(payload?.data || []);
+      setAdmissions(admPayload?.data || []);
+      setLicences(licPayload?.data || []);
+      setInsurances(insPayload?.data || []);
+      setPucs(pucPayload?.data || []);
     } catch (err) {
-      setError("Failed to load admissions");
+      setError("Failed to load dashboard data");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
-    fetchAdmissions();
+    fetchAllData();
   }, []);
 
-  const filtered = useMemo(() => {
+  const filteredAdmissions = useMemo(() => {
     const q = query.toLowerCase();
 
     return admissions.filter((item) => {
@@ -76,22 +87,11 @@ export default function SuperAdminDashboardPage() {
       const matchesStatus =
         statusFilter === "all"
           ? true
-          : item.status?.toLowerCase() ===
-            statusFilter.toLowerCase();
+          : item.status?.toLowerCase() === statusFilter.toLowerCase();
 
       return matchesSearch && matchesStatus;
     });
   }, [admissions, query, statusFilter]);
-
- const pendingCount = admissions.filter(
-  (a) =>
-    a.status?.toLowerCase() === "pending"
-).length;
-
- const approvedTodayCount = admissions.filter(
-  (a) =>
-    a.status?.toLowerCase() === "approved"
-).length;
 
   function openDetails(admission) {
     setSelected(admission);
@@ -104,104 +104,85 @@ export default function SuperAdminDashboardPage() {
 
     try {
       setUpdating(true);
+      setUpdateError("");
 
-      await fetch(
-        `${backendBaseUrl}/api/admissions/${selected.id}/status`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type":
-              "application/json",
-          },
-          body: JSON.stringify({
-            status: updateStatus,
-          }),
-        }
-      );
+      await fetch(`${backendBaseUrl}/api/admissions/${selected.id}/status`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status: updateStatus,
+        }),
+      });
 
-      await fetchAdmissions();
-
+      await fetchAllData();
       setDetailsOpen(false);
     } catch (error) {
-      setUpdateError(
-        "Failed to update status"
-      );
+      setUpdateError("Failed to update status");
     } finally {
       setUpdating(false);
     }
   }
 
   return (
-  <div className="flex min-h-screen bg-slate-100">
-    <Sidebar
-      activeModule={activeModule}
-      setActiveModule={setActiveModule}
-    />
+    <div className="flex min-h-screen bg-slate-100">
+      <Sidebar
+        activeModule={activeModule}
+        setActiveModule={setActiveModule}
+      />
 
-    <div className="flex-1 overflow-auto">
-      <div className="p-4 lg:p-8">
-        {/* Header */}
-        <DashboardHeader />
+      <div className="flex-1 overflow-y-auto h-screen">
+        <div className="p-4 lg:p-8">
+          {activeModule === "dashboard" && (
+            <DashboardView
+              admissions={admissions}
+              licences={licences}
+              insurances={insurances}
+              pucs={pucs}
+              onNavigate={setActiveModule}
+              onRefresh={fetchAllData}
+            />
+          )}
 
-        {/* KPI Cards */}
+          {activeModule === "admission" && (
+            <AdmissionView
+              data={filteredAdmissions}
+              loading={loading}
+              query={query}
+              setQuery={setQuery}
+              statusFilter={statusFilter}
+              setStatusFilter={setStatusFilter}
+              openDetails={openDetails}
+            />
+          )}
 
-        <div className="mt-5">
-          <KPICards
-            admissions={admissions.length}
-          />
+          {activeModule === "puc" && <PucView />}
+
+          {activeModule === "licence" && <LicenceView />}
+
+          {activeModule === "insurance" && <InsuranceView />}
+
+          {activeModule === "maintenance" && <MaintenanceView />}
+
+          {error && (
+            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600 flex justify-center">
+              {error}
+            </div>
+          )}
         </div>
-
-        {/* Status Cards */}
-
-        <div className="mt-5">
-          <StatusCards
-            pending={pendingCount}
-            approved={approvedTodayCount}
-          />
-        </div>
-
-        {/* Service Management */}
-
-        <div className="mt-5">
-          <ServiceManagement />
-        </div>
-
-        {/* Admissions Table */}
-
-        <div className="mt-5">
-          <RecentApplicationsTable
-            data={filtered}
-            loading={loading}
-            query={query}
-            setQuery={setQuery}
-            statusFilter={statusFilter}
-            setStatusFilter={setStatusFilter}
-            openDetails={openDetails}
-          />
-        </div>
-
-        {/* Error */}
-
-        {error && (
-          <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600">
-            {error}
-          </div>
-        )}
       </div>
+
+      <AdmissionDetailsModal
+        selected={selected}
+        open={detailsOpen}
+        setOpen={setDetailsOpen}
+        updateStatus={updateStatus}
+        setUpdateStatus={setUpdateStatus}
+        saveStatus={saveStatus}
+        updating={updating}
+        updateError={updateError}
+      />
     </div>
-
-    {/* Admission Details Modal */}
-
-    <AdmissionDetailsModal
-      selected={selected}
-      open={detailsOpen}
-      setOpen={setDetailsOpen}
-      updateStatus={updateStatus}
-      setUpdateStatus={setUpdateStatus}
-      saveStatus={saveStatus}
-      updating={updating}
-      updateError={updateError}
-    />
-  </div>
-);
+  );
 }

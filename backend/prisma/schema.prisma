@@ -26,3 +26,81 @@ passportPhoto String @db.LongText
   @@index([status])
   @@index([email])
 }
+
+model puc {
+  id          Int      @id @default(autoincrement())
+  pucNo       String   @unique
+  fullName    String
+  rcNumber    String
+  email       String
+  
+  mobileNo    String
+
+  status      String   @default("pending")
+  remarks     String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model insurance {
+  id            Int      @id @default(autoincrement())
+  insuranceNo   String   @unique
+  fullName      String
+  email         String
+  mobileNo      String
+  vehicleNo     String
+  panPhoto      String   @db.LongText
+  aadhaarPhoto  String   @db.LongText
+  rcFrontPhoto  String   @db.LongText
+  rcBackPhoto   String   @db.LongText
+  status        String   @default("pending")
+  remarks       String?
+
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  @@index([status])
+  @@index([email])
+}
+
+model licence {
+  id             Int      @id @default(autoincrement())
+  licenceNo      String   @unique
+  fullName       String
+  email          String
+  mobileNo       String
+  panPhoto       String   @db.LongText
+  aadhaarPhoto   String   @db.LongText
+  signaturePhoto String   @db.LongText
+  status         String   @default("pending")
+  remarks        String?
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([status])
+  @@index([email])
+}
+
+model maintenance {
+  id                Int      @id @default(autoincrement())
+  // Excel-like fields requested
+  sr                Int?
+  bookingDate       DateTime?
+  agentName         String?
+  phoneNumber       String?
+  customerName      String?
+  product           String?
+  policyType        String?
+  makeModel         String?
+  vehicleNumber     String? 
+  company           String?
+  startDate         DateTime?
+  endDate           DateTime?
+  amountRs          Float?
+
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+

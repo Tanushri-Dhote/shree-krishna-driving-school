@@ -6,82 +6,98 @@ import {
   IdCard,
   ShieldCheck,
   FileText,
+  Wrench,
 } from "lucide-react";
 import Image from "next/image";
 
-export default function Sidebar() {
-  const scrollToSection = (id: string) => {
-    const element = document.getElementById(id);
+type Props = {
+  activeModule: string;
+  setActiveModule: (module: string) => void;
+};
 
-    if (element) {
-      element.scrollIntoView({
-        behavior: "smooth",
-        block: "start",
-      });
-    }
-  };
+const menus = [
+  {
+    id: "dashboard",
+    title: "Dashboard",
+    icon: LayoutDashboard,
+  },
+  {
+    id: "admission",
+    title: "Driving Admissions",
+    icon: Car,
+  },
+  {
+    id: "licence",
+    title: "Driving Licence",
+    icon: IdCard,
+  },
+  {
+    id: "insurance",
+    title: "Insurance",
+    icon: ShieldCheck,
+  },
+  {
+    id: "puc",
+    title: "PUC",
+    icon: FileText,
+  },
+  {
+    id: "maintenance",
+    title: "Maintenance Excel",
+    icon: Wrench,
+  },
+];
 
+export default function Sidebar({
+  activeModule,
+  setActiveModule,
+}: Props) {
   return (
     <aside className="w-72 bg-slate-950 text-white min-h-screen hidden lg:flex flex-col">
+
       <div className="flex flex-col items-center justify-center p-6 border-b border-slate-800">
+
         <Image
           src="/logo-11.png"
           alt="Driving School Logo"
           width={140}
           height={140}
-          priority
-          className="h-24 w-auto object-contain"
+          className="h-24 w-auto"
         />
 
-        <h2 className="mt-4 text-lg font-bold text-center">
+        <h2 className="mt-4 text-lg font-bold">
           Shree Krishna
         </h2>
 
-        <p className="text-xs text-slate-400 text-center">
+        <p className="text-xs text-slate-400">
           Driving School
         </p>
+
       </div>
 
       <div className="p-4 space-y-2">
-        <button
-          onClick={() => scrollToSection("dashboard")}
-          className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl hover:bg-slate-800"
-        >
-          <LayoutDashboard size={20} />
-          Dashboard
-        </button>
 
-        <button
-          onClick={() => scrollToSection("driving-admissions")}
-          className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl bg-[#f59e0b]"
-        >
-          <Car size={20} />
-          Driving Admissions
-        </button>
+        {menus.map((item) => {
+          const Icon = item.icon;
 
-        <button
-          disabled
-          className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl opacity-50 cursor-not-allowed"
-        >
-          <IdCard size={20} />
-          Driving Licence
-        </button>
+          return (
+            <button
+              key={item.id}
+              onClick={() => setActiveModule(item.id)}
+              className={`w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-all
 
-        <button
-          disabled
-          className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl opacity-50 cursor-not-allowed"
-        >
-          <ShieldCheck size={20} />
-          Insurance
-        </button>
-
-        <button
-          disabled
-          className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl opacity-50 cursor-not-allowed"
-        >
-          <FileText size={20} />
-          PUC
-        </button>
+                ${
+                  activeModule === item.id
+                    ? "bg-[#f59e0b] text-white shadow-lg"
+                    : "hover:bg-slate-800 text-slate-300"
+                }
+              `}
+            >
+              <Icon size={20} />
+              {item.title}
+            </button>
+          );
+        })}
       </div>
     </aside>
   );

@@ -42,70 +42,31 @@ const features = [
 
 export default function WhyChooseUsSection() {
   return (
-    <section className="relative overflow-hidden bg-white py-16 md:py-20">
-
-      {/* ── Decorative blobs ── */}
-      {/* Top-left large circle (yellow, partially visible) */}
-      <div
-        className="pointer-events-none absolute -left-20 -top-20 h-52 w-52 rounded-full bg-[#f59e0b]/25 md:h-72 md:w-72"
-        aria-hidden="true"
-      />
-
-      {/* Bottom-right large quarter circle */}
-      <div
-        className="pointer-events-none absolute -bottom-16 -right-16 h-52 w-52 rounded-full bg-[#f59e0b]/30 md:h-72 md:w-72"
-        aria-hidden="true"
-      />
-
-      {/* Scattered dots (hidden on mobile for cleanliness) */}
-      <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
-        {/* top-left cluster */}
-        <span className="absolute left-[7%] top-[15%] h-1.5 w-1.5 rounded-full bg-[#f59e0b]/50" />
-        <span className="absolute left-[9%] top-[22%] h-1 w-1 rounded-full bg-[#f59e0b]/40" />
-        <span className="absolute left-[5%] top-[30%] h-1.5 w-1.5 rounded-full bg-[#f59e0b]/30" />
-        {/* top-right cluster */}
-        <span className="absolute right-[8%] top-[12%] h-1.5 w-1.5 rounded-full bg-[#f59e0b]/40" />
-        <span className="absolute right-[6%] top-[20%] h-1 w-1 rounded-full bg-[#f59e0b]/30" />
-        <span className="absolute right-[10%] top-[28%] h-2 w-2 rounded-full bg-[#f59e0b]/20" />
-        {/* bottom-left cluster */}
-        <span className="absolute left-[12%] bottom-[18%] h-1 w-1 rounded-full bg-[#f59e0b]/40" />
-        <span className="absolute left-[15%] bottom-[12%] h-1.5 w-1.5 rounded-full bg-[#f59e0b]/30" />
-        {/* bottom-right cluster (near the blob) */}
-        <span className="absolute right-[20%] bottom-[20%] h-1 w-1 rounded-full bg-[#f59e0b]/50" />
-        <span className="absolute right-[24%] bottom-[14%] h-1.5 w-1.5 rounded-full bg-[#f59e0b]/35" />
-      </div>
-
+    <section className="relative overflow-hidden bg-white py-4 md:py-6">
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* ── Section heading ── */}
         <div className="mx-auto max-w-2xl text-center">
-
-          {/* Label row */}
-          <div className="flex items-center justify-center gap-3">
-            <span className="h-px w-8 bg-[#f59e0b]" />
-            <span className="text-xs font-semibold uppercase tracking-widest text-[#f59e0b]">
-              • Why Choose Us? •
+          <div className="mx-auto max-w-3xl text-center">
+            <span className="font-semibold uppercase tracking-wider text-[#f59e0b]">
+              Why Choose Us?
             </span>
-            <span className="h-px w-8 bg-[#f59e0b]" />
+            <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f59e0b]" />
+           <h2 className="mt-2 whitespace-nowrap text-2xl font-black uppercase leading-tight text-[#111827] md:text-2xl lg:text-3xl">
+               We Provide The Best{" "}
+              <span className="text-[#f59e0b]">Driving Learning</span> Experience
+            </h2>
+            <p className="mt-2 whitespace-nowrap text-sm leading-7 text-neutral-600 sm:text-base lg:text-lg">
+              We are committed to providing top-quality driving education with safety,
+              professionalism and personalized support.
+            </p>
           </div>
-
-          {/* Main title */}
-          <h2 className="mt-3 text-3xl font-black leading-snug text-[#111827] sm:text-4xl">
-            We Provide The Best{" "}
-            <span className="text-[#f59e0b]">Driving Learning</span>{" "}
-            Experience
-          </h2>
-
-          {/* Subtitle */}
-          <p className="mt-4 text-sm leading-7 text-neutral-500 sm:text-base">
-            We are committed to providing top-quality driving education
-            <br className="hidden sm:block" />
-            with safety, professionalism and personalized support.
-          </p>
         </div>
 
+        
+
         {/* ── Feature circles ── */}
-        <div className="relative mt-14">
+        <div className="relative mt-6">
 
           {/* Dashed horizontal connector — only on large screens */}
           <div
@@ -166,20 +127,6 @@ export default function WhyChooseUsSection() {
             })}
           </div>
         </div>
-
-        {/* ── CTA Button ── */}
-        <div className="mt-14 flex justify-center">
-          <Link
-            href="/admission"
-            className="inline-flex items-center gap-3 rounded-full bg-[#f59e0b] px-10 py-4 text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:bg-[#e08e00] hover:shadow-xl"
-          >
-            Join Us Today
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-white/20">
-              <ArrowRight size={14} className="text-white" />
-            </span>
-          </Link>
-        </div>
-
       </div>
     </section>
   );

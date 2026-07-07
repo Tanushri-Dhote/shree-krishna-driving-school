@@ -25,7 +25,7 @@ const quickLinks = [
   { label: "Our Services", href: "/services" },
   { label: "Why Choose Us", href: "#why" },
   { label: "Testimonials", href: "#testimonials" },
-  { label: "Gallery", href: "/gallery" },
+
   { label: "Contact Us", href: "/contact" },
 ];
 
@@ -63,7 +63,7 @@ export function DrivingFooter() {
     <footer className="bg-[#0d0d0d] text-white">
 
       {/* ── Main grid ── */}
-      <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8 lg:py-16">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-6 lg:py-6">
         <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
 
           {/* Col 1 – Brand */}
@@ -83,23 +83,6 @@ export function DrivingFooter() {
 
             {/* amber underline */}
             <div className="mt-4 h-[2px] w-10 bg-[#f59e0b]" />
-
-            {/* Mini highlight icons */}
-            <div className="mt-6 grid grid-cols-4 gap-2 text-center">
-              {highlights.map((h) => {
-                const Icon = h.icon;
-                return (
-                  <div key={h.label} className="flex flex-col items-center gap-1.5">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full border border-[#f59e0b]/50 bg-[#f59e0b]/10">
-                      <Icon size={17} className="text-[#f59e0b]" />
-                    </div>
-                    <span className="whitespace-pre-line text-[9px] leading-tight text-neutral-400">
-                      {h.label}
-                    </span>
-                  </div>
-                );
-              })}
-            </div>
           </div>
 
           {/* Col 2 – Quick Links */}
@@ -189,7 +172,7 @@ export function DrivingFooter() {
                 <p className="text-sm leading-6 text-neutral-400">
                   9WH9+64F, Katol Rd,<br />
                   near Gadkari College,<br />
-                  Umari, Maharashtra 441107
+                  Saoner, Maharashtra 441107
                 </p>
               </li>
             </ul>

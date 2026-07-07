@@ -27,7 +27,7 @@ const navItems = [
   { label: "ABOUT US", href: "#" },
   { label: "SERVICES", href: "#" },
   { label: "WHY US", href: "#" },
-  { label: "CONTACT US", href: "#" },
+  { label: "CONTACT US", href: "/contact" },
 ] as const;
 
 export function DrivingNavbar() {
@@ -46,7 +46,7 @@ export function DrivingNavbar() {
 
             <div className="flex items-center gap-2 text-white/90">
               <Clock3 className="h-4 w-4 text-[#f59e0b]" />
-              <span>Mon - Sun: 7:00 AM - 8:00 PM</span>
+              <span>Mon - Sat: 8:00 AM - 6:00 PM</span>
             </div>
           </div>
 

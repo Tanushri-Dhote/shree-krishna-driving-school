@@ -13,6 +13,7 @@ import {
 const services = [
   {
     title: "Driving Admission",
+    href: "/driving-Addmission",
     icon: Car,
     description:
       "Professional driving lessons for beginners and experienced learners with practical road training.",
@@ -24,6 +25,7 @@ const services = [
   },
   {
     title: "Driving Licence",
+    href: "/driving-Licence",
     icon: FileCheck,
     description:
       "Complete assistance for learner and permanent driving licence documentation and process.",
@@ -35,6 +37,7 @@ const services = [
   },
   {
     title: "Insurance",
+    href: "/driving-Insurance",
     icon: ShieldCheck,
     description:
       "Vehicle insurance renewal and policy assistance with trusted insurance partners.",
@@ -46,6 +49,7 @@ const services = [
   },
   {
     title: "PUC Certificate",
+    href: "/driving-PUC",
     icon: BadgeCheck,
     description:
       "Get Pollution Under Control certificates quickly and keep your vehicle road compliant.",
@@ -139,7 +143,7 @@ export default function DrivingServicesSection() {
                 {/* Learn More */}
                 <div className="mt-2 flex justify-end">
                   <Link
-                    href="/services"
+                     href={service.href}
                     className="inline-flex items-center gap-2 font-semibold text-[#f59e0b] transition-all duration-300 group-hover:gap-3"
                   >
                     Apply Now
@@ -189,7 +193,7 @@ export default function DrivingServicesSection() {
               <div className="flex w-full flex-wrap gap-3 lg:w-auto lg:justify-center">
 
                 <Link
-                  href="/admission"
+                 href="/driving-Addmission"
                   className="inline-flex items-center gap-2 rounded-full bg-[#f59e0b] px-6 py-3 text-sm font-semibold text-[#111111] transition-all duration-300 hover:scale-105 hover:bg-white sm:px-8 sm:py-4 sm:text-base"
                 >
                   Apply Now
@@ -197,7 +201,7 @@ export default function DrivingServicesSection() {
                 </Link>
 
                 <Link
-                  href="/contact"
+                 href="/contact"
                   className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-[#f59e0b] hover:bg-[#f59e0b] hover:text-[#111111] sm:px-8 sm:py-4 sm:text-base"
                 >
                   Contact Us

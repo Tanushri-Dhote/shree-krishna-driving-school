@@ -131,12 +131,7 @@ export default function TestimonialsSection() {
     const mobileReview = reviews[current % total];
 
     return (
-        <section className="relative overflow-hidden bg-[#fffdf8] py-16 md:py-20">
-
-            {/* ── Background blobs ── */}
-            <div className="pointer-events-none absolute -left-24 -top-24 h-64 w-64 rounded-full bg-[#f59e0b]/15" aria-hidden="true" />
-            <div className="pointer-events-none absolute -right-20 top-0 h-48 w-48 rounded-full bg-[#f59e0b]/10" aria-hidden="true" />
-
+        <section className="relative overflow-hidden bg-[#fffdf8] py-4 md:py-6">
             {/* Scatter dots */}
             <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
                 <span className="absolute left-[6%] top-[18%] h-1.5 w-1.5 rounded-full bg-[#f59e0b]/50" />
@@ -166,33 +161,28 @@ export default function TestimonialsSection() {
                 <span className="absolute left-[14%] top-[12%] h-4 w-4 rounded-full border border-[#f59e0b]/30" />
             </div>
 
-            <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div className="relative mx-auto max-w-7xl px-2 sm:px-4 lg:px-6">
 
-                {/* ── Heading ── */}
+                {/* ── Section heading ── */}
                 <div className="mx-auto max-w-2xl text-center">
-                    <div className="flex items-center justify-center gap-3">
-                        <span className="h-px w-8 bg-[#f59e0b]" />
-                        <span className="text-xs font-semibold uppercase tracking-widest text-[#f59e0b]">
-                            • Testimonials •
+                    <div className="mx-auto max-w-3xl text-center">
+                        <span className="font-semibold uppercase tracking-wider text-[#f59e0b]">
+                            Testimonials
                         </span>
-                        <span className="h-px w-8 bg-[#f59e0b]" />
+                        <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f59e0b]" />
+                        <h2 className="mt-2 whitespace-nowrap text-2xl font-black uppercase leading-tight text-[#111827] md:text-2xl lg:text-3xl">
+                            What Our{" "}
+                            <span className="text-[#f59e0b]">Students</span>Say
+                        </h2>
+                        <p className="mt-2 whitespace-nowrap text-sm leading-7 text-neutral-600 sm:text-base lg:text-lg">
+                            Trusted by thousands of learners who got confidence,
+                            skills and success with Shree Krishna Driving School.
+                        </p>
                     </div>
-
-                    <h2 className="mt-3 text-3xl font-black uppercase leading-tight text-[#111827] sm:text-4xl lg:text-5xl">
-                        What Our{" "}
-                        <span className="text-[#f59e0b]">Students</span>{" "}
-                        Say
-                    </h2>
-
-                    <p className="mt-4 text-sm leading-7 text-neutral-500 sm:text-base">
-                        Trusted by thousands of learners who got confidence,
-                        <br className="hidden sm:block" />
-                        skills and success with Shree Krishna Driving School.
-                    </p>
                 </div>
 
                 {/* ── Stats bar ── */}
-                <div className="mx-auto mt-8 flex max-w-2xl divide-x divide-neutral-200 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+                <div className="mx-auto mt-4 flex max-w-2xl divide-x divide-neutral-200 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
                     {/* Star rating */}
                     <div className="flex flex-1 items-center gap-3 px-4 py-4 sm:px-6">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]">
@@ -205,7 +195,7 @@ export default function TestimonialsSection() {
                     </div>
 
                     {/* Happy students */}
-                    <div className="flex flex-1 items-center gap-3 px-4 py-4 sm:px-6">
+                    <div className="flex flex-1 items-center gap-3 px-2 py-2 sm:px-4">
                         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                         </div>
@@ -228,7 +218,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* ── Review Cards ── */}
-                <div className="mt-10">
+                <div className="mt-4">
                     {/* Desktop: 3 cards */}
                     <div className="hidden gap-5 lg:grid lg:grid-cols-3">
                         {visibleReviews.map((review) => (
@@ -243,7 +233,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* ── Carousel Controls ── */}
-                <div className="mt-8 flex items-center justify-center gap-4">
+                <div className="mt-4 flex items-center justify-center gap-4">
                     {/* Prev */}
                     <button
                         onClick={prev}
@@ -281,7 +271,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* ── CTA Banner ── */}
-                <div className="relative mt-12 overflow-hidden rounded-2xl bg-[#f59e0b] px-6 py-7 sm:px-10">
+                <div className="relative mt-4 overflow-hidden rounded-2xl bg-[#f59e0b] px-6 py-7 sm:px-10">
                     <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
 
                         {/* Left: icon + text */}
@@ -290,8 +280,8 @@ export default function TestimonialsSection() {
                                 <SteeringWheelIcon size={40} />
                             </div>
                             <div>
-                                <p className="text-lg font-black text-white sm:text-xl">
-                                    Ready to start your<br className="hidden sm:block" /> driving journey?
+                                <p className="text-2xl font-black text-white sm:text-xl">
+                                    Ready to start your driving journey?
                                 </p>
                                 <p className="mt-0.5 text-sm text-white/80">
                                     Join thousands of successful students and drive with confidence.
@@ -312,16 +302,16 @@ export default function TestimonialsSection() {
                     </div>
 
                     {/* Car image — desktop only */}
-                    <div className="pointer-events-none absolute -bottom-2 right-0 hidden w-72 xl:block">
+                    {/* <div className="pointer-events-none absolute -bottom-2 right-0 hidden w-72 xl:block">
                         <Image
                             src="/car.webp"
                             alt="Shree Krishna Driving School Car"
-                            width={320}
-                            height={180}
+                            width={150}
+                            height={100}
                             className="object-contain drop-shadow-xl"
                             priority={false}
                         />
-                    </div>
+                    </div> */}
                 </div>
 
             </div>

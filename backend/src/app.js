@@ -2,6 +2,10 @@ const fastify = require("fastify");
 const fastifyCors = require("@fastify/cors");
 
 const { admissionRoutes } = require("./modules/admission/admission.route");
+const { pucRoutes } = require("./modules/puc/puc.route");
+const { insuranceRoutes } = require("./modules/insurance/insurance.route");
+const { licenceRoutes } = require("./modules/licence/licence.route");
+const { maintenanceRoutes } = require("./modules/maintenance/maintenance.route");
 
 async function buildApp() {
   const app = fastify({
@@ -12,11 +16,15 @@ async function buildApp() {
   await app.register(fastifyCors, {
     origin: true,
     methods: ["GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization"],
+    allowedHeaders: ["Content-Type", "Authorization", "X-Is-Admin", "x-is-admin"],
   });
 
   // Routes
   await app.register(admissionRoutes, { prefix: "" });
+  await app.register(pucRoutes, { prefix: "" });
+  await app.register(insuranceRoutes, { prefix: "" });
+  await app.register(licenceRoutes, { prefix: "" });
+  await app.register(maintenanceRoutes, { prefix: "" });
 
 
   // Not found handler
