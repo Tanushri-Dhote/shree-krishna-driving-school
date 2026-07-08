@@ -1,8 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-
+import { Button } from "@/components/ui/button";
 type LicenceStatus = "pending" | "approved" | "rejected";
+import { Eye } from "lucide-react";
+
 
 type LicenceRow = {
   id: number;
@@ -53,6 +55,8 @@ function StatusBadge({ status }: { status: string }) {
   );
 }
 
+import DashboardShell from "./DashboardShell";
+
 export default function LicenceView() {
   const backendBaseUrl = useMemo(() => {
     const envUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
@@ -60,6 +64,17 @@ export default function LicenceView() {
   }, []);
 
   const [rows, setRows] = useState<LicenceRow[]>([]);
+
+  // If backend stores image paths like /uploads/file.png (not data:), render them.
+  const resolveImageSrc = (src?: string) => {
+    const v = String(src || "").trim();
+    if (!v) return "";
+    if (v.startsWith("data:")) return v;
+    // If it is already an absolute URL
+    if (v.startsWith("http://") || v.startsWith("https://")) return v;
+    // Otherwise treat as backend-relative path
+    return `${backendBaseUrl}${v.startsWith("/") ? "" : "/"}${v}`;
+  };
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
 
@@ -80,7 +95,17 @@ export default function LicenceView() {
         setError(payload?.message || "Failed to fetch Licence submissions.");
         return;
       }
-      setRows((payload?.data as LicenceRow[]) || []);
+      const data = (payload?.data || []) as any[];
+
+      // Map possible backend field names to our UI model.
+      // This prevents missing previews when backend uses different keys for signature.
+      setRows(
+        data.map((d) => ({
+          ...(d as LicenceRow),
+          signaturePhoto:
+            d.signaturePhoto ?? d.signature ?? d.signPhoto ?? d.signatureImage ?? "",
+        }))
+      );
     } catch (e: any) {
       setError(e?.message || "Network error while fetching Licence submissions.");
     } finally {
@@ -138,265 +163,480 @@ export default function LicenceView() {
   }, [rows, search, statusFilter]);
 
   return (
-    <div className="mt-5">
-      <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden animate-fadeIn">
-        <div className="border-b border-slate-200 p-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-            <div>
-              <h2 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
-                🪪 Licence Submissions
-              </h2>
-              <p className="text-slate-500 mt-1">Review and manage client driving licence applications.</p>
-            </div>
+    <DashboardShell>
+      <div className="mt-5">
+        <div className="bg-white rounded-3xl border border-slate-200 shadow-sm overflow-hidden animate-fadeIn">
+          <div className="border-b border-slate-200 p-6">
+            <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
 
-            <div className="flex flex-col sm:flex-row gap-3">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                className="px-4 py-2 border border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:border-orange-500 text-sm w-full sm:w-60"
-              />
+              <div>
+                <h2 className="text-2xl font-bold text-slate-900">
+                  🪪  Licence Applications
+                </h2>
 
-              <select
-                value={statusFilter}
-                onChange={(e) => setStatusFilter(e.target.value)}
-                className="px-4 py-2 border border-slate-200 rounded-xl text-slate-800 focus:outline-none focus:border-orange-500 text-sm bg-white"
-              >
-                <option value="all">All Statuses</option>
-                <option value="pending">Pending</option>
-                <option value="approved">Approved</option>
-                <option value="rejected">Rejected</option>
-              </select>
+                <p className="mt-1 text-slate-500">
+                  Manage driving licence applications.
+                </p>
+              </div>
+
+              <div className="flex flex-col sm:flex-row gap-3">
+
+                <input
+                  value={search}
+                  onChange={(e) => setSearch(e.target.value)}
+                  placeholder="Search application..."
+                  className="
+          h-11
+          w-full
+          sm:w-64
+          rounded-xl
+          border
+          border-slate-300
+          px-4
+          text-sm
+          outline-none
+          focus:border-orange-500
+        "
+                />
+
+                <select
+                  value={statusFilter}
+                  onChange={(e) => setStatusFilter(e.target.value)}
+                  className="
+          h-11
+          rounded-xl
+          border
+          border-slate-300
+          px-4
+          text-sm
+          outline-none
+          focus:border-orange-500
+        "
+                >
+                  <option value="all">All Status</option>
+                  <option value="pending">Pending</option>
+                  <option value="approved">Approved</option>
+                  <option value="rejected">Rejected</option>
+                </select>
+
+              </div>
+
             </div>
+          </div>
+
+          <div className="p-6">
+            {error ? (
+              <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
+                {error}
+              </div>
+            ) : null}
+
+            {loading ? (
+              <div className="py-12 text-center text-slate-500">
+                <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
+                Loading submissions...
+              </div>
+            ) : filteredRows.length === 0 ? (
+              <div className="py-12 text-center text-slate-500">No submissions found matching criteria.</div>
+            ) : (
+              <div className="overflow-x-auto">
+                <table className="min-w-full text-left text-sm">
+                  <thead>
+
+                    <tr className="bg-slate-100">
+
+                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">
+                        Licence No
+                      </th>
+
+                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">
+                        Candidate
+                      </th>
+
+                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">
+                        Mobile
+                      </th>
+
+                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">
+                        Email
+                      </th>
+
+                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">
+                        Status
+                      </th>
+
+                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">
+                        Date
+                      </th>
+
+                      <th className="px-6 py-4 text-right text-[13px] font-bold text-slate-700">
+                        Action
+                      </th>
+
+                    </tr>
+
+                  </thead>
+                  <tbody className="divide-y divide-slate-100">
+
+                    {filteredRows.map((item) => (
+
+                      <tr
+                        key={item.id}
+                        className="transition hover:bg-orange-50 text-[14px]"
+                      >
+
+                        <td className="px-6 py-4 font-bold text-[11px]">
+                          {item.licenceNo}
+                        </td>
+
+                        <td className="px-6 py-4">
+
+                          <div>
+
+                            <p className="font-semibold text-slate-800 text-[11px]">
+                              {item.fullName}
+                            </p>
+
+                          </div>
+
+                        </td>
+
+                        <td className="px-6 py-4 text-[11px] text-slate-700">
+                          {item.mobileNo}
+                        </td>
+
+                        <td className="px-6 py-4 text-[11px] text-slate-600">
+                          {item.email}
+                        </td>
+
+                        <td className="px-6 py-4">
+                          <StatusBadge status={item.status} />
+                        </td>
+
+                        <td className="px-6 py-4 whitespace-nowrap text-[11px] text-slate-500">
+                          {new Date(item.createdAt).toLocaleDateString("en-IN")}
+                        </td>
+
+                        <td className="px-6 py-4 text-right">
+
+                         <Eye
+  size={22}
+  onClick={() => setSelected(item)}
+  className="cursor-pointer text-orange-500 hover:text-orange-600 hover:scale-110 transition-all duration-200"
+  title="View Details"
+/>
+
+                        </td>
+
+                      </tr>
+
+                    ))}
+
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
 
-        <div className="p-6">
-          {error ? (
-            <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-              {error}
-            </div>
-          ) : null}
-
-          {loading ? (
-            <div className="py-12 text-center text-slate-500">
-              <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              Loading submissions...
-            </div>
-          ) : filteredRows.length === 0 ? (
-            <div className="py-12 text-center text-slate-500">No submissions found matching criteria.</div>
-          ) : (
-            <div className="overflow-x-auto">
-              <table className="min-w-full text-left text-sm">
-                <thead>
-                  <tr className="text-slate-600 bg-slate-50 border-b border-slate-100">
-                    <th className="px-4 py-3.5 font-semibold">Licence No</th>
-                    <th className="px-4 py-3.5 font-semibold">Owner</th>
-                    <th className="px-4 py-3.5 font-semibold">Contact No</th>
-                    <th className="px-4 py-3.5 font-semibold">Status</th>
-                    <th className="px-4 py-3.5 font-semibold text-right">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {filteredRows.map((r) => (
-                    <tr key={r.id} className="align-middle hover:bg-slate-50 transition-colors">
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="font-bold text-slate-900">{r.licenceNo}</div>
-                        <div className="text-slate-400 text-[11px]">
-                          {new Date(r.createdAt).toLocaleDateString()}
-                        </div>
-                      </td>
-                      <td className="px-4 py-4">
-                        <div className="font-semibold text-slate-900">{r.fullName}</div>
-                        <div className="text-slate-500 text-xs">{r.email}</div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <div className="text-slate-900 font-medium">{r.mobileNo}</div>
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap">
-                        <StatusBadge status={r.status} />
-                      </td>
-                      <td className="px-4 py-4 whitespace-nowrap text-right">
-                        <div className="flex justify-end items-center gap-2">
-                          <button
-                            type="button"
-                            onClick={() => setSelected(r)}
-                            className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-800 transition-all border border-slate-200"
-                          >
-                            View Documents
-                          </button>
-
-                          <select
-                            value={r.status}
-                            onChange={(e) => updateStatus(r.id, e.target.value as LicenceStatus)}
-                            className="px-2 py-1.5 border border-slate-200 rounded-xl text-xs bg-white focus:outline-none"
-                          >
-                            <option value="pending">Pending</option>
-                            <option value="approved">Approve</option>
-                            <option value="rejected">Reject</option>
-                          </select>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </div>
-      </div>
-
-      {/* Documents Preview Modal */}
-      {selected && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/55 backdrop-blur-sm p-4 transition-all">
-          <div className="bg-white rounded-3xl w-full max-w-4xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col animate-scaleUp">
-
-            {/* Modal Header */}
-            <div className="p-6 border-b border-slate-200 flex justify-between items-center bg-slate-50">
-              <div>
-                <span className="text-xs font-bold text-orange-500 tracking-wider uppercase">
-                  Application Review
-                </span>
-                <h3 className="text-xl font-bold text-slate-900">
-                  {selected.fullName} — {selected.licenceNo}
-                </h3>
-              </div>
-              <button
-                type="button"
-                onClick={() => setSelected(null)}
-                className="w-10 h-10 rounded-full hover:bg-slate-200 text-slate-500 font-bold transition-all text-xl flex items-center justify-center border border-slate-200"
-              >
-                ✕
-              </button>
-            </div>
-
-            {/* Modal Content */}
-            <div className="p-6 overflow-y-auto flex-1 bg-slate-50">
-              <div className="grid md:grid-cols-2 gap-6 mb-6 text-sm">
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm">
-                  <p className="text-slate-400 text-xs">Email ID</p>
-                  <p className="text-slate-800 font-semibold mt-0.5">{selected.email}</p>
-                </div>
-                <div className="bg-white p-4 rounded-2xl border border-slate-200/60 shadow-sm">
-                  <p className="text-slate-400 text-xs">Mobile Number</p>
-                  <p className="text-slate-800 font-semibold mt-0.5">{selected.mobileNo}</p>
-                </div>
-              </div>
-
-              <h4 className="text-base font-bold text-slate-800 mb-3 flex items-center gap-2">
-                📄 Submitted Documents
-              </h4>
-
-              <div className="grid md:grid-cols-3 gap-6">
-
-                {/* PAN Photo */}
-                <div className="border border-slate-200 rounded-2xl p-4 bg-white shadow-sm text-center flex flex-col justify-between">
+        {/* Documents Preview Modal */}
+        {selected && (
+          <div
+  className="fixed inset-0 z-50 overflow-y-auto bg-black/55 backdrop-blur-sm p-4"
+>
+  <div className="flex min-h-full items-center justify-center">
+           <div className="bg-white rounded-3xl w-full max-w-[1100px] shadow-2xl max-h-[92vh] flex flex-col">
+              {/* Header */}
+              <div className="border-b border-slate-200 bg-gradient-to-r from-slate-50 via-white to-slate-50 px-6 py-5">
+                <div className="flex items-start justify-between">
                   <div>
-                    <h5 className="font-semibold text-slate-800 text-sm">PAN Card</h5>
-                    <p className="text-[11px] text-slate-400 mb-2">PAN card registration photo</p>
+                    <h3 className="text-2xl font-bold text-slate-800">
+                      📄 Licence Details
+                    </h3>
+                    <p className="mt-1 text-sm text-slate-500">
+                      Candidate Information & Uploaded Documents
+                    </p>
                   </div>
-                  <div className="aspect-[4/3] bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200 relative group">
-                    {selected.panPhoto.startsWith("data:") ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={selected.panPhoto} alt="PAN Card" className="object-contain w-full h-full p-1" />
-                    ) : (
-                      <p className="text-slate-400 text-xs">No preview available</p>
-                    )}
-                  </div>
-                  <a
-                    href={selected.panPhoto}
-                    download={`${selected.fullName}_PAN.png`}
-                    className="mt-3 block text-center px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-all border border-slate-200"
+                  <button
+                    type="button"
+                    onClick={() => setSelected(null)}
+                    className="w-10 h-10 rounded-full hover:bg-slate-200 text-slate-500 font-bold transition-all text-xl flex items-center justify-center border border-slate-200"
+                    aria-label="Close"
                   >
-                    Download File
-                  </a>
+                    ✕
+                  </button>
                 </div>
-
-                {/* Aadhaar Photo */}
-                <div className="border border-slate-200 rounded-2xl p-4 bg-white shadow-sm text-center flex flex-col justify-between">
-                  <div>
-                    <h5 className="font-semibold text-slate-800 text-sm">Aadhaar Card</h5>
-                    <p className="text-[11px] text-slate-400 mb-2">Aadhaar card verification photo</p>
-                  </div>
-                  <div className="aspect-[4/3] bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200 relative group">
-                    {selected.aadhaarPhoto.startsWith("data:") ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={selected.aadhaarPhoto} alt="Aadhaar Card" className="object-contain w-full h-full p-1" />
-                    ) : (
-                      <p className="text-slate-400 text-xs">No preview available</p>
-                    )}
-                  </div>
-                  <a
-                    href={selected.aadhaarPhoto}
-                    download={`${selected.fullName}_Aadhaar.png`}
-                    className="mt-3 block text-center px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-all border border-slate-200"
-                  >
-                    Download File
-                  </a>
-                </div>
-
-                {/* Signature Photo */}
-                <div className="border border-slate-200 rounded-2xl p-4 bg-white shadow-sm text-center flex flex-col justify-between">
-                  <div>
-                    <h5 className="font-semibold text-slate-800 text-sm">Signature Specimen</h5>
-                    <p className="text-[11px] text-slate-400 mb-2">Applicant signature photo</p>
-                  </div>
-                  <div className="aspect-[4/3] bg-slate-50 rounded-xl overflow-hidden flex items-center justify-center border border-slate-200 relative group">
-                    {selected.signaturePhoto.startsWith("data:") ? (
-                      // eslint-disable-next-line @next/next/no-img-element
-                      <img src={selected.signaturePhoto} alt="Signature Specimen" className="object-contain w-full h-full p-1" />
-                    ) : (
-                      <p className="text-slate-400 text-xs">No preview available</p>
-                    )}
-                  </div>
-                  <a
-                    href={selected.signaturePhoto}
-                    download={`${selected.fullName}_Signature.png`}
-                    className="mt-3 block text-center px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-800 rounded-xl text-xs font-semibold transition-all border border-slate-200"
-                  >
-                    Download File
-                  </a>
-                </div>
-
-              </div>
-            </div>
-
-            {/* Modal Footer */}
-            <div className="p-6 border-t border-slate-200 bg-slate-50 flex flex-wrap justify-between items-center gap-4">
-              <div className="flex items-center gap-2">
-                <span className="text-xs text-slate-500">Current Status:</span>
-                <StatusBadge status={selected.status} />
               </div>
 
-              <div className="flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => updateStatus(selected.id, "approved")}
-                  className="px-4 py-2 rounded-xl text-sm font-bold bg-green-600 hover:bg-green-700 text-white transition-all shadow-sm"
-                >
-                  Approve Application
-                </button>
-                <button
-                  type="button"
-                  onClick={() => updateStatus(selected.id, "rejected")}
-                  className="px-4 py-2 rounded-xl text-sm font-bold bg-red-600 hover:bg-red-700 text-white transition-all shadow-sm"
-                >
-                  Reject
-                </button>
+              {/* Details Table */}
+              <div className="flex-1 overflow-y-auto p-2">
+                <div className="overflow-hidden rounded-2xl border border-slate-200 shadow-sm">
+                  <table className="min-w-full">
+                    <tbody className="divide-y divide-slate-100">
+                      <tr className="hover:bg-orange-50 transition">
+                        <th className="w-60 bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                          Full Name
+                        </th>
+                        <td className="px-6 py-4 text-[13px] font-semibold text-slate-800">
+                          {selected.fullName}
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-orange-50 transition">
+                        <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                          Mobile Number
+                        </th>
+                        <td className="px-6 py-4 text-[13px] text-slate-700">
+                          {selected.mobileNo}
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-orange-50 transition">
+                        <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                          Email Address
+                        </th>
+                        <td className="px-6 py-4 text-[13px] text-slate-700 break-all">
+                          {selected.email}
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-orange-50 transition">
+                        <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                          Licence Number
+                        </th>
+                        <td className="px-6 py-4 text-[13px] font-semibold text-slate-800">
+                          {selected.licenceNo}
+                        </td>
+                      </tr>
+                      <tr className="hover:bg-orange-50 transition">
+                        <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                          Created Date
+                        </th>
+                        <td className="px-6 py-4 text-[13px] text-slate-700">
+                          {new Date(selected.createdAt).toLocaleDateString(
+                            "en-IN"
+                          )}
+                        </td>
+                      </tr>
+
+                      {/* PAN Card */}
+                      <tr className="transition hover:bg-orange-50">
+                        <th className="bg-slate-50 px-6 py-5 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600 align-top">
+                          PAN Card
+                        </th>
+                        <td className="px-6 py-5">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              {selected.panPhoto?.startsWith("data:") ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={selected.panPhoto}
+                                  alt="PAN Card"
+                                  className="h-24 w-32 rounded-lg border object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-24 w-32 items-center justify-center rounded-lg border border-dashed text-xs text-slate-400">
+                                  No Image
+                                </div>
+                              )}
+                              <p className="text-[13px] font-medium text-slate-700">
+                                PAN Card
+                              </p>
+                            </div>
+
+                            {selected.panPhoto ? (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const link = document.createElement("a");
+                                  link.href = resolveImageSrc(selected.panPhoto) || selected.panPhoto;
+                                  link.download = `${selected.fullName}_PAN.png`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
+                                className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                              >
+                                Download
+                              </Button>
+                            ) : null}
+
+
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* Aadhaar Card */}
+                      <tr className="transition hover:bg-orange-50">
+                        <th className="bg-slate-50 px-6 py-5 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600 align-top">
+                          Aadhaar Card
+                        </th>
+                        <td className="px-6 py-5">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              {selected.aadhaarPhoto?.startsWith("data:") ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img
+                                  src={selected.aadhaarPhoto}
+                                  alt="Aadhaar Card"
+                                  className="h-24 w-32 rounded-lg border object-cover"
+                                />
+                              ) : (
+                                <div className="flex h-24 w-32 items-center justify-center rounded-lg border border-dashed text-xs text-slate-400">
+                                  No Image
+                                </div>
+                              )}
+                              <p className="text-[13px] font-medium text-slate-700">
+                                Aadhaar Card
+                              </p>
+                            </div>
+
+                            {selected.aadhaarPhoto ? (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const link = document.createElement("a");
+                                  link.href = selected.aadhaarPhoto;
+                                  link.download = `${selected.fullName}_Aadhaar.png`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
+                                className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                              >
+                                Download
+                              </Button>
+                            ) : null}
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* Signature Photo */}
+                      <tr className="transition hover:bg-orange-50">
+                        <th className="bg-slate-50 px-6 py-5 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600 align-top">
+                          Signature
+                        </th>
+                        <td className="px-6 py-5">
+                          <div className="flex items-center justify-between">
+                            <div className="flex items-center gap-4">
+                              {(() => {
+                                const src = resolveImageSrc(selected.signaturePhoto);
+                                if (src) {
+                                  return (
+                                    // eslint-disable-next-line @next/next/no-img-element
+                                    <img
+                                      src={src}
+                                      alt="Signature"
+                                      className="h-24 w-32 rounded-lg border object-cover"
+                                    />
+                                  );
+                                }
+                                return (
+                                  <div className="flex h-24 w-32 items-center justify-center rounded-lg border border-dashed text-xs text-slate-400">
+                                    No Image
+                                  </div>
+                                );
+                              })()}
+
+                              <p className="text-[13px] font-medium text-slate-700">
+                                Signature Specimen
+                              </p>
+                            </div>
+
+                            {selected.signaturePhoto ? (
+                              <Button
+                                variant="outline"
+                                size="sm"
+                                onClick={() => {
+                                  const link = document.createElement("a");
+                                  link.href = selected.signaturePhoto;
+                                  link.download = `${selected.fullName}_Signature.png`;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+                                }}
+                                className="border-orange-200 text-orange-600 hover:bg-orange-50"
+                              >
+                                Download
+                              </Button>
+                            ) : null}
+                          </div>
+                        </td>
+                      </tr>
+
+                      {/* Current Status */}
+                      <tr className="transition hover:bg-orange-50">
+                        <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                          Current Status
+                        </th>
+                        <td className="px-6 py-4">
+                          <StatusBadge status={selected.status} />
+                        </td>
+                      </tr>
+
+                      {/* Status Update */}
+                      <tr className="transition hover:bg-orange-50">
+                        <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                          Update Status
+                        </th>
+                        <td className="px-6 py-4">
+                          <div className="flex flex-wrap items-center gap-3">
+                            <select
+                              value={selected.status}
+                              onChange={(e) =>
+                                updateStatus(
+                                  selected.id,
+                                  e.target.value as LicenceStatus
+                                )
+                              }
+                              className="
+                                h-10
+                                rounded-xl
+                                border
+                                border-slate-300
+                                bg-white
+                                px-4
+                                text-[13px]
+                                outline-none
+                                focus:border-orange-500
+                                focus:ring-2
+                                focus:ring-orange-200
+                              "
+                            >
+                              <option value="pending">Pending</option>
+                              <option value="approved">Approved</option>
+                              <option value="rejected">Rejected</option>
+                            </select>
+
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Footer */}
+              <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 px-4 py-2">
+                <p className="text-[11px] text-slate-500">
+                  Licence ID :
+                  <span className="ml-1 font-semibold text-slate-800 text-[11px]">
+                    {selected.licenceNo}
+                  </span>
+                </p>
+
                 <button
                   type="button"
                   onClick={() => setSelected(null)}
-                  className="px-4 py-2 rounded-xl text-sm font-semibold bg-slate-200 hover:bg-slate-300 text-slate-700 transition-all"
+                  className="text-[11px] font-semibold text-slate-700 hover:text-slate-900"
                 >
                   Close
                 </button>
               </div>
             </div>
-
           </div>
         </div>
-      )}
-    </div>
+        )}
+      </div>
+    </DashboardShell>
   );
 }

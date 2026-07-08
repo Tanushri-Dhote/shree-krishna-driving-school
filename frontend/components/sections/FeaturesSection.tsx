@@ -54,8 +54,8 @@ export default function FeaturesSection() {
                                     }`}
                             >
                                 {/* Icon */}
-                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#f59e0b]/30 bg-[#f59e0b]/10 sm:h-16 sm:w-16">
-                                    <Icon className="h-6 w-6 text-[#f59e0b] sm:h-8 sm:w-8" />
+                                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-[#f97316]/30 bg-[#f97316]/10 sm:h-16 sm:w-16">
+                                    <Icon className="h-6 w-6 text-[#f97316] sm:h-8 sm:w-8" />
                                 </div>
                                 {/* Content */}
                                 <div>

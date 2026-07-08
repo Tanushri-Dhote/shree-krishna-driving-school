@@ -1,6 +1,7 @@
 "use client";
 
 import RecentApplicationsTable from "./RecentApplicationsTable";
+import DashboardShell from "./DashboardShell";
 
 export default function AdmissionView({
   data,
@@ -20,17 +21,19 @@ export default function AdmissionView({
   openDetails: (row: any) => void;
 }) {
   return (
-    <div className="mt-5">
-      <RecentApplicationsTable
-        data={data}
-        loading={loading}
-        query={query}
-        setQuery={setQuery}
-        statusFilter={statusFilter}
-        setStatusFilter={setStatusFilter}
-        openDetails={openDetails}
-      />
-    </div>
+    <DashboardShell>
+      <div className="mt-5">
+        <RecentApplicationsTable
+          data={data}
+          loading={loading}
+          query={query}
+          setQuery={setQuery}
+          statusFilter={statusFilter}
+          setStatusFilter={setStatusFilter}
+          openDetails={openDetails}
+        />
+      </div>
+    </DashboardShell>
   );
 }
 

@@ -33,7 +33,7 @@ export default function AboutInstructors() {
 
         <div className="text-center mb-14">
 
-          <span className="text-[#f59e0b] font-semibold uppercase">
+          <span className="text-[#f97316] font-semibold uppercase">
             Meet Our Instructors
           </span>
 
@@ -69,7 +69,7 @@ export default function AboutInstructors() {
                   {item.role}
                 </p>
 
-                <div className="inline-flex mt-4 px-4 py-2 rounded-full bg-[#f59e0b] text-white text-sm font-medium">
+                <div className="inline-flex mt-4 px-4 py-2 rounded-full bg-[#f97316] text-white text-sm font-medium">
                   {item.exp}
                 </div>
 

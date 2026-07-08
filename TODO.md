@@ -1,10 +1,9 @@
-# TODO - Driving Licence Frontend Form
-
-- [x] Inspect existing frontend form patterns (Insurance form)
-- [x] Create `frontend/app/driving-licence/page.tsx` with required fields:
-  - Name, email, mobile no
-  - pan card upload, adharcard upload, signature images
-  - client-side validation + file size limit (5MB) using DataURL
-  - UI-only submit success message
-- [x] Run frontend build/dev to verify route loads correctly
-
+- [ ] Update `frontend/components/dashbaord/PucView.tsx` UI to match `LicenceView.tsx`
+  - [ ] Header redesign (title/subtitle)
+  - [ ] Add search + status filter
+  - [ ] Update loading/empty states
+  - [ ] Redesign table UI (match LicenceView styling)
+  - [ ] Replace inline action buttons with "View Details"
+  - [ ] Add modal UI showing PUC fields + status select
+  - [ ] Ensure `updateStatus` and fetch logic remain intact
+- [x] Build/typecheck frontend (if available)

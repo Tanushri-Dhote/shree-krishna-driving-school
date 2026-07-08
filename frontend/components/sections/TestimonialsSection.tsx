@@ -74,7 +74,7 @@ function Stars({ count = 5 }: { count?: number }) {
     return (
         <div className="flex gap-0.5">
             {Array.from({ length: count }).map((_, i) => (
-                <Star key={i} size={14} className="fill-[#f59e0b] text-[#f59e0b]" />
+                <Star key={i} size={14} className="fill-[#f97316] text-[#f97316]" />
             ))}
         </div>
     );
@@ -108,7 +108,7 @@ function SteeringWheelIcon({ size = 36 }: { size?: number }) {
 /* ─── Avatar ──────────────────────────────────────────── */
 function Avatar({ initials }: { initials: string }) {
     return (
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f59e0b] to-[#e08e00] text-sm font-bold text-white shadow">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-[#f97316] to-[#e08e00] text-sm font-bold text-white shadow">
             {initials}
         </div>
     );
@@ -134,15 +134,15 @@ export default function TestimonialsSection() {
         <section className="relative overflow-hidden bg-[#fffdf8] py-4 md:py-6">
             {/* Scatter dots */}
             <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
-                <span className="absolute left-[6%] top-[18%] h-1.5 w-1.5 rounded-full bg-[#f59e0b]/50" />
-                <span className="absolute left-[8%] top-[28%] h-1 w-1 rounded-full bg-[#f59e0b]/40" />
-                <span className="absolute left-[4%] top-[38%] h-2 w-2 rounded-full bg-[#f59e0b]/25" />
+                <span className="absolute left-[6%] top-[18%] h-1.5 w-1.5 rounded-full bg-[#f97316]/50" />
+                <span className="absolute left-[8%] top-[28%] h-1 w-1 rounded-full bg-[#f97316]/40" />
+                <span className="absolute left-[4%] top-[38%] h-2 w-2 rounded-full bg-[#f97316]/25" />
                 {/* dot grid top-left */}
                 {[0, 1, 2, 3].map((row) =>
                     [0, 1, 2, 3].map((col) => (
                         <span
                             key={`${row}-${col}`}
-                            className="absolute h-0.5 w-0.5 rounded-full bg-[#f59e0b]/30"
+                            className="absolute h-0.5 w-0.5 rounded-full bg-[#f97316]/30"
                             style={{ left: `${5 + col * 0.8}%`, top: `${40 + row * 2}%` }}
                         />
                     ))
@@ -152,13 +152,13 @@ export default function TestimonialsSection() {
                     [0, 1, 2, 3].map((col) => (
                         <span
                             key={`r${row}-${col}`}
-                            className="absolute h-0.5 w-0.5 rounded-full bg-[#f59e0b]/30"
+                            className="absolute h-0.5 w-0.5 rounded-full bg-[#f97316]/30"
                             style={{ right: `${5 + col * 0.8}%`, top: `${10 + row * 2}%` }}
                         />
                     ))
                 )}
-                <span className="absolute right-[10%] top-[30%] h-3 w-3 rounded-full border border-[#f59e0b]/40" />
-                <span className="absolute left-[14%] top-[12%] h-4 w-4 rounded-full border border-[#f59e0b]/30" />
+                <span className="absolute right-[10%] top-[30%] h-3 w-3 rounded-full border border-[#f97316]/40" />
+                <span className="absolute left-[14%] top-[12%] h-4 w-4 rounded-full border border-[#f97316]/30" />
             </div>
 
             <div className="relative mx-auto max-w-7xl px-2 sm:px-4 lg:px-6">
@@ -166,13 +166,13 @@ export default function TestimonialsSection() {
                 {/* ── Section heading ── */}
                 <div className="mx-auto max-w-2xl text-center">
                     <div className="mx-auto max-w-3xl text-center">
-                        <span className="font-semibold uppercase tracking-wider text-[#f59e0b]">
+                        <span className="font-semibold uppercase tracking-wider text-[#f97316]">
                             Testimonials
                         </span>
-                        <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f59e0b]" />
+                        <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f97316]" />
                         <h2 className="mt-2 whitespace-nowrap text-2xl font-black uppercase leading-tight text-[#111827] md:text-2xl lg:text-3xl">
                             What Our{" "}
-                            <span className="text-[#f59e0b]">Students</span>Say
+                            <span className="text-[#f97316]">Students</span>Say
                         </h2>
                         <p className="mt-2 whitespace-nowrap text-sm leading-7 text-neutral-600 sm:text-base lg:text-lg">
                             Trusted by thousands of learners who got confidence,
@@ -185,7 +185,7 @@ export default function TestimonialsSection() {
                 <div className="mx-auto mt-4 flex max-w-2xl divide-x divide-neutral-200 overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
                     {/* Star rating */}
                     <div className="flex flex-1 items-center gap-3 px-4 py-4 sm:px-6">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f97316]">
                             <Star size={18} className="fill-white text-white" />
                         </div>
                         <div>
@@ -196,7 +196,7 @@ export default function TestimonialsSection() {
 
                     {/* Happy students */}
                     <div className="flex flex-1 items-center gap-3 px-2 py-2 sm:px-4">
-                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]">
+                        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f97316]">
                             <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
                         </div>
                         <div>
@@ -238,7 +238,7 @@ export default function TestimonialsSection() {
                     <button
                         onClick={prev}
                         disabled={current === 0}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-600 shadow-sm transition-all hover:border-[#f59e0b] hover:text-[#f59e0b] disabled:opacity-40"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-600 shadow-sm transition-all hover:border-[#f97316] hover:text-[#f97316] disabled:opacity-40"
                         aria-label="Previous"
                     >
                         <ChevronLeft size={18} />
@@ -251,8 +251,8 @@ export default function TestimonialsSection() {
                                 key={i}
                                 onClick={() => setCurrent(i)}
                                 className={`h-2 rounded-full transition-all duration-300 ${i === current
-                                    ? "w-6 bg-[#f59e0b]"
-                                    : "w-2 bg-neutral-300 hover:bg-[#f59e0b]/50"
+                                    ? "w-6 bg-[#f97316]"
+                                    : "w-2 bg-neutral-300 hover:bg-[#f97316]/50"
                                     }`}
                                 aria-label={`Go to slide ${i + 1}`}
                             />
@@ -263,7 +263,7 @@ export default function TestimonialsSection() {
                     <button
                         onClick={next}
                         disabled={current >= maxIndex}
-                        className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-600 shadow-sm transition-all hover:border-[#f59e0b] hover:text-[#f59e0b] disabled:opacity-40"
+                        className="flex h-9 w-9 items-center justify-center rounded-full border border-neutral-300 bg-white text-neutral-600 shadow-sm transition-all hover:border-[#f97316] hover:text-[#f97316] disabled:opacity-40"
                         aria-label="Next"
                     >
                         <ChevronRight size={18} />
@@ -271,7 +271,7 @@ export default function TestimonialsSection() {
                 </div>
 
                 {/* ── CTA Banner ── */}
-                <div className="relative mt-4 overflow-hidden rounded-2xl bg-[#f59e0b] px-6 py-7 sm:px-10">
+                <div className="relative mt-4 overflow-hidden rounded-2xl bg-[#f97316] px-6 py-7 sm:px-10">
                     <div className="flex flex-col items-start gap-5 sm:flex-row sm:items-center sm:justify-between">
 
                         {/* Left: icon + text */}
@@ -292,26 +292,16 @@ export default function TestimonialsSection() {
                         {/* Right: button */}
                         <Link
                             href="/admission"
-                            className="inline-flex shrink-0 items-center gap-3 rounded-full bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-[#f59e0b] shadow transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
+                            className="inline-flex shrink-0 items-center gap-3 rounded-full bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-[#f97316] shadow transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                         >
                             Enroll Today
-                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#f59e0b]">
+                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-[#f97316]">
                                 <ArrowRight size={13} className="text-white" />
                             </span>
                         </Link>
                     </div>
 
-                    {/* Car image — desktop only */}
-                    {/* <div className="pointer-events-none absolute -bottom-2 right-0 hidden w-72 xl:block">
-                        <Image
-                            src="/car.webp"
-                            alt="Shree Krishna Driving School Car"
-                            width={150}
-                            height={100}
-                            className="object-contain drop-shadow-xl"
-                            priority={false}
-                        />
-                    </div> */}
+                 
                 </div>
 
             </div>
@@ -326,7 +316,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
 
             {/* Top: quote + stars */}
             <div className="flex items-start justify-between">
-                <span className="text-4xl font-black leading-none text-[#f59e0b]">&ldquo;</span>
+                <span className="text-4xl font-black leading-none text-[#f97316]">&ldquo;</span>
                 <Stars count={review.rating} />
             </div>
 
@@ -346,7 +336,7 @@ function ReviewCard({ review }: { review: typeof reviews[0] }) {
                         <p className="truncate text-sm font-bold text-[#111827]">{review.name}</p>
                         <p className="text-xs text-neutral-400">{review.role}</p>
                         <div className="mt-0.5 flex items-center gap-1 text-[10px] text-neutral-400">
-                            <MapPin size={10} className="text-[#f59e0b]" />
+                            <MapPin size={10} className="text-[#f97316]" />
                             {review.location}
                         </div>
                     </div>

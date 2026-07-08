@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 import {
   ArrowRight,
   ShieldCheck,
@@ -26,7 +27,7 @@ export function HeroSection() {
               Drive Today
             </h1>
 
-            <h2 className="mt-2 text-2xl font-black uppercase leading-none text-[#f59e0b] md:text-2xl lg:text-3xl">
+            <h2 className="mt-2 text-2xl font-black uppercase leading-none text-[#f97316] md:text-2xl lg:text-3xl">
               Lead Tomorrow
             </h2>
 
@@ -34,7 +35,7 @@ export function HeroSection() {
               Learn Safe. Drive Safe. Stay Safe.
             </p>
 
-            <div className="mt-2 h-1 w-20 bg-[#f59e0b]" />
+            <div className="mt-2 h-1 w-20 bg-[#f97316]" />
 
             <p className="mt-5 max-w-xl text-gray-700 md:text-lg">
               Shree Krishna Driving School is committed to providing
@@ -43,16 +44,18 @@ export function HeroSection() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-              <Button className="bg-[#f59e0b] text-white hover:bg-[#e89100]">
-                Enroll Now
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+      <Button asChild className="cursor-pointer bg-[#f97316] text-white hover:bg-[#e89100]">
+  <Link href="/admission">
+    Enroll Now
+    <ArrowRight className="ml-2 h-4 w-4" />
+  </Link>
+</Button>
 
               <Button
                 variant="outline"
                 className="border-2 border-black"
               >
-                Our Courses
+                Our Services
               </Button>
             </div>
 
@@ -60,8 +63,8 @@ export function HeroSection() {
             <div className="mt-2 grid grid-cols-3 gap-2 md:max-w-md">
               <div>
                 <div className="flex items-center gap-2">
-                  <Users className="h-5 w-5 text-[#f59e0b]" />
-                  <h3 className="text-2xl font-bold text-[#f59e0b]">
+                  <Users className="h-5 w-5 text-[#f97316]" />
+                  <h3 className="text-2xl font-bold text-[#f97316]">
                     5000+
                   </h3>
                 </div>
@@ -72,8 +75,8 @@ export function HeroSection() {
 
               <div>
                 <div className="flex items-center gap-2">
-                  <ShieldCheck className="h-5 w-5 text-[#f59e0b]" />
-                  <h3 className="text-2xl font-bold text-[#f59e0b]">
+                  <ShieldCheck className="h-5 w-5 text-[#f97316]" />
+                  <h3 className="text-2xl font-bold text-[#f97316]">
                     98%
                   </h3>
                 </div>
@@ -84,8 +87,8 @@ export function HeroSection() {
 
               <div>
                 <div className="flex items-center gap-2">
-                  <Car className="h-5 w-5 text-[#f59e0b]" />
-                  <h3 className="text-2xl font-bold text-[#f59e0b]">
+                  <Car className="h-5 w-5 text-[#f97316]" />
+                  <h3 className="text-2xl font-bold text-[#f97316]">
                     15+
                   </h3>
                 </div>

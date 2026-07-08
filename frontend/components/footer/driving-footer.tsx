@@ -69,7 +69,7 @@ export function DrivingFooter() {
           {/* Col 1 – Brand */}
           <div>
             <Image
-              src="/logo-11.png"
+              src="/new-logo.png"
               alt="Shree Krishna Driving School"
               width={240}
               height={240}
@@ -82,7 +82,7 @@ export function DrivingFooter() {
             </p>
 
             {/* amber underline */}
-            <div className="mt-4 h-[2px] w-10 bg-[#f59e0b]" />
+            <div className="mt-4 h-[2px] w-10 bg-[#f97316]" />
           </div>
 
           {/* Col 2 – Quick Links */}
@@ -90,15 +90,15 @@ export function DrivingFooter() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Quick Links
             </h3>
-            <div className="mt-2 h-[2px] w-8 bg-[#f59e0b]" />
+            <div className="mt-2 h-[2px] w-8 bg-[#f97316]" />
             <ul className="mt-5 space-y-3">
               {quickLinks.map((l) => (
                 <li key={l.label}>
                   <Link
                     href={l.href}
-                    className="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-[#f59e0b]"
+                    className="flex items-center gap-2 text-sm text-neutral-400 transition-colors hover:text-[#f97316]"
                   >
-                    <ChevronRight size={14} className="text-[#f59e0b]" />
+                    <ChevronRight size={14} className="text-[#f97316]" />
                     {l.label}
                   </Link>
                 </li>
@@ -111,14 +111,14 @@ export function DrivingFooter() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Our Services
             </h3>
-            <div className="mt-2 h-[2px] w-8 bg-[#f59e0b]" />
+            <div className="mt-2 h-[2px] w-8 bg-[#f97316]" />
             <ul className="mt-5 space-y-4">
               {services.map((s, i) => {
                 const Icon = s.icon;
                 return (
                   <li key={s.label}>
                     <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f59e0b]">
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f97316]">
                         <Icon size={18} className="text-white" />
                       </div>
                       <span className="text-sm text-neutral-300">{s.label}</span>
@@ -137,16 +137,16 @@ export function DrivingFooter() {
             <h3 className="text-sm font-bold uppercase tracking-wider text-white">
               Contact Us
             </h3>
-            <div className="mt-2 h-[2px] w-8 bg-[#f59e0b]" />
+            <div className="mt-2 h-[2px] w-8 bg-[#f97316]" />
             <ul className="mt-5 space-y-5">
               {/* Email */}
               <li className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#f59e0b]/40 bg-[#f59e0b]/10">
-                  <Mail size={15} className="text-[#f59e0b]" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#f97316]/40 bg-[#f97316]/10">
+                  <Mail size={15} className="text-[#f97316]" />
                 </div>
                 <a
                   href="mailto:shreekrishnadrivingschool03@gmail.com"
-                  className="text-sm leading-6 text-neutral-400 hover:text-[#f59e0b] break-all"
+                  className="text-sm leading-6 text-neutral-400 hover:text-[#f97316] break-all"
                 >
                   shreekrishnadrivingschool03@gmail.com
                 </a>
@@ -154,20 +154,20 @@ export function DrivingFooter() {
 
               {/* Phone */}
               <li className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#f59e0b]/40 bg-[#f59e0b]/10">
-                  <Phone size={15} className="text-[#f59e0b]" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#f97316]/40 bg-[#f97316]/10">
+                  <Phone size={15} className="text-[#f97316]" />
                 </div>
                 <div className="text-sm leading-7 text-neutral-400">
-                  <a href="tel:7499279503" className="block hover:text-[#f59e0b]">+91 7499279503</a>
-                  <a href="tel:7558457485" className="block hover:text-[#f59e0b]">+91 7558457485</a>
-                  <a href="tel:9850787810" className="block hover:text-[#f59e0b]">+91 9850787810</a>
+                  <a href="tel:7499279503" className="block hover:text-[#f97316]">+91 7499279503</a>
+                  <a href="tel:7558457485" className="block hover:text-[#f97316]">+91 7558457485</a>
+                  <a href="tel:9850787810" className="block hover:text-[#f97316]">+91 9850787810</a>
                 </div>
               </li>
 
               {/* Address */}
               <li className="flex items-start gap-3">
-                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#f59e0b]/40 bg-[#f59e0b]/10">
-                  <MapPin size={15} className="text-[#f59e0b]" />
+                <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-[#f97316]/40 bg-[#f97316]/10">
+                  <MapPin size={15} className="text-[#f97316]" />
                 </div>
                 <p className="text-sm leading-6 text-neutral-400">
                   9WH9+64F, Katol Rd,<br />
@@ -188,7 +188,7 @@ export function DrivingFooter() {
             {/* Socials */}
             <div>
               <p className="text-xs font-bold uppercase tracking-wider text-white">Follow Us</p>
-              <div className="mt-2 h-[2px] w-8 bg-[#f59e0b]" />
+              <div className="mt-2 h-[2px] w-8 bg-[#f97316]" />
               <div className="mt-3 flex gap-3">
                 {socials.map((s) => {
                   const Icon = s.icon;
@@ -211,8 +211,8 @@ export function DrivingFooter() {
                 const Icon = b.icon;
                 return (
                   <div key={b.title} className="flex items-center gap-3">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-[#f59e0b]/60 bg-[#f59e0b]/10">
-                      <Icon size={18} className="text-[#f59e0b]" />
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full border-2 border-dashed border-[#f97316]/60 bg-[#f97316]/10">
+                      <Icon size={18} className="text-[#f97316]" />
                     </div>
                     <div>
                       <p className="text-xs font-bold text-white">{b.title}</p>
@@ -230,13 +230,20 @@ export function DrivingFooter() {
       <div className="border-t border-[#1c1c1c] bg-[#080808]">
         <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-3 px-4 py-4 sm:px-6 sm:flex-row lg:px-8">
           <p className="flex items-center gap-1.5 text-xs text-neutral-500">
-            <Heart size={12} className="fill-[#f59e0b] text-[#f59e0b]" />
+            <Heart size={12} className="fill-[#f97316] text-[#f97316]" />
             © {new Date().getFullYear()} Shree Krishna Driving School. All Rights Reserved.
           </p>
           <p className="text-xs text-neutral-500">
-            Develop By{" "}
-            <span className="font-semibold text-[#f59e0b]">Dhote Brothers</span>
-          </p>
+  Developed By{" "}
+  <a
+    href="https://www.instagram.com/tanushri_dhote/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="font-semibold text-[#f97316] hover:text-orange-600 hover:underline transition-colors"
+  >
+    Tanushri Dhote
+  </a>
+</p>
         </div>
       </div>
 

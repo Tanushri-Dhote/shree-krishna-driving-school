@@ -6,11 +6,13 @@ const { pucRoutes } = require("./modules/puc/puc.route");
 const { insuranceRoutes } = require("./modules/insurance/insurance.route");
 const { licenceRoutes } = require("./modules/licence/licence.route");
 const { maintenanceRoutes } = require("./modules/maintenance/maintenance.route");
+const { adminAuthRoutes } = require("./modules/admin-auth/admin-auth.route");
 
 async function buildApp() {
   const app = fastify({
     logger: true,
   });
+
 
   // CORS (dev friendly). If you need stricter rules later, replace `origin: true` with an allowlist.
   await app.register(fastifyCors, {
@@ -25,9 +27,10 @@ async function buildApp() {
   await app.register(insuranceRoutes, { prefix: "" });
   await app.register(licenceRoutes, { prefix: "" });
   await app.register(maintenanceRoutes, { prefix: "" });
-
+  await app.register(adminAuthRoutes, { prefix: "" });
 
   // Not found handler
+
   app.setNotFoundHandler((req, reply) => {
     reply.code(404).send({
       success: false,

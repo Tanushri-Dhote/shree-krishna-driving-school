@@ -22,32 +22,62 @@ export default function ContactPage() {
     "idle" | "submitting" | "success" | "error"
   >("idle");
 
-  async function onSubmit(e: React.FormEvent) {
-    e.preventDefault();
+ async function onSubmit(e: React.FormEvent) {
+  e.preventDefault();
 
-    // Basic front-end validation
-    if (!form.name.trim() || !form.mobile.trim() || !form.message.trim()) {
-      setStatus("error");
-      return;
-    }
-
-    setStatus("submitting");
-
-    try {
-      // If you already have a backend endpoint, wire it here.
-      // For now, we just show success to keep UI functional.
-      // await fetch('/api/contact', { ... })
-
-      await new Promise((r) => setTimeout(r, 600));
-      setStatus("success");
-
-      setForm({ name: "", mobile: "", email: "", message: "" });
-    } catch {
-      setStatus("error");
-    } finally {
-      // keep success/error visible
-    }
+  // Basic front-end validation
+  if (!form.name.trim() || !form.mobile.trim() || !form.message.trim()) {
+    setStatus("error");
+    return;
   }
+
+  setStatus("submitting");
+
+  try {
+    await new Promise((r) => setTimeout(r, 600));
+
+    // WhatsApp Message
+    const message = `
+*🚗 SHREE KRISHNA DRIVING SCHOOL*
+
+*NEW CONTACT ENQUIRY*
+
+👤 Name:
+${form.name}
+
+📞 Mobile:
+${form.mobile}
+
+📧 Email:
+${form.email || "Not Provided"}
+
+💬 Message:
+${form.message}
+
+------------------------------
+Submitted from the website.
+`;
+
+    // Open WhatsApp
+    const whatsappUrl = `https://wa.me/917499279503?text=${encodeURIComponent(
+      message
+    )}`;
+
+    window.open(whatsappUrl, "_blank");
+
+    setStatus("success");
+
+    // Clear Form
+    setForm({
+      name: "",
+      mobile: "",
+      email: "",
+      message: "",
+    });
+  } catch {
+    setStatus("error");
+  }
+}
 
   return (
     <main className="bg-white">
@@ -56,7 +86,7 @@ export default function ContactPage() {
           <div className="grid items-start gap-10 lg:grid-cols-2">
             <div>
               <div className="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-4 py-2 text-sm font-semibold text-[#b45309]">
-                <span className="h-2 w-2 rounded-full bg-[#f59e0b]" />
+                <span className="h-2 w-2 rounded-full bg-[#f97316]" />
                 Contact Us
               </div>
 
@@ -72,13 +102,13 @@ export default function ContactPage() {
               <div className="mt-8 grid gap-4">
                 <Card className="rounded-2xl border border-neutral-200 p-5 shadow-sm">
                   <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f59e0b]/15">
-                      <Mail className="h-5 w-5 text-[#f59e0b]" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f97316]/15">
+                      <Mail className="h-5 w-5 text-[#f97316]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[#0f172a]">Email</p>
                       <a
-                        className="mt-1 block text-sm text-neutral-600 hover:text-[#f59e0b]"
+                        className="mt-1 block text-sm text-neutral-600 hover:text-[#f97316]"
                         href="mailto:shreekrishnadrivingschool03@gmail.com"
                       >
                         shreekrishnadrivingschool03@gmail.com
@@ -89,27 +119,27 @@ export default function ContactPage() {
 
                 <Card className="rounded-2xl border border-neutral-200 p-5 shadow-sm">
                   <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f59e0b]/15">
-                      <Phone className="h-5 w-5 text-[#f59e0b]" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f97316]/15">
+                      <Phone className="h-5 w-5 text-[#f97316]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[#0f172a]">Phone</p>
                       <div className="mt-1 space-y-1 text-sm text-neutral-600">
                         <a
                           href="tel:7499279503"
-                          className="block hover:text-[#f59e0b]"
+                          className="block hover:text-[#f97316]"
                         >
                           +91 7499279503
                         </a>
                         <a
                           href="tel:7558457485"
-                          className="block hover:text-[#f59e0b]"
+                          className="block hover:text-[#f97316]"
                         >
                           +91 7558457485
                         </a>
                         <a
                           href="tel:9850787810"
-                          className="block hover:text-[#f59e0b]"
+                          className="block hover:text-[#f97316]"
                         >
                           +91 9850787810
                         </a>
@@ -120,8 +150,8 @@ export default function ContactPage() {
 
                 <Card className="rounded-2xl border border-neutral-200 p-5 shadow-sm">
                   <div className="flex items-start gap-3">
-                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f59e0b]/15">
-                      <MapPin className="h-5 w-5 text-[#f59e0b]" />
+                    <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#f97316]/15">
+                      <MapPin className="h-5 w-5 text-[#f97316]" />
                     </div>
                     <div>
                       <p className="text-sm font-bold text-[#0f172a]">Address</p>
@@ -135,7 +165,7 @@ export default function ContactPage() {
                         <Link
                           href="https://www.google.com/maps/search/?api=1&query=Saoner%2C%20Maharashtra%20441107"
                           target="_blank"
-                          className="inline-flex items-center gap-2 text-sm font-semibold text-[#f59e0b] hover:text-[#e68900]"
+                          className="inline-flex items-center gap-2 text-sm font-semibold text-[#f97316] hover:text-[#e68900]"
                         >
                           Open in Google Maps
                         </Link>
@@ -229,15 +259,15 @@ export default function ContactPage() {
                   )}
 
                   <Button
-                    type="submit"
-                    className="w-full bg-[#f59e0b] text-black hover:bg-[#e68900]"
-                    disabled={status === "submitting"}
-                  >
-                    <span className="flex items-center justify-center gap-2">
-                      <Send className="h-4 w-4" />
-                      {status === "submitting" ? "Sending..." : "Submit"}
-                    </span>
-                  </Button>
+  type="submit"
+  disabled={status === "submitting"}
+  className="w-full h-14 bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white text-base font-semibold rounded-xl shadow-lg transition-all duration-300 hover:scale-[1.02]"
+>
+  <span className="flex items-center justify-center gap-2">
+    <Send className="h-5 w-5" />
+    {status === "submitting" ? "Sending..." : "Submit"}
+  </span>
+</Button>
 
                   <p className="text-xs leading-5 text-neutral-500">
                     By submitting, you agree to be contacted by our team.
@@ -246,12 +276,15 @@ export default function ContactPage() {
               </Card>
 
               <div className="mt-6 hidden lg:block">
-                <Image
-                  src="/file.svg"
-                  alt="Contact illustration"
-                  width={520}
-                  height={260}
-                  className="mx-auto opacity-90"
+                <iframe
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3715.3008908563756!2d78.9177988!3d21.378054000000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bd4e41a80c3d725%3A0xe8c16f2982393b76!2sShri%20krushna%20driving%20school!5e0!3m2!1sen!2sin!4v1783432000225!5m2!1sen!2sin"
+                  width="100%"
+                  height="350"
+                  style={{ border: 0 }}
+                  loading="lazy"
+                  referrerPolicy="strict-origin-when-cross-origin"
+                  allowFullScreen
+                  className="w-full"
                 />
               </div>
             </div>

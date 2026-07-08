@@ -21,7 +21,7 @@ export default function AboutStory({
         <div className="grid items-center gap-10 lg:grid-cols-2">
           {/* Left Image */}
           <div className="relative mx-auto max-w-[520px]">
-            <div className="absolute -left-4 top-4 h-full w-full rounded-[30px] bg-[#f59e0b]" />
+            <div className="absolute -left-4 top-4 h-full w-full rounded-[30px] bg-[#f97316]" />
 
             <div className="relative overflow-hidden rounded-[30px] shadow-xl">
               <Image
@@ -36,16 +36,16 @@ export default function AboutStory({
 
           {/* Right Content */}
           <div>
-            <span className="text-xl font-medium text-[#f59e0b]">
+            <span className="text-xl font-medium text-[#f97316]">
               Our Story
             </span>
 
-            <div className="mt-2 h-1 w-20 bg-[#f59e0b]" />
+            <div className="mt-2 h-1 w-20 bg-[#f97316]" />
 
             <h2 className="mt-3 text-2xl font-black uppercase leading-tight text-[#111827] lg:text-3xl">
               A Journey Towards
               <br />
-              <span className="text-[#f59e0b]">
+              <span className="text-[#f97316]">
                 Road Safety & Excellence
               </span>
             </h2>
@@ -61,7 +61,7 @@ export default function AboutStory({
             </p>
 
             <div className="mt-2">
-              <h3 className="text-3xl text-[#f59e0b] font-signature">
+              <h3 className="text-3xl text-[#f97316] font-signature">
                 Omnath Bhoyar
               </h3>
 
@@ -72,8 +72,8 @@ export default function AboutStory({
 
             {/* Stats */}
             <div className="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-3">
-              <div className="flex items-center rounded-2xl border border-[#f59e0b]/20 bg-[#fff7e6] px-4 py-3">
-                <GraduationCap className="h-9 w-9 text-[#f59e0b]" />
+              <div className="flex items-center rounded-2xl border border-[#f97316]/20 bg-[#fff7e6] px-4 py-3">
+                <GraduationCap className="h-9 w-9 text-[#f97316]" />
 
                 <div className="ml-3">
                   <div className="text-xl font-bold text-[#111827]">
@@ -85,8 +85,8 @@ export default function AboutStory({
                 </div>
               </div>
 
-              <div className="flex items-center rounded-2xl border border-[#f59e0b]/20 bg-[#fff7e6] px-4 py-3">
-                <ThumbsUp className="h-9 w-9 text-[#f59e0b]" />
+              <div className="flex items-center rounded-2xl border border-[#f97316]/20 bg-[#fff7e6] px-4 py-3">
+                <ThumbsUp className="h-9 w-9 text-[#f97316]" />
 
                 <div className="ml-3">
                   <div className="text-xl font-bold text-[#111827]">
@@ -102,7 +102,7 @@ export default function AboutStory({
            {showReadMore && (
   <Link
     href="/about"
-    className="flex items-center justify-center rounded-2xl border border-[#f59e0b] bg-[#f59e0b] px-4 py-3 text-white transition-all duration-300 hover:bg-[#e68a00] hover:shadow-lg"
+    className="flex items-center justify-center rounded-2xl border border-[#f97316] bg-[#f97316] px-4 py-3 text-white transition-all duration-300 hover:bg-[#e68a00] hover:shadow-lg"
   >
     <div className="flex items-center gap-3">
       <ArrowRight className="h-9 w-9 rounded-full bg-white/20 p-2" />

@@ -1,6 +1,8 @@
 "use client";
 
 import { useMemo } from "react";
+import DashboardHeader from "./DashboardHeader";
+import DashboardShell from "./DashboardShell"
 
 /* ─── Types ─── */
 type ServiceRow = {
@@ -199,12 +201,7 @@ export default function DashboardView({
     };
   }, [admissions, licences, insurances, pucs]);
 
-  const todayStr = new Date().toLocaleDateString("en-IN", {
-    weekday: "long",
-    day: "2-digit",
-    month: "long",
-    year: "numeric",
-  });
+
 
   const serviceIconColors = [
     { icon: "🚗", bg: "bg-orange-50", border: "border-orange-200", accent: "text-orange-600" },
@@ -215,29 +212,11 @@ export default function DashboardView({
 
   return (
     <div className="space-y-8 animate-fadeIn">
-      {/* ─── Header ─── */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-2">
-        <div>
-          <h1 className="text-4xl font-black text-slate-900 flex items-center gap-2">
-            Welcome Back, Admin! <span className="text-3xl">👋</span>
-          </h1>
-          <p className="text-slate-500 mt-1 font-medium">{todayStr}</p>
-        </div>
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-3 bg-gradient-to-br from-white to-slate-50 border border-slate-200 rounded-2xl px-4 py-3 shadow-lg hover:shadow-xl transition-shadow">
-            <div className="w-10 h-10 rounded-full bg-gradient-to-br from-orange-500 to-orange-600 flex items-center justify-center text-white font-bold text-sm shadow-md">VB</div>
-            <div>
-              <p className="text-sm font-bold text-slate-900 leading-tight">Vikas Bhoyar</p>
-              <p className="text-[11px] text-slate-500 font-medium">Administrator</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
+      <DashboardShell/>
       {/* ─── KPI Stat Cards Row ─── */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-
         {[
+
           {
             title: "Total Admissions",
             value: totalAdmissions,
@@ -677,7 +656,6 @@ export default function DashboardView({
       {/* ─── Row 4: Recent Applications Table + Quick Actions ─── */}
       <div className="w-full py-2">
         <div className="rounded-3xl border border-slate-200 bg-white shadow-lg overflow-hidden">
-
           {/* Header */}
           <div className="flex flex-col gap-4 border-b border-slate-200 bg-gradient-to-r from-slate-50 via-white to-slate-50 p-6 md:flex-row md:items-center md:justify-between">
 
@@ -725,20 +703,17 @@ export default function DashboardView({
                 </span>
               </div>
             </div>
-
           </div>
 
           {/* Table */}
-
           <div className="overflow-x-auto">
-
             <table className="min-w-full">
 
               <thead>
 
                 <tr className="bg-slate-100">
 
-                  <th className="px-6 py-4 text-left text-sm font-bold text-slate-700">
+                  <th className="px-5 py-4 text-left text-sm font-bold text-slate-700">
                     Ref No
                   </th>
 
@@ -812,7 +787,7 @@ export default function DashboardView({
                         className="transition hover:bg-orange-50 text-[14px]"
                       >
 
-                        <td className="px-6 py-4 font-bold text-black-200 text-[11px]">
+                        <td className="px-6 py-4 font-bold text-black-200 text-[11px] whitespace-nowrap">
                           {item.refNo}
                         </td>
 
@@ -820,7 +795,7 @@ export default function DashboardView({
 
                           <div>
 
-                            <p className="font-semibold text-slate-800 text-[11px]">
+                            <p className="font-semibold text-slate-800 text-[11px] whitespace-nowrap">
                               {item.fullName}
                             </p>
 
@@ -838,7 +813,7 @@ export default function DashboardView({
 
                         <td className="px-6 py-4 text-[11px]">
 
-                          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700">
+                          <span className="rounded-full bg-slate-100 px-3 py-1 font-semibold text-slate-700 whitespace-nowrap">
                             {item.service}
                           </span>
 
@@ -865,17 +840,11 @@ export default function DashboardView({
                   })
 
                 )}
-
               </tbody>
-
             </table>
-
           </div>
-
           {/* Footer */}
-
           <div className="flex items-center justify-between border-t border-slate-200 bg-slate-50 px-6 py-4">
-
             <p className="text-sm text-slate-500">
               Showing latest{" "}
               <span className="font-semibold">
@@ -883,13 +852,7 @@ export default function DashboardView({
               </span>{" "}
               applications
             </p>
-
-            <button className="rounded-xl bg-orange-500 px-5 py-2 text-sm font-semibold text-white transition hover:bg-orange-600">
-              View All
-            </button>
-
           </div>
-
         </div>
       </div>
     </div>

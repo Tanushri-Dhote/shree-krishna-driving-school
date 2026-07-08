@@ -47,7 +47,7 @@ export default function AboutStats() {
                             >
                                 <div className="flex items-center gap-3">
                                     <item.icon
-                                        className="text-[#f59e0b]"
+                                        className="text-[#f97316]"
                                         size={34}
                                     />
 

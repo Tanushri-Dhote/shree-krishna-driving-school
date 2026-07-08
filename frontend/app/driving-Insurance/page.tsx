@@ -182,7 +182,7 @@ export default function DrivingInsurancePage() {
 
             <h3 className="text-4xl font-bold text-neutral-900 leading-tight">
               Fast & Secure <br />
-              <span className="text-[#f59e0b]">Insurance</span>
+              <span className="text-[#f97316]">Insurance</span>
               <br />
               Submission
             </h3>
@@ -377,7 +377,7 @@ export default function DrivingInsurancePage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-orange-500 hover:bg-[#f59e0b] text-white py-4 rounded-2xl text-lg font-semibold flex items-center justify-center gap-3 transition-all active:scale-[0.985] mt-4 disabled:opacity-60"
+                className="w-full bg-orange-500 hover:bg-[#f97316] text-white py-4 rounded-2xl text-lg font-semibold flex items-center justify-center gap-3 transition-all active:scale-[0.985] mt-4 disabled:opacity-60"
               >
                 {loading ? "Submitting..." : "Submit Insurance"}
                 <span className="text-2xl">→</span>

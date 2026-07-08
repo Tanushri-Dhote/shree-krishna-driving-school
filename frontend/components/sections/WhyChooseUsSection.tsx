@@ -1,132 +1,110 @@
 "use client";
 
-import Link from "next/link";
 import {
   ShieldCheck,
   Users,
   Car,
   FileCheck2,
-  ArrowRight,
 } from "lucide-react";
 
 const features = [
   {
-    id: "01",
-    title: "Safe & Secure\nTraining",
+    title: "Safe & Secure Training",
     description:
-      "We follow strict safety standards to ensure a secure learning environment.",
+      "We follow strict safety standards and dual-control vehicles to ensure every learner gains confidence in a safe environment.",
     icon: ShieldCheck,
   },
   {
-    id: "02",
-    title: "Expert\nInstructors",
+    title: "Expert Instructors",
     description:
-      "Learn from certified, experienced and friendly instructors dedicated to your success.",
+      "Learn from experienced, certified and friendly instructors who guide you through every step of your driving journey.",
     icon: Users,
   },
   {
-    id: "03",
-    title: "Practical Road\nTraining",
+    title: "Practical Road Training",
     description:
-      "Hands-on driving experience with modern vehicles on real road conditions.",
+      "Get hands-on driving experience on real roads with modern vehicles and practical driving techniques.",
     icon: Car,
   },
   {
-    id: "04",
-    title: "Complete Licence\nAssistance",
+    title: "Complete Licence Assistance",
     description:
-      "From documentation to licence, we provide complete support at every step.",
+      "From learner's licence to permanent licence, we provide complete documentation and process support.",
     icon: FileCheck2,
   },
 ];
 
 export default function WhyChooseUsSection() {
   return (
-    <section className="relative overflow-hidden bg-white py-4 md:py-6">
-      <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+    <section className="relative bg-gradient-to-b from-white via-orange-50/40 to-white py-2 lg:py-2">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
-        {/* ── Section heading ── */}
-        <div className="mx-auto max-w-2xl text-center">
-          <div className="mx-auto max-w-3xl text-center">
-            <span className="font-semibold uppercase tracking-wider text-[#f59e0b]">
-              Why Choose Us?
-            </span>
-            <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f59e0b]" />
+        {/* Heading */}
+        <div className="mx-auto max-w-3xl text-center">
+
+          
+             <span className="font-semibold uppercase tracking-wider text-[#f97316]">
+             Why Choose Us
+          </span>
+           <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f97316]" />
            <h2 className="mt-2 whitespace-nowrap text-2xl font-black uppercase leading-tight text-[#111827] md:text-2xl lg:text-3xl">
-               We Provide The Best{" "}
-              <span className="text-[#f59e0b]">Driving Learning</span> Experience
-            </h2>
-            <p className="mt-2 whitespace-nowrap text-sm leading-7 text-neutral-600 sm:text-base lg:text-lg">
-              We are committed to providing top-quality driving education with safety,
-              professionalism and personalized support.
-            </p>
-          </div>
+                            Learn Driving With{" "}
+                            <span className="text-[#f97316]">Confidence & Safety</span>
+                        </h2>
+          <p className="mt-2 text-base leading-8 text-slate-600 md:text-lg">
+            We provide professional driving lessons with experienced instructors,
+            modern vehicles and complete licence assistance to help you become a
+            confident driver.
+          </p>
+
         </div>
 
-        
+        {/* Cards */}
+        <div className="mt-4 grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
 
-        {/* ── Feature circles ── */}
-        <div className="relative mt-6">
+          {features.map((item, index) => {
+            const Icon = item.icon;
 
-          {/* Dashed horizontal connector — only on large screens */}
-          <div
-            className="pointer-events-none absolute inset-x-0 top-[calc(50%-1px)] hidden items-center lg:flex"
-            aria-hidden="true"
-          >
-            {/* We render 3 connector segments between 4 cards */}
-            {[0, 1, 2].map((i) => (
+            return (
               <div
-                key={i}
-                className="flex-1 border-t-2 border-dashed border-[#f59e0b]/60"
-                style={{ marginLeft: i === 0 ? "12.5%" : 0, marginRight: i === 2 ? "12.5%" : 0 }}
-              />
-            ))}
-          </div>
+                key={index}
+                className="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-7 shadow-sm transition-all duration-300 hover:-translate-y-2 hover:border-[#f97316] hover:shadow-2xl"
+              >
+                {/* Top Right Number */}
+                <span className="absolute right-6 top-6 text-5xl font-black text-slate-100 transition-colors duration-300 group-hover:text-[#f97316]/10">
+                  0{index + 1}
+                </span>
 
-          {/* Cards grid */}
-          <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-6">
-            {features.map((item) => {
-              const Icon = item.icon;
+                {/* Icon + Title */}
+                <div className="relative z-10 flex items-center gap-4">
 
-              return (
-                <div
-                  key={item.id}
-                  className="group relative flex flex-col items-center"
-                >
-                  {/* ── Outer circle ── */}
-                  <div className="relative flex h-44 w-44 flex-col items-center justify-center rounded-full border-[5px] border-[#1a1a1a] bg-white shadow-sm transition-transform duration-300 hover:scale-105 sm:h-48 sm:w-48">
-
-                    {/* Orange top arc highlight */}
-                    <div className="absolute -top-[5px] left-1/2 h-3 w-20 -translate-x-1/2 rounded-full bg-[#f59e0b]" />
-
-                    {/* Step number */}
-                    <div className="flex flex-col items-center pt-2">
-                      <span className="text-sm font-bold tracking-widest text-[#f59e0b]">
-                        {item.id}
-                      </span>
-                      <span className="mt-1 h-px w-8 bg-[#f59e0b]" />
-                    </div>
-
-                    {/* Title + description inside circle */}
-                    <div className="mt-2 px-4 text-center">
-                      <h3 className="whitespace-pre-line text-[13px] font-bold leading-tight text-[#111827]">
-                        {item.title}
-                      </h3>
-                      <p className="mt-1.5 text-[10px] leading-[1.6] text-neutral-500">
-                        {item.description}
-                      </p>
-                    </div>
-
-                    {/* ── Icon badge (left side) ── */}
-                    <div className="absolute -left-6 top-1/2 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-neutral-200 bg-white shadow-md transition-colors duration-300 group-hover:border-[#f59e0b]">
-                      <Icon size={20} className="text-[#f59e0b]" strokeWidth={1.8} />
-                    </div>
+                  <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[#f97316]/10 transition-all duration-300 group-hover:bg-[#f97316]">
+                    <Icon
+                      size={28}
+                      className="text-[#f97316] transition-colors duration-300 group-hover:text-white"
+                    />
                   </div>
+
+                  <h3 className="text-lg font-bold leading-6 text-slate-900">
+                    {item.title}
+                  </h3>
+
                 </div>
-              );
-            })}
-          </div>
+
+                {/* Description */}
+                <p className="relative z-10 mt-6 text-sm leading-7 text-slate-600">
+                  {item.description}
+                </p>
+
+                {/* Bottom Accent */}
+                <div className="mt-8 h-1 w-16 rounded-full bg-[#f97316] transition-all duration-300 group-hover:w-full" />
+
+              </div>
+            );
+          })}
+
         </div>
+
       </div>
     </section>
   );

@@ -25,7 +25,7 @@ const services = [
   },
   {
     title: "Driving Licence",
-    href: "/driving-Licence",
+    href: "/driving-licence",
     icon: FileCheck,
     description:
       "Complete assistance for learner and permanent driving licence documentation and process.",
@@ -67,15 +67,15 @@ export default function DrivingServicesSection() {
       <div className="mx-auto max-w-7xl px-2">
         <div className="mx-auto max-w-3xl text-center">
 
-          <span className="font-semibold uppercase tracking-wider text-[#f59e0b]">
+          <span className="font-semibold uppercase tracking-wider text-[#f97316]">
             Our Services
           </span>
 
-          <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f59e0b]" />
+          <div className="mx-auto mt-3 h-1 w-20 rounded-full bg-[#f97316]" />
 
           <h2 className="mt-2 text-2xl font-black uppercase leading-tight text-[#111827] md:text-2xl lg:text-3xl">
             Professional Driving{" "}
-            <span className="text-[#f59e0b]">Solutions</span>
+            <span className="text-[#f97316]">Solutions</span>
           </h2>
 
           <p className="mt-2 text-sm leading-7 text-neutral-600 sm:text-base lg:text-lg">
@@ -94,22 +94,22 @@ export default function DrivingServicesSection() {
             return (
               <div
                 key={index}
-                className="group relative overflow-hidden rounded-3xl border border-[#f59e0b]/10 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-3 hover:border-[#f59e0b] hover:shadow-2xl"
+                className="group relative overflow-hidden rounded-3xl border border-[#f97316]/10 bg-white p-7 shadow-sm transition-all duration-500 hover:-translate-y-3 hover:border-[#f97316] hover:shadow-2xl"
               >
                 {/* Top Accent */}
-                <div className="absolute left-0 top-0 h-1 w-full bg-[#f59e0b] scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
+                <div className="absolute left-0 top-0 h-1 w-full bg-[#f97316] scale-x-0 transition-transform duration-500 group-hover:scale-x-100" />
 
 
                 {/* Icon + Title */}
                 <div className="flex items-center gap-4">
-                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#fff7e6] transition-all duration-500 group-hover:bg-[#f59e0b]">
+                  <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-2xl bg-[#fff7e6] transition-all duration-500 group-hover:bg-[#f97316]">
                     <Icon
                       size={25}
-                      className="text-[#f59e0b] transition-colors duration-500 group-hover:text-white"
+                      className="text-[#f97316] transition-colors duration-500 group-hover:text-white"
                     />
                   </div>
 
-                  <h3 className="text-xl font-bold leading-tight text-[#111827] transition-colors duration-300 group-hover:text-[#f59e0b]">
+                  <h3 className="text-xl font-bold leading-tight text-[#111827] transition-colors duration-300 group-hover:text-[#f97316]">
                     {service.title}
                   </h3>
                 </div>
@@ -129,8 +129,8 @@ export default function DrivingServicesSection() {
                       key={i}
                       className="flex items-center gap-3"
                     >
-                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#f59e0b]/10">
-                        <div className="h-2.5 w-2.5 rounded-full bg-[#f59e0b]" />
+                      <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#f97316]/10">
+                        <div className="h-2.5 w-2.5 rounded-full bg-[#f97316]" />
                       </div>
 
                       <span className="text-sm font-medium text-neutral-700">
@@ -144,7 +144,7 @@ export default function DrivingServicesSection() {
                 <div className="mt-2 flex justify-end">
                   <Link
                      href={service.href}
-                    className="inline-flex items-center gap-2 font-semibold text-[#f59e0b] transition-all duration-300 group-hover:gap-3"
+                    className="inline-flex items-center gap-2 font-semibold text-[#f97316] transition-all duration-300 group-hover:gap-3"
                   >
                     Apply Now
                     <ArrowRight
@@ -155,7 +155,7 @@ export default function DrivingServicesSection() {
                 </div>
 
                 {/* Background Circle */}
-                <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#f59e0b]/5 transition-all duration-500 group-hover:scale-125" />
+                <div className="absolute -right-16 -top-16 h-40 w-40 rounded-full bg-[#f97316]/5 transition-all duration-500 group-hover:scale-125" />
               </div>
             );
           })}
@@ -167,18 +167,18 @@ export default function DrivingServicesSection() {
           <div className="relative px-4 py-8 lg:px-8 lg:py-7">
 
             {/* Decorative Circles */}
-            <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#f59e0b]/10" />
-            <div className="absolute -left-20 -bottom-20 h-56 w-56 rounded-full bg-[#f59e0b]/5" />
+            <div className="absolute -right-20 -top-20 h-60 w-60 rounded-full bg-[#f97316]/10" />
+            <div className="absolute -left-20 -bottom-20 h-56 w-56 rounded-full bg-[#f97316]/5" />
 
             <div className="relative z-10 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
 
               <div className="max-w-3xl">
-                <span className="inline-block rounded-full bg-[#f59e0b]/20 px-4 py-2 text-sm font-semibold text-[#f59e0b]">
+                <span className="inline-block rounded-full bg-[#f97316]/20 px-4 py-2 text-sm font-semibold text-[#f97316]">
                   🚗 Admissions Open
                 </span>
                 <h2 className="mt-4 text-2xl font-black uppercase leading-tight text-white md:text-2xl lg:text-3xl">
                   Start Your Driving{" "}
-                  <span className="text-[#f59e0b]">Journey Today</span>
+                  <span className="text-[#f97316]">Journey Today</span>
                 </h2>
 
 
@@ -194,7 +194,7 @@ export default function DrivingServicesSection() {
 
                 <Link
                  href="/driving-Addmission"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#f59e0b] px-6 py-3 text-sm font-semibold text-[#111111] transition-all duration-300 hover:scale-105 hover:bg-white sm:px-8 sm:py-4 sm:text-base"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#f97316] px-6 py-3 text-sm font-semibold text-[#111111] transition-all duration-300 hover:scale-105 hover:bg-white sm:px-8 sm:py-4 sm:text-base"
                 >
                   Apply Now
                   <ArrowRight size={18} />
@@ -202,7 +202,7 @@ export default function DrivingServicesSection() {
 
                 <Link
                  href="/contact"
-                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-[#f59e0b] hover:bg-[#f59e0b] hover:text-[#111111] sm:px-8 sm:py-4 sm:text-base"
+                  className="inline-flex items-center gap-2 rounded-full border border-white/30 px-6 py-3 text-sm font-semibold text-white transition-all duration-300 hover:border-[#f97316] hover:bg-[#f97316] hover:text-[#111111] sm:px-8 sm:py-4 sm:text-base"
                 >
                   Contact Us
                 </Link>

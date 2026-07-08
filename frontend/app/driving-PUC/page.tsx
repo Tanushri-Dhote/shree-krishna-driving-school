@@ -110,7 +110,7 @@ window.scrollTo({
 
             <h3 className="text-4xl font-bold text-neutral-900 leading-tight">
               Pollution <br />
-              <span className="text-[#f59e0b]">Under Control</span>
+              <span className="text-[#f97316]">Under Control</span>
             </h3>
 
             <div className="mt-8 space-y-5 text-sm">
@@ -216,7 +216,7 @@ window.scrollTo({
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full bg-orange-500 hover:bg-[#f59e0b] text-white py-4 rounded-2xl text-lg font-semibold flex items-center justify-center gap-3 transition-all active:scale-[0.985] mt-4 disabled:opacity-60"
+                className="w-full bg-orange-500 hover:bg-[#f97316] text-white py-4 rounded-2xl text-lg font-semibold flex items-center justify-center gap-3 transition-all active:scale-[0.985] mt-4 disabled:opacity-60"
               >
                 {loading ? "Submitting..." : "Submit PUC"}
                 <span className="text-2xl">→</span>

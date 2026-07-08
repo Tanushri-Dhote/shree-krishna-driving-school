@@ -11,6 +11,8 @@ import InsuranceView from "../../components/dashbaord/InsuranceView";
 import MaintenanceView from "../../components/dashbaord/MaintenanceView";
 import AdmissionDetailsModal from "../../components/dashbaord/AdmissionDetailsModal";
 
+import AdminOtpModal from "../../components/admin/AdminOtpModal";
+
 export default function SuperAdminDashboardPage() {
   const backendBaseUrl = useMemo(() => {
     return (
@@ -18,6 +20,9 @@ export default function SuperAdminDashboardPage() {
       "http://localhost:5000"
     );
   }, []);
+
+  const [adminAuthed, setAdminAuthed] = useState(false);
+  const [authLoading, setAuthLoading] = useState(true);
 
   const [activeModule, setActiveModule] = useState("dashboard");
 
@@ -71,8 +76,21 @@ export default function SuperAdminDashboardPage() {
   }
 
   useEffect(() => {
-    fetchAllData();
+    const token = localStorage.getItem("admin_auth_token");
+    const expiresAtRaw = localStorage.getItem("admin_auth_expiresAt");
+
+    const expiresAt = expiresAtRaw ? Number(expiresAtRaw) : NaN;
+    const tokenValid =
+      Boolean(token) && !Number.isNaN(expiresAt) && Date.now() < expiresAt;
+
+    setAdminAuthed(tokenValid);
+    setAuthLoading(false);
   }, []);
+
+  useEffect(() => {
+    if (!adminAuthed) return;
+    fetchAllData();
+  }, [adminAuthed]);
 
   const filteredAdmissions = useMemo(() => {
     const q = query.toLowerCase();
@@ -125,12 +143,21 @@ export default function SuperAdminDashboardPage() {
     }
   }
 
+  if (!authLoading && !adminAuthed) {
+    return (
+      <AdminOtpModal
+        backendBaseUrl={backendBaseUrl}
+        onVerified={() => {
+          setAdminAuthed(true);
+          window.location.pathname = "/admin";
+        }}
+      />
+    );
+  }
+
   return (
     <div className="flex min-h-screen bg-slate-100">
-      <Sidebar
-        activeModule={activeModule}
-        setActiveModule={setActiveModule}
-      />
+      <Sidebar activeModule={activeModule} setActiveModule={setActiveModule} />
 
       <div className="flex-1 overflow-y-auto h-screen">
         <div className="p-4 lg:p-8">
@@ -158,11 +185,8 @@ export default function SuperAdminDashboardPage() {
           )}
 
           {activeModule === "puc" && <PucView />}
-
           {activeModule === "licence" && <LicenceView />}
-
           {activeModule === "insurance" && <InsuranceView />}
-
           {activeModule === "maintenance" && <MaintenanceView />}
 
           {error && (
@@ -186,3 +210,4 @@ export default function SuperAdminDashboardPage() {
     </div>
   );
 }
+
