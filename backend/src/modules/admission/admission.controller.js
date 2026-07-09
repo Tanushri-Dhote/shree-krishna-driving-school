@@ -25,6 +25,7 @@ async function postAdmissionHandler(req, res) {
   try {
     const parsed = admissionCreateSchema.safeParse(req.body);
 
+
     if (!parsed.success) {
       return res.status(400).send({
         success: false,

@@ -231,7 +231,9 @@ export default function InsuranceView() {
                 <table className="min-w-full text-left text-sm">
                   <thead>
                     <tr className="bg-slate-100">
-                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">Insurance No</th>
+                      <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">
+                        Vehicle Number
+                      </th>
                       <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">Owner</th>
                       <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">Mobile</th>
                       <th className="px-6 py-4 text-left text-[13px] font-bold text-slate-700">Email</th>
@@ -243,7 +245,7 @@ export default function InsuranceView() {
                   <tbody className="divide-y divide-slate-100">
                     {filteredRows.map((item) => (
                       <tr key={item.id} className="transition hover:bg-orange-50 text-[14px]">
-                        <td className="px-6 py-4 font-bold text-[11px]">{item.insuranceNo}</td>
+                        <td className="px-6 py-4 font-bold text-[11px]">  {item.vehicleNo || "-"}</td>
 
                         <td className="px-6 py-4">
                           <div>
@@ -264,12 +266,12 @@ export default function InsuranceView() {
                         </td>
 
                         <td className="px-6 py-4 text-right">
-                        <Eye
-  size={22}
-  onClick={() => setSelected(item)}
-  className="cursor-pointer text-orange-500 hover:text-orange-600 hover:scale-110 transition-all duration-200"
-  title="View Details"
-/>
+                          <Eye
+                            size={22}
+                            onClick={() => setSelected(item)}
+                            className="cursor-pointer text-orange-500 hover:text-orange-600 hover:scale-110 transition-all duration-200"
+                            title="View Details"
+                          />
                         </td>
                       </tr>
                     ))}
@@ -326,6 +328,14 @@ export default function InsuranceView() {
                           </th>
                           <td className="px-6 py-4 text-[13px] text-slate-700 break-all">{selected.email}</td>
                         </tr>
+                        <tr className="hover:bg-orange-50 transition">
+  <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+    Vehicle Number
+  </th>
+  <td className="px-6 py-4 text-[13px] font-semibold text-slate-800 uppercase">
+    {selected.vehicleNo || "-"}
+  </td>
+</tr>
                         <tr className="hover:bg-orange-50 transition">
                           <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
                             Insurance Number

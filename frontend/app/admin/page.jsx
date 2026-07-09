@@ -7,9 +7,11 @@ import DashboardView from "../../components/dashbaord/DashboardView";
 import AdmissionView from "../../components/dashbaord/AdmissionView";
 import PucView from "../../components/dashbaord/PucView";
 import LicenceView from "../../components/dashbaord/LicenceView";
+import LicenceExcelView from "../../components/dashbaord/LicenceExcelView";
 import InsuranceView from "../../components/dashbaord/InsuranceView";
 import MaintenanceView from "../../components/dashbaord/MaintenanceView";
 import AdmissionDetailsModal from "../../components/dashbaord/AdmissionDetailsModal";
+
 
 import AdminOtpModal from "../../components/admin/AdminOtpModal";
 
@@ -186,8 +188,10 @@ export default function SuperAdminDashboardPage() {
 
           {activeModule === "puc" && <PucView />}
           {activeModule === "licence" && <LicenceView />}
+          {activeModule === "licence_excel" && <LicenceExcelView />}
           {activeModule === "insurance" && <InsuranceView />}
           {activeModule === "maintenance" && <MaintenanceView />}
+
 
           {error && (
             <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600 flex justify-center">

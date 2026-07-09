@@ -18,6 +18,10 @@ async function createLicence(data) {
             fullName: data.fullName,
             email: data.email,
             mobileNo: data.mobileNo,
+
+            // Save Date of Birth
+            dob: data.dob ? new Date(data.dob) : null,
+
             panPhoto: data.panPhoto,
             aadhaarPhoto: data.aadhaarPhoto,
             signaturePhoto: data.signaturePhoto,
@@ -33,6 +37,7 @@ async function listLicences() {
 
 async function getLicenceById(id) {
     const numericId = Number(id);
+
     const existing = await prisma.licence.findUnique({
         where: { id: numericId },
     });
@@ -46,21 +51,30 @@ async function getLicenceById(id) {
     return existing;
 }
 
-async function patchLicenceStatus(id, status) {
+async function patchLicenceStatus(id, status, applicationNo) {
     const numericId = Number(id);
 
     const existing = await prisma.licence.findUnique({
         where: { id: numericId },
     });
+
     if (!existing) {
         const err = new Error("Licence request not found");
         err.statusCode = 404;
         throw err;
     }
 
+    const updateData = {
+        status,
+    };
+
+    if (status === "approved") {
+        updateData.applicationNo = String(applicationNo || "").trim();
+    }
+
     return prisma.licence.update({
         where: { id: numericId },
-        data: { status },
+        data: updateData,
     });
 }
 

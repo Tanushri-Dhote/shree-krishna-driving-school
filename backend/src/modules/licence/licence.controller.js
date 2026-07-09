@@ -19,6 +19,7 @@ function sendError(res, err) {
 async function postLicenceHandler(req, res) {
     try {
         const parsed = licenceCreateSchema.safeParse(req.body);
+
         if (!parsed.success) {
             return res.status(400).send({
                 success: false,
@@ -62,7 +63,21 @@ async function patchLicenceStatusHandler(req, res) {
     try {
         const { id } = req.params;
 
-        const parsed = licenceStatusPatchSchema.safeParse(req.body);
+        // Frontend sends { status, applicationNumber } (not applicationNo)
+        // Convert to backend-expected key applicationNo.
+        const body = {
+            ...req.body,
+            applicationNo:
+                req.body.applicationNo ??
+                req.body.applicationNumber ??
+                req.body.application_number ??
+                req.body.application_field,
+        };
+
+
+
+        const parsed = licenceStatusPatchSchema.safeParse(body);
+
         if (!parsed.success) {
             return res.status(400).send({
                 success: false,
@@ -71,7 +86,13 @@ async function patchLicenceStatusHandler(req, res) {
             });
         }
 
-        const data = await patchLicenceStatus(id, parsed.data.status);
+        const data = await patchLicenceStatus(
+            id,
+            parsed.data.status,
+            parsed.data.applicationNo
+        );
+
+
 
         return res.send({
             success: true,

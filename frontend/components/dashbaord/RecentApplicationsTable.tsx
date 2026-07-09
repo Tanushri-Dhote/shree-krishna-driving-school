@@ -177,6 +177,10 @@ export default function RecentApplicationsTable({
                   Status
                 </TableHead>
 
+                {/* <TableHead className="px-6 py-4 text-[13px] font-bold text-slate-700">
+                  Amount / Paid
+                </TableHead> */}
+
                 <TableHead className="px-6 py-4 text-[13px] font-bold text-slate-700">
                   Date
                 </TableHead>
@@ -249,6 +253,10 @@ export default function RecentApplicationsTable({
                     <TableCell className="px-6 py-4">
                       <StatusBadge status={item.status} />
                     </TableCell>
+{/* 
+                    <TableCell className="px-6 py-4 whitespace-nowrap text-[11px] text-slate-500">
+                      {item.paymentAmountRs ? `₹ ${item.paymentAmountRs}` : item.paid ? "₹ -" : "-"}
+                    </TableCell> */}
 
                     <TableCell className="px-6 py-4 whitespace-nowrap text-[11px] text-slate-500">
                       {formatDate(item.createdAt)}
@@ -260,7 +268,6 @@ export default function RecentApplicationsTable({
   size={22}
   onClick={() => openDetails(item)}
   className="cursor-pointer text-orange-500 hover:text-orange-600 hover:scale-110 transition-all duration-200"
-  title="View Details"
 />
                     </TableCell>
                   </TableRow>

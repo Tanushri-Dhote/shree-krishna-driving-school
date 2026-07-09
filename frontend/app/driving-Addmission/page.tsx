@@ -38,6 +38,9 @@ export default function DrivingAdmissionPage() {
     const [success, setSuccess] = useState<string>("");
 
     const hasDrivingLicence = hasLicense === "yes";
+    const [paymentProof, setPaymentProof] = useState<string>("");
+    const ADMISSION_FEE = 5500;
+
 
     async function onFilePicked(file: File | null, setter: (v: string) => void) {
         setError("");
@@ -69,6 +72,7 @@ export default function DrivingAdmissionPage() {
         if (hasDrivingLicence && !drivingLicenceNo.trim()) return setError("Driving License Number is required.");
         if (!aadhaarPhoto) return setError("Aadhaar Card Photo is required.");
         if (!passportPhoto) return setError("Passport Photo is required.");
+        if (!paymentProof) { return setError("Please upload the payment screenshot.");}
 
         setLoading(true);
         try {
@@ -86,6 +90,9 @@ export default function DrivingAdmissionPage() {
                     drivingLicenceNo: hasDrivingLicence ? drivingLicenceNo.trim() : null,
                     aadhaarPhoto,
                     passportPhoto,
+                    paymentAmountRs: ADMISSION_FEE,
+                    paymentProof, // QR Screenshort
+
                 }),
             });
 
@@ -96,23 +103,27 @@ export default function DrivingAdmissionPage() {
             }
 
             const admissionNo = payload?.data?.admissionNo;
-            setSuccess(
-                admissionNo
-                    ? `Application submitted. Your Admission No: ${admissionNo}`
-                    : "Application submitted successfully."
-            );
 
-            // Redirect to dashboard after successful submission
-            // (Using push because this is a client component)
-            router.push("/driving-Admission-Dashboard");
+setSuccess(
+  admissionNo
+    ? `Application submitted successfully. Your Admission No: ${admissionNo}`
+    : "Application submitted successfully."
+);
 
-            // Optionally clear the form
-            setFullName("");
-            setMobileNo("");
-            setHasLicense("");
-            setDrivingLicenceNo("");
-            setAadhaarPhoto("");
-            setPassportPhoto("");
+// Clear the form
+setFullName("");
+setEmailId("");
+setMobileNo("");
+setHasLicense("");
+setDrivingLicenceNo("");
+setAadhaarPhoto("");
+setPassportPhoto("");
+setPaymentProof("");
+
+// Redirect after 2 seconds
+setTimeout(() => {
+  router.push("/");
+}, 2000);
 
         } catch (err: any) {
             setError(err?.message || "Network error while submitting admission.");
@@ -124,10 +135,6 @@ export default function DrivingAdmissionPage() {
     return (
         <main className="mx-auto max-w-7xl px-2 py-2 sm:px-2 lg:px-2 bg-gray-50 ">
             {/* Header Logo - Add your logo here if needed */}
-            <div className="flex justify-center mb-6">
-                {/* Your logo component can go here */}
-            </div>
-
             <div className="text-center mb-2">
                 <h2 className="text-4xl font-bold text-neutral-900">Admission Form</h2>
                 <p className="text-neutral-600 mt-2">Please fill in the details below to start your driving journey with us.</p>
@@ -386,6 +393,79 @@ export default function DrivingAdmissionPage() {
                                 </div>
                                 {passportPhoto ? <p className="text-[11px] text-green-600 mt-2 ml-11">Selected ✅</p> : null}
                             </div>
+
+{/* QR Images */}
+{/* Payment Section */}
+<div className="rounded-2xl border border-orange-200 bg-orange-50 p-6">
+    <h3 className="text-xl font-semibold text-neutral-900">
+        Admission Fee Payment
+    </h3>
+
+    <p className="mt-2 text-sm text-neutral-600">
+        Scan the QR Code below and pay the admission fee before submitting the application.
+    </p>
+
+    <div className="flex justify-center mt-5">
+        <Image
+            src="/QR.jpeg"
+            alt="Payment QR"
+            width={220}
+            height={220}
+            className="rounded-lg border bg-white p-2"
+        />
+    </div>
+
+  
+
+    <div className="mt-5">
+       <div className="mb-5">
+    <label className="block text-sm font-medium text-neutral-700 mb-2">
+        Admission Fee
+    </label>
+
+    <div className="flex items-center justify-between rounded-2xl border border-orange-300 bg-white px-5 py-4">
+        <span className="text-neutral-600">Amount to Pay</span>
+
+        <span className="text-2xl font-bold text-orange-600">
+            ₹5,500
+        </span>
+    </div>
+
+    <p className="mt-2 text-xs text-neutral-500">
+        Please pay exactly <strong>₹5,500</strong> using the QR code below.
+    </p>
+</div>
+
+        <label className="block text-sm font-medium text-neutral-700 mb-2">
+            Upload Payment Screenshot <span className="text-red-500">*</span>
+        </label>
+
+
+        <input
+            id="paymentProof"
+            type="file"
+            accept="image/*"
+            className="hidden"
+            onChange={(e) =>
+                onFilePicked(e.target.files?.[0] ?? null, setPaymentProof)
+            }
+        />
+
+        <button
+            type="button"
+            onClick={() => document.getElementById("paymentProof")?.click()}
+            className="rounded-md border border-orange-500 px-4 py-2 text-sm font-medium text-orange-500 hover:bg-orange-100"
+        >
+            Upload Payment Screenshot
+        </button>
+
+        {paymentProof && (
+            <p className="text-green-600 text-sm mt-2">
+                Payment screenshot uploaded ✅
+            </p>
+        )}
+    </div>
+</div>
 
                             {/* Submit Button */}
                             <button

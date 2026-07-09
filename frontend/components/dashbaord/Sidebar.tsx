@@ -8,8 +8,13 @@ import {
   ShieldCheck,
   FileText,
   Wrench,
+ LogOut
 } from "lucide-react";
 import { CgWebsite } from "react-icons/cg";
+import { RiFileExcel2Line } from "react-icons/ri";
+import { PiMicrosoftExcelLogoFill } from "react-icons/pi";
+
+
 
 import Image from "next/image";
 
@@ -35,6 +40,11 @@ const menus = [
     icon: IdCard,
   },
   {
+    id: "licence_excel",
+    title: "Driving Licence Excel",
+    icon: RiFileExcel2Line,
+  },
+  {
     id: "insurance",
     title: "Insurance",
     icon: ShieldCheck,
@@ -46,8 +56,8 @@ const menus = [
   },
   {
     id: "maintenance",
-    title: "Maintenance Excel",
-    icon: Wrench,
+    title: "Insurance Excel",
+    icon: PiMicrosoftExcelLogoFill ,
   },
   {
     id: "website",
@@ -72,8 +82,8 @@ export default function Sidebar({
   };
 
   return (
-    <aside className="w-72 bg-slate-950 text-white min-h-screen hidden lg:flex flex-col">
-      <div className="flex flex-col items-center justify-center p-6 border-b border-slate-800">
+    <aside className="w-72 bg-slate-950 text-white lg:flex flex-col">
+      <div className="flex flex-col items-center justify-center p-4 border-b border-slate-800">
         <Image
           src="/new-logo.png"
           alt="Driving School Logo"
@@ -82,16 +92,9 @@ export default function Sidebar({
           className="h-24 w-auto"
         />
 
-        <h2 className="mt-4 text-lg font-bold">
-          Shree Krishna
-        </h2>
-
-        <p className="text-xs text-slate-400">
-          Driving School
-        </p>
       </div>
 
-      <div className="p-4 space-y-2">
+      <div className="flex-1 p-2 space-y-2">
         {menus.map((item) => {
           const Icon = item.icon;
 
@@ -99,10 +102,7 @@ export default function Sidebar({
             <button
               key={item.id}
               onClick={() => handleMenuClick(item.id)}
-              className={`w-full flex items-center gap-3 px-4 py-4 rounded-2xl transition-all ${
-                // activeModule === item.id
-                //   ? "bg-[#f59e0b] text-white shadow-lg"
-                //   : "hover:bg-slate-800 text-slate-300"
+              className={`w-full flex items-center gap-3 px-3 py-3 rounded-2xl transition-all ${
                 activeModule === item.id
                   ? "bg-gradient-to-r from-orange-500 to-orange-600 text-white shadow-lg shadow-orange-500/25"
                   : "text-slate-300 hover:bg-slate-800 hover:text-white"
@@ -113,6 +113,22 @@ export default function Sidebar({
             </button>
           );
         })}
+
+        <div className="p-4 border-t border-slate-800">
+  <button
+    onClick={() => {
+      // Clear auth data if needed
+      localStorage.removeItem("token");
+      sessionStorage.clear();
+
+      router.push("/admin");
+    }}
+    className="w-full flex items-center gap-3 px-4 py-4 rounded-2xl text-red-400 hover:bg-red-500/10 hover:text-red-300 transition-all"
+  >
+    <LogOut size={20} />
+    Logout
+  </button>
+</div>
       </div>
     </aside>
   );

@@ -282,12 +282,57 @@ export default function AdmissionDetailsModal({
                 </tr>
 
                 {/* Status Update */}
+               
+                  <tr className="transition hover:bg-orange-50">
+                    <th className="bg-slate-50 px-6 py-5 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600 align-top">
+                      Payment Details
+                    </th>
+                    <td className="px-6 py-5">
+                      <div className="space-y-4">
+
+
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div className="rounded-xl border border-slate-200 bg-white p-4">
+                            <p className="text-xs text-slate-500">Paid Amount</p>
+                            <p className="text-sm font-semibold text-slate-800 mt-1">
+                              ₹ {selected.paymentAmountRs != null ? selected.paymentAmountRs : "-"}
+                            </p>
+
+                          </div>
+                          <div className="rounded-xl border border-slate-200 bg-white p-4">
+                            <p className="text-xs text-slate-500">Approved At</p>
+                            <p className="text-sm font-semibold text-slate-800 mt-1">
+                              {formatDate(selected.approvedAt)}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className="rounded-xl border border-slate-200 bg-white p-4">
+                          <p className="text-xs text-slate-500 mb-2">Payment Screenshot (QR)</p>
+                          {selected.paymentProof ? (
+                            <img
+                              src={selected.paymentProof}
+                              alt="Payment Proof"
+                              className="h-40 w-full rounded-lg border border-slate-200 object-contain bg-white"
+                            />
+                          ) : (
+                            <div className="flex h-40 items-center justify-center rounded-lg border border-dashed text-xs text-slate-400">
+                              No Payment Proof
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </td>
+                  </tr>
+              
+
                 <tr className="transition hover:bg-orange-50">
                   <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
                     Update Status
                   </th>
                   <td className="px-6 py-4">
                     <div className="flex flex-wrap items-center gap-3">
+
                       <select
                         value={updateStatus}
                         onChange={(e) =>

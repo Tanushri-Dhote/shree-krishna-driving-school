@@ -32,6 +32,7 @@ export default function DrivingLicencePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string>("");
   const [success, setSuccess] = useState<string>("");
+  const [dob, setDob] = useState("");
 
   async function onFilePicked(
     file: File | null,
@@ -60,7 +61,7 @@ export default function DrivingLicencePage() {
     if (!name.trim()) return setError("Name is required.");
     if (!email.trim()) return setError("Email is required.");
     if (!mobileNo.trim()) return setError("Mobile no is required.");
-
+    if (!dob) return setError("Date of Birth is required.");
     if (!panCardUpload) return setError("PAN card upload is required.");
     if (!aadhaarCardUpload) return setError("Adhaarcard upload is required.");
     if (!signatureImages) return setError("Signature image is required.");
@@ -76,6 +77,7 @@ export default function DrivingLicencePage() {
           fullName: name.trim(),
           email: email.trim(),
           mobileNo: mobileNo.trim(),
+           dob,
           panPhoto: panCardUpload,
           aadhaarPhoto: aadhaarCardUpload,
           signaturePhoto: signatureImages,
@@ -92,7 +94,7 @@ export default function DrivingLicencePage() {
       setName("");
       setEmail("");
       setMobileNo("");
-
+setDob("");
       setPanCardUpload("");
       setAadhaarCardUpload("");
       setSignatureImages("");
@@ -278,6 +280,19 @@ export default function DrivingLicencePage() {
                     onChange={(e) => setMobileNo(e.target.value)}
                     placeholder="Enter mobile number"
                     className="w-full px-5 py-3.5 border border-neutral-300 rounded-2xl focus:outline-none focus:border-orange-500 text-neutral-900 placeholder:text-neutral-400"
+                    disabled={loading}
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-neutral-700 mb-1.5">
+                    Date of Birth <span className="text-red-500">*</span>
+                  </label>
+                  <input
+                    type="date"
+                    value={dob}
+                    onChange={(e) => setDob(e.target.value)}
+                    className="w-full px-5 py-3.5 border border-neutral-300 rounded-2xl focus:outline-none focus:border-orange-500 text-neutral-900"
                     disabled={loading}
                   />
                 </div>

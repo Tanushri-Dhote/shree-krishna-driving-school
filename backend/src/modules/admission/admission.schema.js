@@ -13,6 +13,14 @@ const admissionCreateSchema = z
     drivingLicenceNo: z.string().nullable().optional(),
     aadhaarPhoto: z.string().min(1, "aadhaarPhoto is required"),
     passportPhoto: z.string().min(1, "passportPhoto is required"),
+
+    // Payment (QR screenshot)
+    paymentProof: z.string().min(1, "paymentProof is required"),
+    paymentAmountRs: z
+      .number({ invalid_type_error: "paymentAmountRs must be a number" })
+      .positive("paymentAmountRs must be greater than 0")
+      .optional()
+      .nullable(),
   })
   .superRefine((val, ctx) => {
     if (val.hasDrivingLicence) {
@@ -25,7 +33,17 @@ const admissionCreateSchema = z
         });
       }
     }
+
+    // Ensure paymentProof exists if submitted
+    if (!val.paymentProof || String(val.paymentProof).trim().length === 0) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["paymentProof"],
+        message: "paymentProof is required",
+      });
+    }
   });
+
 
 
 const admissionStatusPatchSchema = z.object({

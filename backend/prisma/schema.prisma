@@ -16,9 +16,18 @@ model admission {
   hasDrivingLicence Boolean  @default(false)
   drivingLicenceNo  String?
   aadhaarPhoto  String @db.LongText
-passportPhoto String @db.LongText
+  passportPhoto String @db.LongText
+
+  // Payment (QR screenshot)
+  paid              Boolean  @default(false)
+  paymentAmountRs  Float?
+  paymentProof     String?  @db.LongText
+
   status            String   @default("pending")
   remarks           String?
+
+  // Set when status transitions to approved
+  approvedAt       DateTime?
 
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
@@ -26,6 +35,7 @@ passportPhoto String @db.LongText
   @@index([status])
   @@index([email])
 }
+
 
 model puc {
   id          Int      @id @default(autoincrement())
@@ -70,9 +80,16 @@ model licence {
   fullName       String
   email          String
   mobileNo       String
+
+    dob            DateTime?   // <-- New DOB field
+     applicationNo  String?  
   panPhoto       String   @db.LongText
   aadhaarPhoto   String   @db.LongText
   signaturePhoto String   @db.LongText
+
+  // Stored only after admin enters Application Number when approving
+ 
+
   status         String   @default("pending")
   remarks        String?
 
@@ -82,6 +99,7 @@ model licence {
   @@index([status])
   @@index([email])
 }
+
 
 model maintenance {
   id                Int      @id @default(autoincrement())

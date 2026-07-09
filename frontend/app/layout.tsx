@@ -3,6 +3,7 @@ import { Inter, Plus_Jakarta_Sans } from "next/font/google";
 import "../globals.css";
 
 import LayoutWrapper from "../components/layout/LayoutWrapper";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   variable: "--font-body",
@@ -29,12 +30,19 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body
-        className={`${jakartaSans.variable} ${inter.variable}`}
-      >
+      <body className={`${jakartaSans.variable} ${inter.variable}`}>
         <LayoutWrapper>
           {children}
         </LayoutWrapper>
+
+        {/* Toast Container */}
+        <Toaster
+          position="top-right"
+          richColors
+          closeButton
+          expand={false}
+          duration={3000}
+        />
       </body>
     </html>
   );

@@ -30,6 +30,7 @@ async function generateNextAdmissionNo() {
     },
     orderBy: {
       createdAt: "desc",
+
     },
     select: {
       admissionNo: true,
@@ -66,10 +67,23 @@ async function createAdmission(payload) {
           : null,
         aadhaarPhoto: payload.aadhaarPhoto,
         passportPhoto: payload.passportPhoto,
+
+        // Payment
+        paid: true,
+        paymentAmountRs:
+          payload.paymentAmountRs !== undefined && payload.paymentAmountRs !== null
+            ? payload.paymentAmountRs
+            : null,
+        paymentProof: payload.paymentProof,
+
         status: "pending",
         remarks: null,
+
+        // approvedAt will be set when admin approves
       },
+
       select: {
+
         admissionNo: true,
       },
     });
@@ -105,6 +119,15 @@ async function createAdmission(payload) {
             : null,
           aadhaarPhoto: payload.aadhaarPhoto,
           passportPhoto: payload.passportPhoto,
+
+          // Payment
+          paid: true,
+          paymentAmountRs:
+            payload.paymentAmountRs !== undefined && payload.paymentAmountRs !== null
+              ? payload.paymentAmountRs
+              : null,
+          paymentProof: payload.paymentProof,
+
           status: "pending",
           remarks: null,
         },
@@ -136,13 +159,53 @@ async function createAdmission(payload) {
 async function listAdmissions() {
   return prisma.admission.findMany({
     orderBy: { createdAt: "desc" },
+    select: {
+      id: true,
+      admissionNo: true,
+      fullName: true,
+      email: true,
+      mobileNo: true,
+      hasDrivingLicence: true,
+      drivingLicenceNo: true,
+      aadhaarPhoto: true,
+      passportPhoto: true,
+      paymentProof: true,
+      paymentAmountRs: true,
+      paid: true,
+      approvedAt: true,
+      status: true,
+      remarks: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
 }
+
 
 async function getAdmissionById(id) {
   const admission = await prisma.admission.findUnique({
     where: { id: Number(id) },
+    select: {
+      id: true,
+      admissionNo: true,
+      fullName: true,
+      email: true,
+      mobileNo: true,
+      hasDrivingLicence: true,
+      drivingLicenceNo: true,
+      aadhaarPhoto: true,
+      passportPhoto: true,
+      paymentProof: true,
+      paymentAmountRs: true,
+      paid: true,
+      approvedAt: true,
+      status: true,
+      remarks: true,
+      createdAt: true,
+      updatedAt: true,
+    },
   });
+
 
   if (!admission) {
     const e = new Error("Admission not found");
@@ -167,22 +230,84 @@ async function patchAdmissionStatus(id, status) {
 
   const updated = await prisma.admission.update({
     where: { id: Number(id) },
-    data: { status },
+    data: {
+      status,
+      ...(status === "approved" && admission.status !== "approved"
+        ? { approvedAt: new Date() }
+        : {}),
+      ...(status === "rejected" && admission.status !== "rejected"
+        ? { approvedAt: null }
+        : {}),
+    },
   });
 
   // Only send the email if the status transitioned from anything else to "approved"
-  if (status === "approved" && admission.status !== "approved") {
-    (async () => {
-      try {
-        await sendMail({
-          to: admission.email,
-          subject: "Admission Approved - Shree Krishna Driving School",
-          text: `Dear ${admission.fullName},\n\nYour Admission status (Admission No: ${admission.admissionNo}) has been approved.\n\nThank you for choosing Shree Krishna Driving School.`,
-        });
-      } catch (mailErr) {
-        console.error("Failed to send admission approval confirmation email:", mailErr);
-      }
-    })();
+  // Send email when status changes
+  if (status !== admission.status) {
+    let subject = "";
+    let text = "";
+
+    if (status === "approved") {
+      subject = "🎉 Admission Approved - Shree Krishna Driving School";
+
+      text = `Dear ${admission.fullName},
+
+Congratulations!
+
+Your admission has been APPROVED.
+
+Admission No: ${admission.admissionNo}
+
+You can start your driving classes from tomorrow.
+
+Training Timings:
+🕗 Morning 8:00 AM to 6:00 PM
+
+If you have any questions, please contact us:
+📞 7499279503
+
+Thank you for choosing Shree Krishna Driving School.
+
+We look forward to helping you become a safe and confident driver.
+
+Regards,
+Shree Krishna Driving School`;
+    }
+
+    if (status === "rejected") {
+      subject = "Admission Status - Shree Krishna Driving School";
+
+      text = `Dear ${admission.fullName},
+
+We regret to inform you that your admission application has been REJECTED.
+
+Admission No: ${admission.admissionNo}
+
+If you would like to know the reason or need any assistance, please contact us.
+
+📞 Contact: 7499279503
+
+Thank you for your interest in Shree Krishna Driving School.
+
+We wish you all the best for your future.
+
+Regards,
+Shree Krishna Driving School`;
+    }
+
+    if (subject) {
+      (async () => {
+        try {
+          await sendMail({
+            to: admission.email,
+            subject,
+            text,
+          });
+        } catch (mailErr) {
+          console.error("Failed to send admission status email:", mailErr);
+        }
+      })();
+    }
   }
 
   return updated;
