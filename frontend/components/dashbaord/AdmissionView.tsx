@@ -11,6 +11,11 @@ export default function AdmissionView({
   statusFilter,
   setStatusFilter,
   openDetails,
+
+  page,
+  totalPages,
+  totalRecords,
+  onPageChange,
 }: {
   data: any[];
   loading: boolean;
@@ -19,6 +24,11 @@ export default function AdmissionView({
   statusFilter: string;
   setStatusFilter: (value: string) => void;
   openDetails: (row: any) => void;
+
+  page: number;
+  totalPages: number;
+  totalRecords: number;
+  onPageChange: (page: number) => void;
 }) {
   return (
     <DashboardShell>
@@ -31,9 +41,12 @@ export default function AdmissionView({
           statusFilter={statusFilter}
           setStatusFilter={setStatusFilter}
           openDetails={openDetails}
+          page={page}
+          totalPages={totalPages}
+          totalRecords={totalRecords}
+          onPageChange={onPageChange}
         />
       </div>
     </DashboardShell>
   );
 }
-

@@ -253,10 +253,7 @@ export default function RecentApplicationsTable({
                     <TableCell className="px-6 py-4">
                       <StatusBadge status={item.status} />
                     </TableCell>
-{/* 
-                    <TableCell className="px-6 py-4 whitespace-nowrap text-[11px] text-slate-500">
-                      {item.paymentAmountRs ? `₹ ${item.paymentAmountRs}` : item.paid ? "₹ -" : "-"}
-                    </TableCell> */}
+
 
                     <TableCell className="px-6 py-4 whitespace-nowrap text-[11px] text-slate-500">
                       {formatDate(item.createdAt)}
