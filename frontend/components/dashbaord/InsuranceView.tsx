@@ -267,11 +267,10 @@ export default function InsuranceView() {
 
                         <td className="px-6 py-4 text-right">
                           <Eye
-                            size={22}
-                            onClick={() => setSelected(item)}
-                            className="cursor-pointer text-orange-500 hover:text-orange-600 hover:scale-110 transition-all duration-200"
-                            title="View Details"
-                          />
+  size={22}
+  onClick={() => setSelected(item)}
+  className="cursor-pointer text-orange-500 hover:text-orange-600 hover:scale-110 transition-all duration-200"
+/>
                         </td>
                       </tr>
                     ))}
