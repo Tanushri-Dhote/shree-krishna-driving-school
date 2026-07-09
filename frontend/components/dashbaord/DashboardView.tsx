@@ -211,8 +211,9 @@ export default function DashboardView({
   ];
 
   return (
+      <DashboardShell>
     <div className="space-y-8 animate-fadeIn">
-      <DashboardShell/>
+     
       {/* ─── KPI Stat Cards Row ─── */}
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
         {[
@@ -335,6 +336,7 @@ export default function DashboardView({
         ))}
 
       </div>
+      
 
       {/* ─── Row 2: Admission Status Donut + Monthly Applications Bar ─── */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 py-2">
@@ -856,5 +858,6 @@ export default function DashboardView({
         </div>
       </div>
     </div>
+      </DashboardShell>
   );
 }
