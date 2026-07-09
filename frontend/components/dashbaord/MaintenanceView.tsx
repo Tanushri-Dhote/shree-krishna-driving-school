@@ -229,12 +229,12 @@ export default function MaintenanceView() {
               size={32}
               onClick={() => setShowCreateForm(true)}
               className={`cursor-pointer text-4xl text-orange-500 hover:text-orange-600 transition-colors ${loading ? "animate-spin pointer-events-none" : ""
-                }`}  />
+                }`} />
             <MdRefresh
               onClick={load}
               className={`cursor-pointer text-4xl text-orange-500 hover:text-orange-600 transition-colors ${loading ? "animate-spin pointer-events-none" : ""
                 }`}
-              title="Refresh"
+             
             />
             <button
               onClick={() => {
@@ -335,192 +335,192 @@ export default function MaintenanceView() {
                 />
               </div>
 
- <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-slate-700">
                   Booking Date <span className="text-red-500">*</span>
                 </label>
-              <input
-                type="date"
-                placeholder="Booking Date"
-                value={createData.bookingDate ? new Date(createData.bookingDate).toISOString().split("T")[0] : ""}
-                onChange={(e) => setCreateData({ ...createData, bookingDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-
-</div>
- <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-slate-700">
-                 Agent Name <span className="text-red-500">*</span>
-                </label>
-              <input
-                type="text"
-                placeholder="Agent Name"
-                value={createData.agentName ?? ""}
-                onChange={(e) => setCreateData({ ...createData, agentName: e.target.value })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-</div>
-<div className="flex flex-col gap-1">
-  <label className="text-sm font-semibold text-slate-700">
-    Phone Number
-  </label>
-
-  <div className="flex items-center border border-slate-300 rounded-lg focus-within:ring-2 focus-within:ring-green-500">
-    <span className="px-3 py-2 bg-slate-100 border-r border-slate-300 text-slate-700">
-      +91
-    </span>
-
-    <input
-      type="tel"
-      placeholder="9876543210"
-      value={createData.phoneNumber ?? ""}
-      onChange={(e) => {
-        // Allow only digits and limit to 10
-        const value = e.target.value.replace(/\D/g, "").slice(0, 10);
-        setCreateData({
-          ...createData,
-          phoneNumber: value,
-        });
-      }}
-      maxLength={10}
-      className="w-full px-3 py-2 rounded-r-lg focus:outline-none"
-    />
-  </div>
-
-</div>
-
- <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-slate-700">
-                 Customer Name <span className="text-red-500">*</span>
-                </label>
-              <input
-                type="text"
-                placeholder="Customer Name"
-                value={createData.customerName ?? ""}
-                onChange={(e) => setCreateData({ ...createData, customerName: e.target.value })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-              </div>
-
-               <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-slate-700">
-                  Product <span className="text-red-500">*</span>
-                </label>
-
-              <input
-                type="text"
-                placeholder="Product"
-                value={createData.product ?? ""}
-                onChange={(e) => setCreateData({ ...createData, product: e.target.value })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
-
-            <div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-slate-700">
-                  Polity Type<span className="text-red-500">*</span>
-                </label>
-
-              <input
-                type="text"
-                placeholder="Policy Type"
-                value={createData.policyType ?? ""}
-                onChange={(e) => setCreateData({ ...createData, policyType: e.target.value })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
+                <input
+                  type="date"
+                  placeholder="Booking Date"
+                  value={createData.bookingDate ? new Date(createData.bookingDate).toISOString().split("T")[0] : ""}
+                  onChange={(e) => setCreateData({ ...createData, bookingDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
 
               </div>
-
-<div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-slate-700">
-                  Make Model <span className="text-red-500">*</span>
+                  Agent Name <span className="text-red-500">*</span>
                 </label>
-              <input
-                type="text"
-                placeholder="Make Model"
-                value={createData.makeModel ?? ""}
-                onChange={(e) => setCreateData({ ...createData, makeModel: e.target.value })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-
-</div>
-<div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-slate-700">
-                 Vehicle Number <span className="text-red-500">*</span>
-                </label>
-              <input
-                type="text"
-                placeholder="Vehicle Number"
-                value={createData.vehicleNumber ?? ""}
-                onChange={(e) => setCreateData({ ...createData, vehicleNumber: e.target.value })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
+                <input
+                  type="text"
+                  placeholder="Agent Name"
+                  value={createData.agentName ?? ""}
+                  onChange={(e) => setCreateData({ ...createData, agentName: e.target.value })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
               </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Phone Number
+                </label>
 
-<div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-slate-700">
-                  Company <span className="text-red-500">*</span>
-                </label>
-              <input
-                type="text"
-                placeholder="Company"
-                value={createData.company ?? ""}
-                onChange={(e) => setCreateData({ ...createData, company: e.target.value })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-</div>
-<div className="flex flex-col gap-1">
-                <label className="text-sm font-semibold text-slate-700">
-                 Start date <span className="text-red-500">*</span>
-                </label>
-              <input
-                type="date"
-                placeholder="Start Date"
-                value={createData.startDate ? new Date(createData.startDate).toISOString().split("T")[0] : ""}
-                onChange={(e) => setCreateData({ ...createData, startDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
+                <div className="flex items-center border border-slate-300 rounded-lg focus-within:ring-2 focus-within:ring-green-500">
+                  <span className="px-3 py-2 bg-slate-100 border-r border-slate-300 text-slate-700">
+                    +91
+                  </span>
+
+                  <input
+                    type="tel"
+                    placeholder="9876543210"
+                    value={createData.phoneNumber ?? ""}
+                    onChange={(e) => {
+                      // Allow only digits and limit to 10
+                      const value = e.target.value.replace(/\D/g, "").slice(0, 10);
+                      setCreateData({
+                        ...createData,
+                        phoneNumber: value,
+                      });
+                    }}
+                    maxLength={10}
+                    className="w-full px-3 py-2 rounded-r-lg focus:outline-none"
+                  />
+                </div>
+
               </div>
 
               <div className="flex flex-col gap-1">
                 <label className="text-sm font-semibold text-slate-700">
-                 End Date <span className="text-red-500">*</span>
+                  Customer Name <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Customer Name"
+                  value={createData.customerName ?? ""}
+                  onChange={(e) => setCreateData({ ...createData, customerName: e.target.value })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Product <span className="text-red-500">*</span>
                 </label>
 
-              <input
-                type="date"
-                placeholder="End Date"
-                value={createData.endDate ? new Date(createData.endDate).toISOString().split("T")[0] : ""}
-                onChange={(e) => setCreateData({ ...createData, endDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
-                className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
+                <input
+                  type="text"
+                  placeholder="Product"
+                  value={createData.product ?? ""}
+                  onChange={(e) => setCreateData({ ...createData, product: e.target.value })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
               </div>
-              
 
-             <div className="flex flex-col gap-1">
-  <label className="text-sm font-semibold text-slate-700">
-    Amount
-  </label>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Polity Type<span className="text-red-500">*</span>
+                </label>
 
-  <div className="flex items-center border border-slate-300 rounded-lg focus-within:ring-2 focus-within:ring-green-500">
-    <span className="px-3 py-2 bg-slate-100 border-r border-slate-300 text-slate-700 font-medium">
-      ₹
-    </span>
+                <input
+                  type="text"
+                  placeholder="Policy Type"
+                  value={createData.policyType ?? ""}
+                  onChange={(e) => setCreateData({ ...createData, policyType: e.target.value })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
 
-    <input
-      type="number"
-      placeholder="Enter amount"
-      value={createData.amountRs ?? ""}
-      onChange={(e) =>
-        setCreateData({
-          ...createData,
-          amountRs: e.target.value === "" ? null : parseFloat(e.target.value),
-        })
-      }
-      className="w-full px-3 py-2 rounded-r-lg focus:outline-none"
-    />
-  </div>
-</div>
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Make Model <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Make Model"
+                  value={createData.makeModel ?? ""}
+                  onChange={(e) => setCreateData({ ...createData, makeModel: e.target.value })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Vehicle Number <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Vehicle Number"
+                  value={createData.vehicleNumber ?? ""}
+                  onChange={(e) => setCreateData({ ...createData, vehicleNumber: e.target.value })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Company <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="Company"
+                  value={createData.company ?? ""}
+                  onChange={(e) => setCreateData({ ...createData, company: e.target.value })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Start date <span className="text-red-500">*</span>
+                </label>
+                <input
+                  type="date"
+                  placeholder="Start Date"
+                  value={createData.startDate ? new Date(createData.startDate).toISOString().split("T")[0] : ""}
+                  onChange={(e) => setCreateData({ ...createData, startDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  End Date <span className="text-red-500">*</span>
+                </label>
+
+                <input
+                  type="date"
+                  placeholder="End Date"
+                  value={createData.endDate ? new Date(createData.endDate).toISOString().split("T")[0] : ""}
+                  onChange={(e) => setCreateData({ ...createData, endDate: e.target.value ? new Date(e.target.value).toISOString() : null })}
+                  className="px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+
+
+              <div className="flex flex-col gap-1">
+                <label className="text-sm font-semibold text-slate-700">
+                  Amount
+                </label>
+
+                <div className="flex items-center border border-slate-300 rounded-lg focus-within:ring-2 focus-within:ring-green-500">
+                  <span className="px-3 py-2 bg-slate-100 border-r border-slate-300 text-slate-700 font-medium">
+                    ₹
+                  </span>
+
+                  <input
+                    type="number"
+                    placeholder="Enter amount"
+                    value={createData.amountRs ?? ""}
+                    onChange={(e) =>
+                      setCreateData({
+                        ...createData,
+                        amountRs: e.target.value === "" ? null : parseFloat(e.target.value),
+                      })
+                    }
+                    className="w-full px-3 py-2 rounded-r-lg focus:outline-none"
+                  />
+                </div>
+              </div>
             </div>
 
             <div className="mt-2 flex gap-2 justify-end">

@@ -174,7 +174,7 @@ export default function LicenceExcelView() {
             <MdRefresh
               onClick={load}
               className={`cursor-pointer text-4xl text-orange-500 hover:text-orange-600 transition-colors ${loading ? "animate-spin pointer-events-none" : ""}`}
-              title="Refresh"
+              
             />
 
             <button
