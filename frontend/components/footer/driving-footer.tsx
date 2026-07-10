@@ -22,18 +22,34 @@ import { FaFacebookF, FaInstagram, FaYoutube, FaWhatsapp } from "react-icons/fa"
 const quickLinks = [
   { label: "Home", href: "/" },
   { label: "About Us", href: "/about" },
-  { label: "Our Services", href: "/services" },
-  { label: "Why Choose Us", href: "#why" },
-  { label: "Testimonials", href: "#testimonials" },
+  { label: "Our Services", href: "/#services" },
+  { label: "Why Choose Us", href: "/#why" },
+  { label: "Testimonials", href: "/#testimonials" },
 
   { label: "Contact Us", href: "/contact" },
 ];
 
 const services = [
-  { label: "Driving Admission", icon: Car },
-  { label: "Driving Licence", icon: FileCheck2 },
-  { label: "Insurance", icon: ShieldCheck },
-  { label: "PUC Certificate", icon: FileCheck2 },
+  {
+    label: "Driving Admission",
+    href: "/driving-Addmission",
+    icon: Car,
+  },
+  {
+    label: "Driving Licence",
+    href: "/driving-licence",
+    icon: FileCheck2,
+  },
+  {
+    label: "Insurance",
+    href: "/driving-Insurance",
+    icon: ShieldCheck,
+  },
+  {
+    label: "PUC Certificate",
+    href: "/driving-PUC",
+    icon: FileCheck2,
+  },
 ];
 
 const badges = [
@@ -117,12 +133,19 @@ export function DrivingFooter() {
                 const Icon = s.icon;
                 return (
                   <li key={s.label}>
-                    <div className="flex items-center gap-3">
-                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f97316]">
+                    <Link
+                      href={s.href}
+                      className="group flex items-center gap-3 transition-colors hover:text-[#f97316]"
+                    >
+                      <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#f97316] transition-transform group-hover:scale-110">
                         <Icon size={18} className="text-white" />
                       </div>
-                      <span className="text-sm text-neutral-300">{s.label}</span>
-                    </div>
+
+                      <span className="text-sm text-neutral-300 group-hover:text-[#f97316]">
+                        {s.label}
+                      </span>
+                    </Link>
+
                     {i < services.length - 1 && (
                       <div className="mt-4 h-px bg-[#222]" />
                     )}
@@ -146,7 +169,7 @@ export function DrivingFooter() {
                 </div>
                 <a
                   href="mailto:shreekrishnadrivingschool03@gmail.com"
-                  className="text-sm leading-6 text-neutral-400 hover:text-[#f97316] break-all"
+                  className="text-sm leading-6 text-neutral-400 hover:text-[#f97316] break-all whitespace-nowrap"
                 >
                   shreekrishnadrivingschool03@gmail.com
                 </a>
@@ -170,8 +193,8 @@ export function DrivingFooter() {
                   <MapPin size={15} className="text-[#f97316]" />
                 </div>
                 <p className="text-sm leading-6 text-neutral-400">
-                  9WH9+64F, Katol Rd,<br />
-                  near Gadkari College,<br />
+                  9WH9+64F, Katol Rd,
+                  near Gadkari College,
                   Saoner, Maharashtra 441107
                 </p>
               </li>
@@ -234,16 +257,16 @@ export function DrivingFooter() {
             © {new Date().getFullYear()} Shree Krishna Driving School. All Rights Reserved.
           </p>
           <p className="text-xs text-neutral-500">
-  Developed By{" "}
-  <a
-    href="https://www.instagram.com/tanushri_dhote/"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="font-semibold text-[#f97316] hover:text-orange-600 hover:underline transition-colors"
-  >
-    Tanushri Dhote
-  </a>
-</p>
+            Developed By{" "}
+            <a
+              href="https://www.instagram.com/tanushri_dhote/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-semibold text-[#f97316] hover:text-orange-600 hover:underline transition-colors"
+            >
+              Tanushri Dhote
+            </a>
+          </p>
         </div>
       </div>
 

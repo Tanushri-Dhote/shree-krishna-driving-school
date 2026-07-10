@@ -72,7 +72,7 @@ export default function DrivingAdmissionPage() {
         if (hasDrivingLicence && !drivingLicenceNo.trim()) return setError("Driving License Number is required.");
         if (!aadhaarPhoto) return setError("Aadhaar Card Photo is required.");
         if (!passportPhoto) return setError("Passport Photo is required.");
-        if (!paymentProof) { return setError("Please upload the payment screenshot.");}
+        if (!paymentProof) { return setError("Please upload the payment screenshot."); }
 
         setLoading(true);
         try {
@@ -104,26 +104,26 @@ export default function DrivingAdmissionPage() {
 
             const admissionNo = payload?.data?.admissionNo;
 
-setSuccess(
-  admissionNo
-    ? `Application submitted successfully. Your Admission No: ${admissionNo}`
-    : "Application submitted successfully."
-);
+            setSuccess(
+                admissionNo
+                    ? `Application submitted successfully. Your Admission No: ${admissionNo}`
+                    : "Application submitted successfully."
+            );
 
-// Clear the form
-setFullName("");
-setEmailId("");
-setMobileNo("");
-setHasLicense("");
-setDrivingLicenceNo("");
-setAadhaarPhoto("");
-setPassportPhoto("");
-setPaymentProof("");
+            // Clear the form
+            setFullName("");
+            setEmailId("");
+            setMobileNo("");
+            setHasLicense("");
+            setDrivingLicenceNo("");
+            setAadhaarPhoto("");
+            setPassportPhoto("");
+            setPaymentProof("");
 
-// Redirect after 2 seconds
-setTimeout(() => {
-  router.push("/");
-}, 2000);
+            // Redirect after 2 seconds
+            setTimeout(() => {
+                router.push("/");
+            }, 2000);
 
         } catch (err: any) {
             setError(err?.message || "Network error while submitting admission.");
@@ -153,7 +153,7 @@ setTimeout(() => {
 
                         <h3 className="text-4xl font-bold text-neutral-900 leading-tight">
                             Welcome to <br />
-                            <span className="text-[#f59e0b]">Shree Krishna</span> <br />
+                            <span className="text-[#f97316]">Shree Krishna</span> <br />
                             Driving School
                         </h3>
 
@@ -286,7 +286,7 @@ setTimeout(() => {
                                                 value="yes"
                                                 checked={hasLicense === "yes"}
                                                 onChange={(e) => setHasLicense(e.target.value)}
-                                                className="w-5 h-5 accent-[#f59e0b]"
+                                                className="w-5 h-5 accent-[#f97316]"
                                             />
                                             <span className="text-neutral-700">Yes</span>
                                         </label>
@@ -297,7 +297,7 @@ setTimeout(() => {
                                                 value="no"
                                                 checked={hasLicense === "no"}
                                                 onChange={(e) => setHasLicense(e.target.value)}
-                                                className="w-5 h-5 accent-[#f59e0b]"
+                                                className="w-5 h-5 accent-[#f97316]"
                                             />
                                             <span className="text-neutral-700">No</span>
                                         </label>
@@ -394,84 +394,84 @@ setTimeout(() => {
                                 {passportPhoto ? <p className="text-[11px] text-green-600 mt-2 ml-11">Selected ✅</p> : null}
                             </div>
 
-{/* QR Images */}
-{/* Payment Section */}
-<div className="rounded-2xl border border-orange-200 bg-orange-50 p-6">
-    <h3 className="text-xl font-semibold text-neutral-900">
-        Admission Fee Payment
-    </h3>
+                            {/* QR Images */}
+                            {/* Payment Section */}
+                            <div className="rounded-2xl border border-orange-200 bg-orange-50 p-6">
+                                <h3 className="text-xl font-semibold text-neutral-900">
+                                    Admission Fee Payment
+                                </h3>
 
-    <p className="mt-2 text-sm text-neutral-600">
-        Scan the QR Code below and pay the admission fee before submitting the application.
-    </p>
+                                <p className="mt-2 text-sm text-neutral-600">
+                                    Scan the QR Code below and pay the admission fee before submitting the application.
+                                </p>
 
-    <div className="flex justify-center mt-5">
-        <Image
-            src="/QR.jpeg"
-            alt="Payment QR"
-            width={220}
-            height={220}
-            className="rounded-lg border bg-white p-2"
-        />
-    </div>
-
-  
-
-    <div className="mt-5">
-       <div className="mb-5">
-    <label className="block text-sm font-medium text-neutral-700 mb-2">
-        Admission Fee
-    </label>
-
-    <div className="flex items-center justify-between rounded-2xl border border-orange-300 bg-white px-5 py-4">
-        <span className="text-neutral-600">Amount to Pay</span>
-
-        <span className="text-2xl font-bold text-orange-600">
-            ₹5,500
-        </span>
-    </div>
-
-    <p className="mt-2 text-xs text-neutral-500">
-        Please pay exactly <strong>₹5,500</strong> using the QR code below.
-    </p>
-</div>
-
-        <label className="block text-sm font-medium text-neutral-700 mb-2">
-            Upload Payment Screenshot <span className="text-red-500">*</span>
-        </label>
+                                <div className="flex justify-center mt-5">
+                                    <Image
+                                        src="/QR.jpeg"
+                                        alt="Payment QR"
+                                        width={220}
+                                        height={220}
+                                        className="rounded-lg border bg-white p-2"
+                                    />
+                                </div>
 
 
-        <input
-            id="paymentProof"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            onChange={(e) =>
-                onFilePicked(e.target.files?.[0] ?? null, setPaymentProof)
-            }
-        />
 
-        <button
-            type="button"
-            onClick={() => document.getElementById("paymentProof")?.click()}
-            className="rounded-md border border-orange-500 px-4 py-2 text-sm font-medium text-orange-500 hover:bg-orange-100"
-        >
-            Upload Payment Screenshot
-        </button>
+                                <div className="mt-5">
+                                    <div className="mb-5">
+                                        <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                            Admission Fee
+                                        </label>
 
-        {paymentProof && (
-            <p className="text-green-600 text-sm mt-2">
-                Payment screenshot uploaded ✅
-            </p>
-        )}
-    </div>
-</div>
+                                        <div className="flex items-center justify-between rounded-2xl border border-orange-300 bg-white px-5 py-4">
+                                            <span className="text-neutral-600">Amount to Pay</span>
+
+                                            <span className="text-2xl font-bold text-orange-600">
+                                                ₹5,500
+                                            </span>
+                                        </div>
+
+                                        <p className="mt-2 text-xs text-neutral-500">
+                                            Please pay exactly <strong>₹5,500</strong> using the QR code below.
+                                        </p>
+                                    </div>
+
+                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                        Upload Payment Screenshot <span className="text-red-500">*</span>
+                                    </label>
+
+
+                                    <input
+                                        id="paymentProof"
+                                        type="file"
+                                        accept="image/*"
+                                        className="hidden"
+                                        onChange={(e) =>
+                                            onFilePicked(e.target.files?.[0] ?? null, setPaymentProof)
+                                        }
+                                    />
+
+                                    <button
+                                        type="button"
+                                        onClick={() => document.getElementById("paymentProof")?.click()}
+                                        className="rounded-md border border-orange-500 px-4 py-2 text-sm font-medium text-orange-500 hover:bg-orange-100"
+                                    >
+                                        Upload Payment Screenshot
+                                    </button>
+
+                                    {paymentProof && (
+                                        <p className="text-green-600 text-sm mt-2">
+                                            Payment screenshot uploaded ✅
+                                        </p>
+                                    )}
+                                </div>
+                            </div>
 
                             {/* Submit Button */}
                             <button
                                 type="submit"
                                 disabled={loading}
-                                className="w-full bg-orange-500 hover:bg-[#f59e0b] text-white py-4 rounded-2xl text-lg font-semibold flex items-center justify-center gap-3 transition-all active:scale-[0.985] mt-4 disabled:opacity-60"
+                                className="w-full bg-orange-500 hover:bg-[#f97316] text-white py-4 rounded-2xl text-lg font-semibold flex items-center justify-center gap-3 transition-all active:scale-[0.985] mt-4 disabled:opacity-60"
                             >
                                 {loading ? "Submitting..." : "Submit Application"}
                                 <span className="text-2xl">→</span>

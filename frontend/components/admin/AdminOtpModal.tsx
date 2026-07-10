@@ -103,10 +103,19 @@ export default function AdminOtpModal({
     function handleKeyDownEmail(e: React.KeyboardEvent<HTMLInputElement>) {
         if (e.key === "Enter") {
             e.preventDefault();
-            if (!email || !email.includes("@")) {
+
+            const normalizedEmail = email.trim();
+
+            console.log("Entered Email:", normalizedEmail);
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(normalizedEmail)) {
                 setError("Enter a valid email");
                 return;
             }
+
+            setEmail(normalizedEmail);
             void requestOtp();
         }
     }
@@ -175,7 +184,7 @@ export default function AdminOtpModal({
 
                             <div
                                 className={`h-10 w-10 rounded-full flex items-center justify-center font-semibold ${step === "otp"
-                                    ? "bg-blue-600 text-white"
+                                    ? "bg-[#f59e0b] text-white"
                                     : "bg-slate-200 text-slate-500"
                                     }`}
                             >
@@ -197,7 +206,11 @@ export default function AdminOtpModal({
 
                                 <input
                                     value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    onChange={(e) => {
+                                        setEmail(e.target.value);
+                                        setError("");
+                                        console.log("Typing:", e.target.value);
+                                    }}
                                     onKeyDown={handleKeyDownEmail}
                                     placeholder="admin@example.com"
                                     className="w-full rounded-xl border border-slate-300 px-4 py-3 text-lg outline-none transition focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
@@ -219,7 +232,7 @@ export default function AdminOtpModal({
                                         We've sent a 6-digit OTP to
                                     </p>
 
-                                    <div className="mt-1 font-semibold text-blue-600">
+                                    <div className="mt-1 font-semibold text-[#f59e0b]">
                                         {email}
                                     </div>
                                 </div>
@@ -250,8 +263,8 @@ export default function AdminOtpModal({
                         )}
 
                         {loading && (
-                            <div className="mt-8 flex items-center justify-center gap-3 text-blue-600">
-                                <div className="h-5 w-5 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"></div>
+                            <div className="mt-8 flex items-center justify-center gap-3 text-[[#f59e0b]">
+                                <div className="h-5 w-5 animate-spin rounded-full border-2 border-[#f59e0b] border-t-transparent"></div>
                                 <span>Please wait...</span>
                             </div>
                         )}

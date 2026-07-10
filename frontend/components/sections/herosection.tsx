@@ -44,18 +44,27 @@ export function HeroSection() {
             </p>
 
             <div className="mt-6 flex flex-wrap gap-3">
-      <Button asChild className="cursor-pointer bg-[#f97316] text-white hover:bg-[#e89100]">
-  <Link href="/admission">
-    Enroll Now
-    <ArrowRight className="ml-2 h-4 w-4" />
-  </Link>
-</Button>
+              <Button
+                asChild
+                className="h-14 px-8 rounded-xl bg-[#f97316] text-white text-base font-semibold shadow-lg transition-all duration-300 hover:bg-[#e89100] hover:scale-105 hover:shadow-xl"
+              >
+                <Link href="/driving-Addmission" className="flex items-center gap-2">
+                  Enroll Now
+                  <ArrowRight className="h-5 w-5" />
+                </Link>
+              </Button>
 
               <Button
                 variant="outline"
-                className="border-2 border-black"
+                className="h-12 px-6 border-2 border-[#f97316] text-[#f97316] hover:bg-[#f97316] hover:text-white rounded-xl"
               >
-                Our Services
+                <Link
+                  href="/contact"
+                  className="flex items-center gap-2"
+                >
+                  Contact Us
+                  <ArrowRight className="h-4 w-4" />
+                </Link>
               </Button>
             </div>
 

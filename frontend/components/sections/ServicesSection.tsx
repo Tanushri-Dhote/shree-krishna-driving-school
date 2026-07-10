@@ -63,7 +63,7 @@ const services = [
 
 export default function DrivingServicesSection() {
   return (
-    <section className="bg-[#faf8f5] py-6">
+    <section id="services" className="bg-[#faf8f5] py-6">
       <div className="mx-auto max-w-7xl px-2">
         <div className="mx-auto max-w-3xl text-center">
 

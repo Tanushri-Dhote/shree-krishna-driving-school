@@ -77,7 +77,7 @@ async function requestAdminOtp({ email }) {
 
   const allowlist = getAdminEmailAllowlist();
   if (allowlist && !allowlist.includes(normalized)) {
-    const err = new Error("Admin email not allowed");
+    const err = new Error("You are not admin of Shree Krishna Driving School. Please contact the site owner.");
     err.statusCode = 403;
     throw err;
   }

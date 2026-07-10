@@ -36,7 +36,7 @@ const features = [
 
 export default function WhyChooseUsSection() {
   return (
-    <section className="relative bg-gradient-to-b from-white via-orange-50/40 to-white py-2 lg:py-2">
+    <section id="why" className="relative bg-gradient-to-b from-white via-orange-50/40 to-white py-2 lg:py-2">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
 
         {/* Heading */}

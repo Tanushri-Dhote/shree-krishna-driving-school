@@ -3,6 +3,7 @@
 import * as React from "react";
 import Link from "next/link";
 import Image from "next/image";
+import { usePathname } from "next/navigation";
 import {
   MapPin,
   Clock3,
@@ -28,15 +29,16 @@ import {
 } from "@/components/ui/sheet";
 
 const navItems = [
-  { label: "HOME", href: "#" },
-  { label: "ABOUT US", href: "#" },
-  { label: "SERVICES", href: "#" },
-  { label: "WHY US", href: "#" },
+  { label: "HOME", href: "/" },
+  { label: "ABOUT US", href: "/about" },
+  { label: "SERVICES", href: "/#services" },
+  { label: "WHY US", href: "/#why" },
   { label: "CONTACT US", href: "/contact" },
 ] as const;
 
 export function DrivingNavbar() {
   const [open, setOpen] = React.useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 w-full">
@@ -117,53 +119,56 @@ export function DrivingNavbar() {
 
           {/* Desktop Navigation */}
           <nav className="hidden xl:flex absolute left-1/2 -translate-x-1/2 items-center gap-10">
-            {navItems.map((item, index) => (
-              <Link
-                key={item.label}
-                href={item.href}
-               
-                className={`relative font-heading text-[15px] font-semibold tracking-wide transition ${index === 0
-                    ? "text-[#f97316]"
-                    : "text-[#111827] hover:text-[#f97316]"
-                  }`}
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
 
+              return (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  className={`relative font-heading text-[15px] font-semibold tracking-wide transition ${isActive
+                      ? "text-[#f97316]"
+                      : "text-[#111827] hover:text-[#f97316]"
+                    }`}
+                >
+                  {item.label}
 
-              >
-                {item.label}
-
-                {index === 0 && (
-                  // <span className="absolute -bottom-3 left-0 h-[2px] w-10 bg-[#f97316]" />
-                  <span className="absolute -bottom-3 left-0 h-[2px] w-10 bg-[#f97316]" />
-
-                )}
-              </Link>
-            ))}
+                  {isActive && (
+                    <span className="absolute -bottom-3 left-0 h-[2px] w-10 bg-[#f97316]" />
+                  )}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Right Side Desktop */}
           <div className="hidden xl:flex absolute right-8 top-1/2 -translate-y-1/2">
             <Link
               href="/driving-Addmission"
-              className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-[#f97316] to-[#e58f09] px-5 py-2.5 text-white shadow-md transition-transform hover:-translate-y-[2px]"
+              className="group flex h-14 items-center gap-3 rounded-2xl bg-gradient-to-r from-orange-500 to-orange-600 text-white px-7  font-semibold shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
             >
-              <GraduationCap className="h-4 w-4 text-black" />
+              <GraduationCap className="h-5 w-5 transition-transform duration-300 group-hover:rotate-6" />
 
-              <span className="text-[14px] font-bold text-black whitespace-nowrap">
+              <span className="text-[15px] font-bold whitespace-nowrap">
                 Admission Open
               </span>
 
-              <ArrowRight className="h-4 w-4 text-black transition-transform group-hover:translate-x-1" />
+              <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1.5" />
             </Link>
           </div>
-
           {/* Mobile Right Section */}
           <div className="ml-auto flex items-center gap-3 xl:hidden">
             <Link
               href="/driving-Addmission"
-              className="flex h-10 items-center gap-2 rounded-full bg-[#f97316] px-4 text-sm font-semibold text-white shadow-md transition hover:bg-[#e58f09]"
+              className="group flex h-12 items-center gap-2.5 rounded-xl bg-gradient-to-r from-orange-500 to-orange-600 text-white px-6 text-sm font-semibold ] shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
             >
-              <GraduationCap className="h-4 w-4" />
-              <span className="xs:inline">Admission</span>
+              <GraduationCap className="h-5 w-5 transition-transform duration-300 group-hover:rotate-6" />
+
+              <span className="whitespace-nowrap">
+                Admission Open
+              </span>
+
+              <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
             </Link>
 
             <Sheet open={open} onOpenChange={setOpen}>
@@ -208,7 +213,7 @@ export function DrivingNavbar() {
                         href={item.href}
                         onClick={() => setOpen(false)}
                         className={`flex items-center rounded-xl px-5 py-3 text-[15px] font-semibold transition
-${index === 0
+${pathname === item.href
                             ? "bg-[#f97316] text-white shadow"
                             : "hover:bg-orange-50 text-neutral-700"
                           }`}
@@ -222,12 +227,12 @@ ${index === 0
                 <div className="border-t px-5 py-6 space-y-5 bg-neutral-50">
                   <div className="flex items-center gap-3 text-sm text-neutral-700">
                     <MapPin className="h-4 w-4 text-[#f97316]" />
-                    <span>Nagpur, Maharashtra, India</span>
+                    <span>Saone Nagpur, Maharashtra, India</span>
                   </div>
 
                   <div className="mt-4 flex items-center gap-3 text-sm text-neutral-700">
                     <Clock3 className="h-4 w-4 text-[#f97316]" />
-                    <span>Mon - Sun: 7:00 AM - 8:00 PM</span>
+                    <span>Mon - Sat: 8:00 AM - 6:00 PM</span>
                   </div>
                 </div>
 
@@ -235,25 +240,37 @@ ${index === 0
                   <SheetClose asChild>
                     <Link
                       href="/driving-Addmission"
-                      className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-[#f97316] text-white font-semibold shadow-lg hover:bg-[#e58f09]"
+                      className="group flex h-14 w-full items-center justify-center gap-2.5 rounded-xl bg-gradient-to-r from-[#f97316] to-[#e89100] px-6 text-base font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl"
                     >
-                      <GraduationCap className="h-5 w-5" />
-                      Admission Open
+                      <GraduationCap className="h-5 w-5 transition-transform duration-300 group-hover:rotate-6" />
+
+                      <span>Admission Open</span>
+
+                      <ArrowRight className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1" />
                     </Link>
                   </SheetClose>
                 </div>
 
-                <div className="py-8 flex justify-center gap-6 border-t mt-8">
-                  <Link href="#" className="text-neutral-600 hover:text-[#f97316]">
-                    <FaFacebookF className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-[#f97316] transition hover:bg-[#f97316] hover:text-white" />
+                <div className="mt-8 flex justify-center gap-5 border-t border-neutral-200 pt-8">
+                  <Link
+                    href="#"
+                    className="group flex h-12 w-12 items-center justify-center rounded-full bg-orange-50 text-[#f97316] shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-[#f97316] hover:text-white hover:shadow-xl"
+                  >
+                    <FaFacebookF className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </Link>
 
-                  <Link href="#" className="text-neutral-600 hover:text-[#f97316]">
-                    <FaInstagram className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-[#f97316] transition hover:bg-[#f97316] hover:text-white" />
+                  <Link
+                    href="#"
+                    className="group flex h-12 w-12 items-center justify-center rounded-full bg-orange-50 text-[#f97316] shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-[#f97316] hover:text-white hover:shadow-xl"
+                  >
+                    <FaInstagram className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </Link>
 
-                  <Link href="#" className="text-neutral-600 hover:text-[#f97316]">
-                    <MessageCircle className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-50 text-[#f97316] transition hover:bg-[#f97316] hover:text-white" />
+                  <Link
+                    href="#"
+                    className="group flex h-12 w-12 items-center justify-center rounded-full bg-orange-50 text-[#f97316] shadow-md transition-all duration-300 hover:-translate-y-1 hover:bg-[#f97316] hover:text-white hover:shadow-xl"
+                  >
+                    <MessageCircle className="h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
                   </Link>
                 </div>
               </SheetContent>

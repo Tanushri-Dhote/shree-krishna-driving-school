@@ -131,7 +131,7 @@ export default function TestimonialsSection() {
     const mobileReview = reviews[current % total];
 
     return (
-        <section className="relative overflow-hidden bg-[#fffdf8] py-4 md:py-6">
+        <section id="testimonials" className="relative overflow-hidden bg-[#fffdf8] py-4 md:py-6">
             {/* Scatter dots */}
             <div className="pointer-events-none absolute inset-0 hidden lg:block" aria-hidden="true">
                 <span className="absolute left-[6%] top-[18%] h-1.5 w-1.5 rounded-full bg-[#f97316]/50" />
@@ -291,7 +291,7 @@ export default function TestimonialsSection() {
 
                         {/* Right: button */}
                         <Link
-                            href="/admission"
+                            href="/driving-Addmission"
                             className="inline-flex shrink-0 items-center gap-3 rounded-full bg-white px-7 py-3.5 text-sm font-bold uppercase tracking-wider text-[#f97316] shadow transition-all duration-300 hover:-translate-y-0.5 hover:shadow-lg"
                         >
                             Enroll Today
