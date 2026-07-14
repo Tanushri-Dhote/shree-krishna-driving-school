@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 
 import Sidebar from "../../components/dashbaord/Sidebar";
 import DashboardView from "../../components/dashbaord/DashboardView";
@@ -50,7 +51,6 @@ export default function SuperAdminDashboardPage() {
   async function fetchAllData() {
     try {
       setLoading(true);
-      setError("");
 
       const [admRes, licRes, insRes, pucRes] = await Promise.all([
         fetch(`${backendBaseUrl}/api/admissions`).catch(() => null),
@@ -71,7 +71,7 @@ export default function SuperAdminDashboardPage() {
       setInsurances(insPayload?.data || []);
       setPucs(pucPayload?.data || []);
     } catch (err) {
-      setError("Failed to load dashboard data");
+      toast.error("Failed to load dashboard data");
     } finally {
       setLoading(false);
     }
@@ -91,8 +91,10 @@ export default function SuperAdminDashboardPage() {
 
   useEffect(() => {
     if (!adminAuthed) return;
-    fetchAllData();
-  }, [adminAuthed]);
+    if (activeModule === "dashboard") {
+      fetchAllData();
+    }
+  }, [adminAuthed, activeModule]);
 
   const filteredAdmissions = useMemo(() => {
     const q = query.toLowerCase();
@@ -124,9 +126,8 @@ export default function SuperAdminDashboardPage() {
 
     try {
       setUpdating(true);
-      setUpdateError("");
 
-      await fetch(`${backendBaseUrl}/api/admissions/${selected.id}/status`, {
+      const res = await fetch(`${backendBaseUrl}/api/admissions/${selected.id}/status`, {
         method: "PATCH",
         headers: {
           "Content-Type": "application/json",
@@ -136,10 +137,19 @@ export default function SuperAdminDashboardPage() {
         }),
       });
 
+      if (!res.ok) {
+        const p = await res.json().catch(() => null);
+        setUpdateError(p?.message || "Failed to update status");
+        toast.error(p?.message || "Failed to update status");
+        return;
+      }
+
+      toast.success("Status updated successfully.");
       await fetchAllData();
       setDetailsOpen(false);
     } catch (error) {
       setUpdateError("Failed to update status");
+      toast.error("Failed to update status");
     } finally {
       setUpdating(false);
     }
@@ -193,9 +203,9 @@ export default function SuperAdminDashboardPage() {
           {activeModule === "maintenance" && <MaintenanceView />}
 
 
-          {error && (
-            <div className="mt-4 rounded-xl border border-red-200 bg-red-50 p-4 text-red-600 flex justify-center">
-              {error}
+          {loading && (
+            <div className="flex justify-center mt-4">
+              <div className="w-6 h-6 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
             </div>
           )}
         </div>

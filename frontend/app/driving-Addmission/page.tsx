@@ -1,9 +1,9 @@
 "use client";
 
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-
+import { toast } from "sonner";
 
 function readFileAsDataUrl(file: File): Promise<string> {
     return new Promise((resolve, reject) => {
@@ -22,7 +22,6 @@ export default function DrivingAdmissionPage() {
         return envUrl && envUrl.trim().length > 0 ? envUrl.trim() : "http://localhost:3001";
     }, []);
 
-
     const [fullName, setFullName] = useState<string>("");
     const [emailId, setEmailId] = useState<string>("");
     const [mobileNo, setMobileNo] = useState<string>("");
@@ -34,23 +33,19 @@ export default function DrivingAdmissionPage() {
     const [passportPhoto, setPassportPhoto] = useState<string>("");
 
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string>("");
-    const [success, setSuccess] = useState<string>("");
 
     const hasDrivingLicence = hasLicense === "yes";
     const [paymentProof, setPaymentProof] = useState<string>("");
+    const [transactionId, setTransactionId] = useState<string>("");
+
     const ADMISSION_FEE = 5500;
 
-
     async function onFilePicked(file: File | null, setter: (v: string) => void) {
-        setError("");
-        setSuccess("");
         if (!file) return;
 
-        // Basic size guard (backend schema expects strings; we store base64 data URL)
         const maxBytes = 5 * 1024 * 1024;
         if (file.size > maxBytes) {
-            setError("File too large. Please upload up to 5MB.");
+            toast.error("File too large. Please upload up to 5MB.");
             return;
         }
 
@@ -60,19 +55,16 @@ export default function DrivingAdmissionPage() {
 
     async function onSubmit(e: React.FormEvent) {
         e.preventDefault();
-        setError("");
-        setSuccess("");
 
-        // Minimal client-side validation (backend will also validate)
-        if (!fullName.trim()) return setError("Full Name is required.");
-        if (!emailId.trim()) return setError("Email ID is required.");
-        if (!mobileNo.trim()) return setError("Mobile Number is required.");
-
-        if (hasLicense !== "yes" && hasLicense !== "no") return setError("Please select driving license option.");
-        if (hasDrivingLicence && !drivingLicenceNo.trim()) return setError("Driving License Number is required.");
-        if (!aadhaarPhoto) return setError("Aadhaar Card Photo is required.");
-        if (!passportPhoto) return setError("Passport Photo is required.");
-        if (!paymentProof) { return setError("Please upload the payment screenshot."); }
+        // Minimal client-side validation
+        if (!fullName.trim()) return toast.error("Full Name is required.");
+        if (!emailId.trim()) return toast.error("Email ID is required.");
+        if (!mobileNo.trim()) return toast.error("Mobile Number is required.");
+        if (hasLicense !== "yes" && hasLicense !== "no") return toast.error("Please select driving license option.");
+        if (hasDrivingLicence && !drivingLicenceNo.trim()) return toast.error("Driving License Number is required.");
+        if (!aadhaarPhoto) return toast.error("Aadhaar Card Photo is required.");
+        if (!passportPhoto) return toast.error("Passport Photo is required.");
+        if (!paymentProof && !transactionId.trim()) return toast.error("Please upload the payment screenshot or enter Transaction ID.");
 
         setLoading(true);
         try {
@@ -85,28 +77,26 @@ export default function DrivingAdmissionPage() {
                     fullName: fullName.trim(),
                     email: emailId.trim(),
                     mobileNo: mobileNo.trim(),
-
-                    hasDrivingLicence: hasDrivingLicence,
+                    hasDrivingLicence,
                     drivingLicenceNo: hasDrivingLicence ? drivingLicenceNo.trim() : null,
                     aadhaarPhoto,
                     passportPhoto,
                     paymentAmountRs: ADMISSION_FEE,
-                    paymentProof, // QR Screenshort
-
+                    paymentProof,
                 }),
             });
 
             const payload = await res.json().catch(() => null);
             if (!res.ok) {
                 const msg = payload?.message || "Failed to submit admission.";
-                return setError(msg);
+                toast.error(msg);
+                return;
             }
 
             const admissionNo = payload?.data?.admissionNo;
-
-            setSuccess(
+            toast.success(
                 admissionNo
-                    ? `Application submitted successfully. Your Admission No: ${admissionNo}`
+                    ? `Application submitted! Your Admission No: ${admissionNo}`
                     : "Application submitted successfully."
             );
 
@@ -126,7 +116,7 @@ export default function DrivingAdmissionPage() {
             }, 2000);
 
         } catch (err: any) {
-            setError(err?.message || "Network error while submitting admission.");
+            toast.error(err?.message || "Network error while submitting admission.");
         } finally {
             setLoading(false);
         }
@@ -134,7 +124,7 @@ export default function DrivingAdmissionPage() {
 
     return (
         <main className="mx-auto max-w-7xl px-2 py-2 sm:px-2 lg:px-2 bg-gray-50 ">
-            {/* Header Logo - Add your logo here if needed */}
+            {/* Header Logo */}
             <div className="text-center mb-2">
                 <h2 className="text-4xl font-bold text-neutral-900">Admission Form</h2>
                 <p className="text-neutral-600 mt-2">Please fill in the details below to start your driving journey with us.</p>
@@ -199,7 +189,7 @@ export default function DrivingAdmissionPage() {
                         </div>
                     </div>
 
-                    {/* Form Section - Tighter Spacing */}
+                    {/* Form Section */}
                     <div className="lg:col-span-7 p-8 lg:p-10">
                         <div className="mb-6">
                             <div className="flex items-center gap-3">
@@ -207,17 +197,6 @@ export default function DrivingAdmissionPage() {
                                 <h3 className="text-2xl font-semibold text-neutral-900">Personal Details</h3>
                             </div>
                         </div>
-
-                        {error ? (
-                            <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-                                {error}
-                            </div>
-                        ) : null}
-                        {success ? (
-                            <div className="mb-4 rounded-2xl border border-green-200 bg-green-50 px-4 py-3 text-sm text-green-800">
-                                {success}
-                            </div>
-                        ) : null}
 
                         <form className="space-y-6" onSubmit={onSubmit}>
                             {/* Full Name */}
@@ -253,7 +232,6 @@ export default function DrivingAdmissionPage() {
                                     />
                                 </div>
                             </div>
-
 
                             <div className="grid md:grid-cols-2 gap-6">
                                 {/* Mobile Number */}
@@ -394,7 +372,6 @@ export default function DrivingAdmissionPage() {
                                 {passportPhoto ? <p className="text-[11px] text-green-600 mt-2 ml-11">Selected ✅</p> : null}
                             </div>
 
-                            {/* QR Images */}
                             {/* Payment Section */}
                             <div className="rounded-2xl border border-orange-200 bg-orange-50 p-6">
                                 <h3 className="text-xl font-semibold text-neutral-900">
@@ -415,8 +392,6 @@ export default function DrivingAdmissionPage() {
                                     />
                                 </div>
 
-
-
                                 <div className="mt-5">
                                     <div className="mb-5">
                                         <label className="block text-sm font-medium text-neutral-700 mb-2">
@@ -425,45 +400,82 @@ export default function DrivingAdmissionPage() {
 
                                         <div className="flex items-center justify-between rounded-2xl border border-orange-300 bg-white px-5 py-4">
                                             <span className="text-neutral-600">Amount to Pay</span>
-
-                                            <span className="text-2xl font-bold text-orange-600">
-                                                ₹5,500
+                                            <span className="text-2xl font-bold text-orange-600">₹3,000
                                             </span>
                                         </div>
 
                                         <p className="mt-2 text-xs text-neutral-500">
-                                            Please pay exactly <strong>₹5,500</strong> using the QR code below.
+                                            Please pay exactly <strong>₹3,000
+                                            </strong> using the QR code above.
                                         </p>
                                     </div>
 
-                                    <label className="block text-sm font-medium text-neutral-700 mb-2">
-                                        Upload Payment Screenshot <span className="text-red-500">*</span>
-                                    </label>
+                                    {/* Payment proof: Transaction ID / Upload Screenshot */}
+                                    <div className="space-y-4">
 
+                                        <div>
+                                            <label className="block text-sm font-medium text-neutral-700">
+                                                Transaction / UTR Number
+                                            </label>
+                                            <input
+                                                type="text"
+                                                value={transactionId}
+                                                onChange={(e) => setTransactionId(e.target.value)}
+                                                placeholder="e.g. 123456789012"
+                                                className="w-full px-4 py-3 border border-neutral-300 rounded-2xl focus:outline-none focus:border-orange-500 text-neutral-900 mt-1"
+                                            />
+                                        </div>
 
-                                    <input
-                                        id="paymentProof"
-                                        type="file"
-                                        accept="image/*"
-                                        className="hidden"
-                                        onChange={(e) =>
-                                            onFilePicked(e.target.files?.[0] ?? null, setPaymentProof)
-                                        }
-                                    />
+                                        <div className="relative flex items-center py-2">
+                                            <div className="flex-grow border-t border-neutral-200"></div>
+                                            <span className="flex-shrink-0 mx-4 text-neutral-400 text-sm">OR</span>
+                                            <div className="flex-grow border-t border-neutral-200"></div>
+                                        </div>
 
-                                    <button
-                                        type="button"
-                                        onClick={() => document.getElementById("paymentProof")?.click()}
-                                        className="rounded-md border border-orange-500 px-4 py-2 text-sm font-medium text-orange-500 hover:bg-orange-100"
-                                    >
-                                        Upload Payment Screenshot
-                                    </button>
+                                        <div>
+                                            <label className="block text-sm font-medium text-neutral-700 mb-2">
+                                                Payment Screenshot <span className="text-neutral-500 font-normal">(if Transaction ID is not entered)</span>
+                                            </label>
 
-                                    {paymentProof && (
-                                        <p className="text-green-600 text-sm mt-2">
-                                            Payment screenshot uploaded ✅
-                                        </p>
-                                    )}
+                                            {paymentProof ? (
+                                                /* Success state */
+                                                <div className="flex items-center gap-3 rounded-2xl border border-green-200 bg-green-50 px-4 py-3">
+                                                    <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center text-green-600 flex-shrink-0">✅</div>
+                                                    <div className="flex-1 min-w-0">
+                                                        <p className="text-sm font-semibold text-green-800">Screenshot Uploaded</p>
+                                                    </div>
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => setPaymentProof("")}
+                                                        className="text-xs text-neutral-500 hover:text-red-500 transition"
+                                                    >
+                                                        Remove
+                                                    </button>
+                                                </div>
+                                            ) : (
+                                                <div className="w-full">
+                                                    <input
+                                                        id="paymentProofFile"
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        onChange={(e) => onFilePicked(e.target.files?.[0] ?? null, setPaymentProof)}
+                                                        disabled={loading}
+                                                    />
+                                                    <button
+                                                        type="button"
+                                                        onClick={() => document.getElementById("paymentProofFile")?.click()}
+                                                        disabled={loading}
+                                                        className="w-full flex items-center justify-center gap-2 rounded-2xl border-2 border-orange-300 px-4 py-3 text-sm font-medium text-orange-600 hover:bg-orange-50 transition-all disabled:opacity-60"
+                                                    >
+                                                        <span>📤</span>
+                                                        Upload Screenshot
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </div>
+
+                                    </div>
                                 </div>
                             </div>
 
@@ -473,8 +485,20 @@ export default function DrivingAdmissionPage() {
                                 disabled={loading}
                                 className="w-full bg-orange-500 hover:bg-[#f97316] text-white py-4 rounded-2xl text-lg font-semibold flex items-center justify-center gap-3 transition-all active:scale-[0.985] mt-4 disabled:opacity-60"
                             >
-                                {loading ? "Submitting..." : "Submit Application"}
-                                <span className="text-2xl">→</span>
+                                {loading ? (
+                                    <>
+                                        <svg className="animate-spin size-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                        </svg>
+                                        Submitting...
+                                    </>
+                                ) : (
+                                    <>
+                                        Submit Application
+                                        <span className="text-2xl">→</span>
+                                    </>
+                                )}
                             </button>
                         </form>
 
@@ -488,4 +512,3 @@ export default function DrivingAdmissionPage() {
         </main>
     );
 }
-

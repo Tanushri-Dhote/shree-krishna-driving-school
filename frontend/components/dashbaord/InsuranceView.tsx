@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 
@@ -80,7 +81,7 @@ export default function InsuranceView() {
   };
 
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>("");
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
 
   // Filters
   const [search, setSearch] = useState("");
@@ -90,18 +91,17 @@ export default function InsuranceView() {
   const [selected, setSelected] = useState<InsuranceRow | null>(null);
 
   async function load() {
-    setError("");
     setLoading(true);
     try {
       const res = await fetch(`${backendBaseUrl}/api/insurances`);
       const payload = await res.json().catch(() => null);
       if (!res.ok) {
-        setError(payload?.message || "Failed to fetch Insurance submissions.");
+        toast.error(payload?.message || "Failed to fetch Insurance submissions.");
         return;
       }
       setRows((payload?.data as InsuranceRow[]) || []);
     } catch (e: any) {
-      setError(e?.message || "Network error while fetching Insurance submissions.");
+      toast.error(e?.message || "Network error while fetching Insurance submissions.");
     } finally {
       setLoading(false);
     }
@@ -113,6 +113,7 @@ export default function InsuranceView() {
   }, []);
 
   async function updateStatus(id: number, status: InsuranceStatus) {
+    setUpdatingId(id);
     try {
       const res = await fetch(`${backendBaseUrl}/api/insurances/${id}/status`, {
         method: "PATCH",
@@ -124,9 +125,11 @@ export default function InsuranceView() {
 
       const payload = await res.json().catch(() => null);
       if (!res.ok) {
-        setError(payload?.message || "Failed to update status.");
+        toast.error(payload?.message || "Failed to update status.");
         return;
       }
+
+      toast.success("Insurance status updated.");
 
       // Update selected state if it is currently open
       if (selected && selected.id === id) {
@@ -135,7 +138,9 @@ export default function InsuranceView() {
 
       await load();
     } catch (e: any) {
-      setError(e?.message || "Network error while updating status.");
+      toast.error(e?.message || "Network error while updating status.");
+    } finally {
+      setUpdatingId(null);
     }
   }
 
@@ -213,12 +218,6 @@ export default function InsuranceView() {
           </div>
 
           <div className="p-6">
-            {error ? (
-              <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-                {error}
-              </div>
-            ) : null}
-
             {loading ? (
               <div className="py-12 text-center text-slate-500">
                 <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
@@ -578,6 +577,7 @@ export default function InsuranceView() {
                                     e.target.value as InsuranceStatus
                                   )
                                 }
+                                disabled={updatingId === selected.id}
                                 className="
                                 h-10
                                 rounded-xl
@@ -590,12 +590,19 @@ export default function InsuranceView() {
                                 focus:border-orange-500
                                 focus:ring-2
                                 focus:ring-orange-200
+                                disabled:opacity-60
                               "
                               >
                                 <option value="pending">Pending</option>
                                 <option value="approved">Approved</option>
                                 <option value="rejected">Rejected</option>
                               </select>
+                              {updatingId === selected.id && (
+                                <svg className="animate-spin size-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                </svg>
+                              )}
                             </div>
                           </td>
                         </tr>

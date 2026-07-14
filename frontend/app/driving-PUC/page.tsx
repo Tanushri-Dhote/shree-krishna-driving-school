@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 
 function readFileAsDataUrl(file: File): Promise<string> {
@@ -37,10 +38,26 @@ export default function DrivingPucPage() {
     setError("");
     setSuccess("");
 
-    if (!fullName.trim()) return setError("Full Name is required.");
-    if (!emailId.trim()) return setError("Email ID is required.");
-    if (!mobileNo.trim()) return setError("Mobile Number is required.");
-    if (!rcNumber.trim()) return setError("RC Number is required.");
+    if (!fullName.trim()) {
+      const msg = "Full Name is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!emailId.trim()) {
+      const msg = "Email ID is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!mobileNo.trim()) {
+      const msg = "Mobile Number is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!rcNumber.trim()) {
+      const msg = "RC Number is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
     // if (!vehicleNo.trim()) return setError("Vehicle Number is required.");
 
     setLoading(true);
@@ -61,16 +78,20 @@ export default function DrivingPucPage() {
 
       const payload = await res.json().catch(() => null);
       if (!res.ok) {
-        return setError(payload?.message || "Failed to submit PUC.");
+        const msg = payload?.message || "Failed to submit PUC.";
+        toast.error(msg);
+        return setError(msg);
       }
 
     const pucNo = payload?.data?.pucNo;
 
-setSuccess(
-  pucNo
-    ? `✅ PUC submitted successfully. Your PUC Number: ${pucNo}`
-    : "✅ PUC submitted successfully."
-);
+    const msg = pucNo
+      ? `✅ PUC submitted successfully. Your PUC Number: ${pucNo}`
+      : "✅ PUC submitted successfully.";
+
+    toast.success(msg);
+    setSuccess(msg);
+
 
 // Clear form
 setFullName("");
@@ -84,7 +105,9 @@ window.scrollTo({
   behavior: "smooth",
 });
     } catch (err: any) {
-      setError(err?.message || "Network error while submitting PUC.");
+      const msg = err?.message || "Network error while submitting PUC.";
+      toast.error(msg);
+      setError(msg);
     } finally {
       setLoading(false);
     }

@@ -1,5 +1,7 @@
 "use client";
 
+import { useEffect } from "react";
+import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -10,7 +12,6 @@ import {
 
 import {
   Download,
-  X,
 } from "lucide-react";
 
 function StatusBadge({
@@ -151,6 +152,11 @@ export default function AdmissionDetailsModal({
   updateError,
 }: AdmissionDetailsModalProps) {
 
+  // Show toast whenever updateError changes
+  useEffect(() => {
+    if (updateError) toast.error(updateError);
+  }, [updateError]);
+
   if (!selected) return null;
 
   return (
@@ -282,49 +288,49 @@ export default function AdmissionDetailsModal({
                 </tr>
 
                 {/* Status Update */}
-               
-                  <tr className="transition hover:bg-orange-50">
-                    <th className="bg-slate-50 px-6 py-5 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600 align-top">
-                      Payment Details
-                    </th>
-                    <td className="px-6 py-5">
-                      <div className="space-y-4">
+
+                <tr className="transition hover:bg-orange-50">
+                  <th className="bg-slate-50 px-6 py-5 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600 align-top">
+                    Payment Details
+                  </th>
+                  <td className="px-6 py-5">
+                    <div className="space-y-4">
 
 
-                        <div className="grid sm:grid-cols-2 gap-4">
-                          <div className="rounded-xl border border-slate-200 bg-white p-4">
-                            <p className="text-xs text-slate-500">Paid Amount</p>
-                            <p className="text-sm font-semibold text-slate-800 mt-1">
-                              ₹ {selected.paymentAmountRs != null ? selected.paymentAmountRs : "-"}
-                            </p>
-
-                          </div>
-                          <div className="rounded-xl border border-slate-200 bg-white p-4">
-                            <p className="text-xs text-slate-500">Approved At</p>
-                            <p className="text-sm font-semibold text-slate-800 mt-1">
-                              {formatDate(selected.approvedAt)}
-                            </p>
-                          </div>
-                        </div>
-
+                      <div className="grid sm:grid-cols-2 gap-4">
                         <div className="rounded-xl border border-slate-200 bg-white p-4">
-                          <p className="text-xs text-slate-500 mb-2">Payment Screenshot (QR)</p>
-                          {selected.paymentProof ? (
-                            <img
-                              src={selected.paymentProof}
-                              alt="Payment Proof"
-                              className="h-40 w-full rounded-lg border border-slate-200 object-contain bg-white"
-                            />
-                          ) : (
-                            <div className="flex h-40 items-center justify-center rounded-lg border border-dashed text-xs text-slate-400">
-                              No Payment Proof
-                            </div>
-                          )}
+                          <p className="text-xs text-slate-500">Paid Amount</p>
+                          <p className="text-sm font-semibold text-slate-800 mt-1">
+                            ₹ {selected.paymentAmountRs != null ? selected.paymentAmountRs : "-"}
+                          </p>
+
+                        </div>
+                        <div className="rounded-xl border border-slate-200 bg-white p-4">
+                          <p className="text-xs text-slate-500">Approved At</p>
+                          <p className="text-sm font-semibold text-slate-800 mt-1">
+                            {formatDate(selected.approvedAt)}
+                          </p>
                         </div>
                       </div>
-                    </td>
-                  </tr>
-              
+
+                      <div className="rounded-xl border border-slate-200 bg-white p-4">
+                        <p className="text-xs text-slate-500 mb-2">Payment Screenshot (QR)</p>
+                        {selected.paymentProof ? (
+                          <img
+                            src={selected.paymentProof}
+                            alt="Payment Proof"
+                            className="h-40 w-full rounded-lg border border-slate-200 object-contain bg-white"
+                          />
+                        ) : (
+                          <div className="flex h-40 items-center justify-center rounded-lg border border-dashed text-xs text-slate-400">
+                            No Payment Proof
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  </td>
+                </tr>
+
 
                 <tr className="transition hover:bg-orange-50">
                   <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
@@ -366,7 +372,7 @@ export default function AdmissionDetailsModal({
                       </select>
                       <Button
                         onClick={saveStatus}
-                        disabled={updating}
+                        isLoading={updating}
                         className="
                           h-10
                           rounded-xl
@@ -377,16 +383,9 @@ export default function AdmissionDetailsModal({
                           hover:bg-orange-600
                         "
                       >
-                        {updating
-                          ? "Saving..."
-                          : "Save Changes"}
+                        {updating ? "Saving..." : "Save Changes"}
                       </Button>
                     </div>
-                    {updateError && (
-                      <p className="mt-3 text-xs text-red-500">
-                        {updateError}
-                      </p>
-                    )}
                   </td>
                 </tr>
               </tbody>

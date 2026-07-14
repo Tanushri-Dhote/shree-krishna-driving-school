@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
 
@@ -63,7 +64,7 @@ export default function PucView() {
 
   const [rows, setRows] = useState<PucRow[]>([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string>("");
+  const [updatingId, setUpdatingId] = useState<number | null>(null);
 
   // Filters
   const [search, setSearch] = useState("");
@@ -73,18 +74,17 @@ export default function PucView() {
   const [selected, setSelected] = useState<PucRow | null>(null);
 
   async function load() {
-    setError("");
     setLoading(true);
     try {
       const res = await fetch(`${backendBaseUrl}/api/pucs`);
       const payload = await res.json().catch(() => null);
       if (!res.ok) {
-        setError(payload?.message || "Failed to fetch PUC submissions.");
+        toast.error(payload?.message || "Failed to fetch PUC submissions.");
         return;
       }
       setRows((payload?.data as PucRow[]) || []);
     } catch (e: any) {
-      setError(e?.message || "Network error while fetching PUC submissions.");
+      toast.error(e?.message || "Network error while fetching PUC submissions.");
     } finally {
       setLoading(false);
     }
@@ -96,7 +96,7 @@ export default function PucView() {
   }, []);
 
   async function updateStatus(id: number, status: PucStatus) {
-    setError("");
+    setUpdatingId(id);
     try {
       const res = await fetch(`${backendBaseUrl}/api/pucs/${id}/status`, {
         method: "PATCH",
@@ -108,9 +108,11 @@ export default function PucView() {
 
       const payload = await res.json().catch(() => null);
       if (!res.ok) {
-        setError(payload?.message || "Failed to update PUC status.");
+        toast.error(payload?.message || "Failed to update PUC status.");
         return;
       }
+
+      toast.success("PUC status updated successfully.");
 
       if (selected && selected.id === id) {
         setSelected((prev) => (prev ? { ...prev, status } : null));
@@ -118,7 +120,9 @@ export default function PucView() {
 
       await load();
     } catch (e: any) {
-      setError(e?.message || "Network error while updating PUC status.");
+      toast.error(e?.message || "Network error while updating PUC status.");
+    } finally {
+      setUpdatingId(null);
     }
   }
 
@@ -197,12 +201,6 @@ export default function PucView() {
           </div>
 
           <div className="p-6">
-            {error ? (
-              <div className="mb-4 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-sm text-red-800">
-                {error}
-              </div>
-            ) : null}
-
             {loading ? (
               <div className="py-12 text-center text-slate-500">
                 <div className="w-8 h-8 border-4 border-orange-500 border-t-transparent rounded-full animate-spin mx-auto mb-4" />
@@ -382,6 +380,7 @@ export default function PucView() {
                                 onChange={(e) =>
                                   updateStatus(selected.id, e.target.value as PucStatus)
                                 }
+                                disabled={updatingId === selected.id}
                                 className="
                                 h-10
                                 rounded-xl
@@ -394,12 +393,19 @@ export default function PucView() {
                                 focus:border-orange-500
                                 focus:ring-2
                                 focus:ring-orange-200
+                                disabled:opacity-60
                               "
                               >
                                 <option value="pending">Pending</option>
                                 <option value="approved">Approved</option>
                                 <option value="rejected">Rejected</option>
                               </select>
+                              {updatingId === selected.id && (
+                                <svg className="animate-spin size-5 text-orange-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                                </svg>
+                              )}
                             </div>
                           </td>
                         </tr>

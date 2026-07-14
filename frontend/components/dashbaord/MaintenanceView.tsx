@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Check, Plus, Trash2, X, Edit2 } from "lucide-react";
 import { MdOutlineDownloading, MdRefresh } from "react-icons/md";
-
+import { toast } from "sonner";
 import * as XLSX from "xlsx";
 
 
@@ -127,12 +127,13 @@ export default function MaintenanceView() {
         headers: { "x-is-admin": "true" },
       });
       if (!res.ok) {
-        alert("Failed to delete maintenance record");
+        toast.error("Failed to delete maintenance record");
         return;
       }
+      toast.success("Record deleted.");
       await load();
     } catch {
-      alert("Error deleting maintenance record");
+      toast.error("Error deleting maintenance record");
     }
   }
 
@@ -155,15 +156,16 @@ export default function MaintenanceView() {
 
       if (!res.ok) {
         const payload = await res.json().catch(() => null);
-        alert("Failed to update: " + (payload?.message || "Unknown error"));
+        toast.error("Failed to update: " + (payload?.message || "Unknown error"));
         return;
       }
 
+      toast.success("Record updated.");
       setEditingId(null);
       setEditData({});
       await load();
     } catch (e: any) {
-      alert("Error updating maintenance record: " + e.message);
+      toast.error("Error updating maintenance record: " + e.message);
     }
   }
 
@@ -173,9 +175,6 @@ export default function MaintenanceView() {
   }
 
   async function handleCreate() {
-    // No strict required fields for Excel-style create
-
-
     try {
       setCreating(true);
       const res = await fetch(`${backendBaseUrl}/api/maintenance`, {
@@ -189,10 +188,11 @@ export default function MaintenanceView() {
 
       if (!res.ok) {
         const payload = await res.json().catch(() => null);
-        alert("Failed to create: " + (payload?.message || "Unknown error"));
+        toast.error("Failed to create: " + (payload?.message || "Unknown error"));
         return;
       }
 
+      toast.success("Record created successfully.");
       setShowCreateForm(false);
       setCreateData({
         sr: null,
@@ -209,11 +209,9 @@ export default function MaintenanceView() {
         endDate: null,
         amountRs: null,
       });
-
-      setCreating(false);
       await load();
     } catch (e: any) {
-      alert("Error creating maintenance record: " + e.message);
+      toast.error("Error creating maintenance record: " + e.message);
     } finally {
       setCreating(false);
     }
@@ -234,7 +232,7 @@ export default function MaintenanceView() {
               onClick={load}
               className={`cursor-pointer text-4xl text-orange-500 hover:text-orange-600 transition-colors ${loading ? "animate-spin pointer-events-none" : ""
                 }`}
-             
+
             />
             <button
               onClick={() => {
@@ -533,8 +531,14 @@ export default function MaintenanceView() {
               <button
                 onClick={handleCreate}
                 disabled={creating}
-                className="px-2 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 text-[13px]"
+                className="px-2 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 disabled:opacity-50 text-[13px] flex items-center gap-2"
               >
+                {creating && (
+                  <svg className="animate-spin size-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" />
+                  </svg>
+                )}
                 {creating ? "Creating..." : "Create"}
               </button>
             </div>

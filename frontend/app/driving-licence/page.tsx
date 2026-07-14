@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { toast } from "sonner";
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -58,13 +59,41 @@ export default function DrivingLicencePage() {
     setError("");
     setSuccess("");
 
-    if (!name.trim()) return setError("Name is required.");
-    if (!email.trim()) return setError("Email is required.");
-    if (!mobileNo.trim()) return setError("Mobile no is required.");
-    if (!dob) return setError("Date of Birth is required.");
-    if (!panCardUpload) return setError("PAN card upload is required.");
-    if (!aadhaarCardUpload) return setError("Adhaarcard upload is required.");
-    if (!signatureImages) return setError("Signature image is required.");
+    if (!name.trim()) {
+      const msg = "Name is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!email.trim()) {
+      const msg = "Email is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!mobileNo.trim()) {
+      const msg = "Mobile no is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!dob) {
+      const msg = "Date of Birth is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!panCardUpload) {
+      const msg = "PAN card upload is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!aadhaarCardUpload) {
+      const msg = "Adhaarcard upload is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!signatureImages) {
+      const msg = "Signature image is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
 
     setLoading(true);
     try {
@@ -89,9 +118,12 @@ export default function DrivingLicencePage() {
         throw new Error(result.message || "Failed to submit licence details.");
       }
 
-      setSuccess(`✅ Driving Licence form submitted successfully! Licence No: ${result.data?.licenceNo || ""}`);
+      const msg = `✅ Driving Licence form submitted successfully! Licence No: ${result.data?.licenceNo || ""}`;
+      toast.success(msg);
+      setSuccess(msg);
 
       setName("");
+
       setEmail("");
       setMobileNo("");
 setDob("");
@@ -99,7 +131,9 @@ setDob("");
       setAadhaarCardUpload("");
       setSignatureImages("");
     } catch (err: any) {
-      setError(err?.message || "Network error. Please try again.");
+      const msg = err?.message || "Network error. Please try again.";
+      toast.error(msg);
+      setError(msg);
     } finally {
       setLoading(false);
     }

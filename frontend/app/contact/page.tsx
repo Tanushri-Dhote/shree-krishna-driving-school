@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Mail, Phone, MapPin, Send, Clock, Sparkles, ArrowRight, CheckCircle, Shield, MessageCircle, Star, Users, Award } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
@@ -26,6 +27,8 @@ export default function ContactPage() {
     e.preventDefault();
 
     if (!form.name.trim() || !form.mobile.trim() || !form.message.trim()) {
+      const msg = "Please fill all required fields (name, mobile, message).";
+      toast.error(msg);
       setStatus("error");
       return;
     }
@@ -62,6 +65,8 @@ Submitted from the website.
 
       window.open(whatsappUrl, "_blank");
 
+      const msg = "Message sent successfully! We'll contact you soon.";
+      toast.success(msg);
       setStatus("success");
 
       setForm({
@@ -71,6 +76,7 @@ Submitted from the website.
         message: "",
       });
     } catch {
+      toast.error("Failed to send message. Please try again.");
       setStatus("error");
     }
   }

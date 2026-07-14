@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -112,15 +113,47 @@ export default function DrivingInsurancePage() {
     setError("");
     setSuccess("");
 
-    if (!fullName.trim()) return setError("Name is required.");
-    if (!emailId.trim()) return setError("Email ID is required.");
-    if (!mobileNo.trim()) return setError("Mobile Number is required.");
-    if (!vehicleNo.trim()) return setError("Vehicle Number is required.");
+    if (!fullName.trim()) {
+      const msg = "Name is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!emailId.trim()) {
+      const msg = "Email ID is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!mobileNo.trim()) {
+      const msg = "Mobile Number is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!vehicleNo.trim()) {
+      const msg = "Vehicle Number is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
 
-    if (!panPhoto) return setError("PAN card photo is required.");
-    if (!aadhaarPhoto) return setError("Aadhaar card photo is required.");
-    if (!rcFrontPhoto) return setError("RC Book Front photo is required.");
-    if (!rcBackPhoto) return setError("RC Book Back photo is required.");
+    if (!panPhoto) {
+      const msg = "PAN card photo is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!aadhaarPhoto) {
+      const msg = "Aadhaar card photo is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!rcFrontPhoto) {
+      const msg = "RC Book Front photo is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
+    if (!rcBackPhoto) {
+      const msg = "RC Book Back photo is required.";
+      toast.error(msg);
+      return setError(msg);
+    }
 
     setLoading(true);
     try {
@@ -146,8 +179,11 @@ export default function DrivingInsurancePage() {
         throw new Error(result.message || "Failed to submit insurance details.");
       }
 
-      setSuccess(`✅ Insurance form submitted successfully! Insurance No: ${result.data?.insuranceNo || ""}`);
+      const msg = `✅ Insurance form submitted successfully! Insurance No: ${result.data?.insuranceNo || ""}`;
+      toast.success(msg);
+      setSuccess(msg);
       setFullName("");
+
       setEmailId("");
       setMobileNo("");
       setVehicleNo("");
@@ -156,7 +192,9 @@ export default function DrivingInsurancePage() {
       setRcFrontPhoto("");
       setRcBackPhoto("");
     } catch (err: any) {
-      setError(err?.message || "Network error. Please try again.");
+      const msg = err?.message || "Network error. Please try again.";
+      toast.error(msg);
+      setError(msg);
     } finally {
       setLoading(false);
     }

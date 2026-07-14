@@ -14,7 +14,7 @@ type LicenceRow = {
   fullName: string;
   email: string;
   mobileNo: string;
-   dob?: string; 
+  dob?: string;
   panPhoto: string;
   aadhaarPhoto: string;
   signaturePhoto: string;
@@ -123,49 +123,49 @@ export default function LicenceView() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
- async function updateStatus(
-  id: number,
-  status: LicenceStatus,
-  applicationNumber?: string
-) {
-  try {
-    setError("");
+  async function updateStatus(
+    id: number,
+    status: LicenceStatus,
+    applicationNumber?: string
+  ) {
+    try {
+      setError("");
 
-    const res = await fetch(`${backendBaseUrl}/api/licences/${id}/status`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        status,
-        applicationNumber,
-      }),
-    });
+      const res = await fetch(`${backendBaseUrl}/api/licences/${id}/status`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          status,
+          applicationNumber,
+        }),
+      });
 
-    const payload = await res.json().catch(() => null);
+      const payload = await res.json().catch(() => null);
 
-    if (!res.ok) {
-      const message = payload?.message || "Failed to update status.";
+      if (!res.ok) {
+        const message = payload?.message || "Failed to update status.";
+        setError(message);
+        toast.error(message);
+        return;
+      }
+
+      await load();
+
+      toast.success("Licence status updated successfully.");
+
+      setApplicationNumber("");
+
+      setSelected(null);
+    } catch (e: any) {
+      const message =
+        e?.message || "Network error while updating licence status.";
+
       setError(message);
       toast.error(message);
-      return;
     }
-
-    await load();
-
-    toast.success("Licence status updated successfully.");
-
-    setApplicationNumber("");
-
-    setSelected(null);
-  } catch (e: any) {
-    const message =
-      e?.message || "Network error while updating licence status.";
-
-    setError(message);
-    toast.error(message);
   }
-}
 
   const filteredRows = useMemo(() => {
     return rows.filter((r) => {
@@ -453,20 +453,20 @@ export default function LicenceView() {
                           </td>
                         </tr>
                         <tr className="hover:bg-orange-50 transition">
-  <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
-    Date of Birth
-  </th>
+                          <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
+                            Date of Birth
+                          </th>
 
-  <td className="px-6 py-4 text-[13px] text-slate-700">
-    {selected.dob
-      ? new Date(selected.dob).toLocaleDateString("en-IN", {
-          day: "2-digit",
-          month: "long",
-          year: "numeric",
-        })
-      : "-"}
-  </td>
-</tr>
+                          <td className="px-6 py-4 text-[13px] text-slate-700">
+                            {selected.dob
+                              ? new Date(selected.dob).toLocaleDateString("en-IN", {
+                                day: "2-digit",
+                                month: "long",
+                                year: "numeric",
+                              })
+                              : "-"}
+                          </td>
+                        </tr>
                         <tr className="hover:bg-orange-50 transition">
                           <th className="bg-slate-50 px-6 py-4 text-left text-[11px] font-bold uppercase tracking-wide text-slate-600">
                             Licence Number
@@ -687,7 +687,7 @@ export default function LicenceView() {
                                     selected.status === "approved" &&
                                     applicationNumber.trim() === ""
                                   ) {
-                                    alert("Please enter Application Number");
+                                    toast.error("Please enter Application Number");
                                     return;
                                   }
 
